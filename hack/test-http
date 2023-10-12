@@ -1,6 +1,5 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 ROOT=$(realpath $SCRIPTDIR/..) 
-
-echo $MY_QUAY_USER
+ 
 bash $ROOT/install/http  test-http my-namespace  quay.io/jduimovich0/single-nodejs-app 
 tree components 

@@ -1,0 +1,10 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+ROOT=$(realpath $SCRIPTDIR/..) 
+
+REPONAME=$(git config --get remote.origin.url)
+REPONAME="${REPONAME%.*}"
+APPNAME=$(basename $REPONAME) 
+ 
+echo "localizing this template to the git repo location and name" 
+bash $ROOT/install/http  $APPNAME $APPNAME-ns  quay.io/jduimovich0/single-nodejs-app 
+tree components 

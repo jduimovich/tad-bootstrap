@@ -4,8 +4,8 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 ROOT=$(realpath $SCRIPTDIR/..) 
 
 REPONAME=$(git config --get remote.origin.url)
-APPNAME=$(basename $REPONAME)
-APPNAME="${APPNAME%.*}"
+REPONAME="${REPONAME%.*}"
+APPNAME=$(basename $REPONAME) 
 TYPE=$1
 CNAME=$2
 NS=$3
@@ -23,11 +23,17 @@ sed -i s/{component-namespace}/$NS/g  $BASE
 sed -i s!{image-name}!$IMAGE!g  $BASE
 sed -i s/{application-name}/$APPNAME/g  $BASE
  
-DEV=components/$CNAME/overlays/development/*
-
+CPATH=components/$CNAME/overlays/development 
+DEV=$CPATH/*
 sed -i s/{component-name}/$CNAME/g $DEV
 sed -i s/{component-namespace}/$NS/g $DEV
 sed -i s!{image-name}!$IMAGE!g  $DEV
 sed -i s/{application-name}/$APPNAME/g $DEV
 
+ARGOAPP=$ROOT/components/$CNAME.yaml 
+cp  $ROOT/templates/application.yaml  $ARGOAPP
+sed -i s/{component-name}/$CNAME/g $ARGOAPP
+sed -i s/{component-namespace}/$NS/g $ARGOAPP
+sed -i s!{this-repo}!$REPONAME!g  $ARGOAPP 
+sed -i s!{component-path}!$CPATH!g  $ARGOAPP 
  
