@@ -3,9 +3,8 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 ROOT=$(realpath $SCRIPTDIR/..) 
 
-REPONAME=$(git config --get remote.origin.url)
-REPONAME="${REPONAME%.*}"
-APPNAME=$(basename $REPONAME) 
+REPONAME=$(git config --get remote.origin.url) 
+APPNAME=$(basename $REPONAME .git) 
 TYPE=$1
 CNAME=$2
 NS=$3
