@@ -7,3 +7,6 @@ APPNAME=$(basename $REPONAME .git)
 echo "localizing this template to the git repo location and name" 
 bash $ROOT/install/http  $APPNAME $APPNAME-ns  quay.io/jduimovich0/single-nodejs-app 
 tree components 
+git add .
+git commit "repo localized to repo and names"
+git push 

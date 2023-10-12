@@ -3,7 +3,8 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 ROOT=$(realpath $SCRIPTDIR/..) 
 
-REPONAME=$(git config --get remote.origin.url) 
+REPONAME=$(git config --get remote.origin.url)  
+ARGOREPONAME=$REPONAME.git
 APPNAME=$(basename $REPONAME .git) 
 TYPE=$1
 CNAME=$2
@@ -33,6 +34,6 @@ ARGOAPP=$ROOT/components/$CNAME.yaml
 cp  $ROOT/templates/application.yaml  $ARGOAPP
 sed -i s/{component-name}/$CNAME/g $ARGOAPP
 sed -i s/{component-namespace}/$NS/g $ARGOAPP
-sed -i s!{this-repo}!$REPONAME!g  $ARGOAPP 
+sed -i s!{this-repo}!$ARGOREPONAME!g  $ARGOAPP 
 sed -i s!{component-path}!$CPATH!g  $ARGOAPP 
  
