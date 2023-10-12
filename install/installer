@@ -1,0 +1,33 @@
+# installer type component namespace image
+
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+ROOT=$(realpath $SCRIPTDIR/..) 
+
+REPONAME=$(git config --get remote.origin.url)
+APPNAME=$(basename $REPONAME)
+APPNAME="${APPNAME%.*}"
+TYPE=$1
+CNAME=$2
+NS=$3
+IMAGE=$4 
+echo "Initializing $TYPE component $APPNAME:$CNAME in $NS from template"
+echo "Setting deploy image to $IMAGE"
+  
+echo "Copy Template for $TYPE from  $ROOT/templates/$TYPE into $ROOT/components/$TYPE/"
+mkdir -p $ROOT/components
+cp -r $ROOT/templates/$TYPE $ROOT/components/$CNAME/   # cp from template to component name 
+
+BASE=$ROOT/components/$CNAME/base/* 
+sed -i s/{component-name}/$CNAME/g $BASE
+sed -i s/{component-namespace}/$NS/g  $BASE
+sed -i s!{image-name}!$IMAGE!g  $BASE
+sed -i s/{application-name}/$APPNAME/g  $BASE
+ 
+DEV=components/$CNAME/overlays/development/*
+
+sed -i s/{component-name}/$CNAME/g $DEV
+sed -i s/{component-namespace}/$NS/g $DEV
+sed -i s!{image-name}!$IMAGE!g  $DEV
+sed -i s/{application-name}/$APPNAME/g $DEV
+
+ 
