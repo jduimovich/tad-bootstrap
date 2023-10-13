@@ -1,5 +1,0 @@
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-ROOT=$(realpath $SCRIPTDIR/..) 
-
-TYPE=$(basename $0)
-bash $SCRIPTDIR/installer $TYPE $1 $2 $3

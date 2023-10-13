@@ -1,0 +1,20 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+ROOT=$(realpath $SCRIPTDIR/..)  
+source $SCRIPTDIR/configure  
+ 
+echo "Repository: $REPO_NAME"
+echo "Application Name is: $APP_NAME"
+echo "Application location is: $APP_ROOT"
+echo "Namespace: $APP_NS"
+COUNTER=0
+for dir in $ROOT/components/*
+do
+    if [ -d $dir ]; then
+        let COUNTER++ 
+        echo $(basename $dir)
+    fi
+done
+echo "$COUNTER components found" 
+tree $ROOT/components/
+
+

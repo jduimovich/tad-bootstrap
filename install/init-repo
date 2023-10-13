@@ -1,0 +1,26 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+ROOT=$(realpath $SCRIPTDIR/..) 
+
+#contents will be in APP_ROOT
+APP_ROOT=components 
+PROPS=$ROOT/$APP_ROOT/tad.properties
+REPO_NAME=$(git config --get remote.origin.url)  
+APP_NAME=$(basename $REPO_NAME .git)  
+APP_NS=$APP_NAME-ns  
+ 
+if test -d $ROOT/$APP_ROOT; then 
+    if [ "$(ls -A $PROPS)" ]; then
+        echo  
+        echo "$ROOT is already a Gitops Repository"
+        echo  
+        exit 0 
+    fi 
+else
+    mkdir $APP_ROOT
+    touch $PROPS
+    echo "REPO_NAME=$REPO_NAME" >>$PROPS
+    echo "APP_NAME=$APP_NAME" >>$PROPS 
+    echo "APP_NS=$APP_NS" >>$PROPS 
+    echo "APP_ROOT=/components" >>$PROPS 
+    echo "Initialed Gitops Repo: $REPO_NAME"
+fi  

@@ -1,0 +1,16 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+ROOT=$(realpath $SCRIPTDIR/..)   
+APP_ROOT=components 
+PROPS=$ROOT/$APP_ROOT/tad.properties
+ 
+if test -d $ROOT/$APP_ROOT; then 
+    if [ "$(ls -A $PROPS)" ]; then 
+        source $PROPS 
+    fi
+else
+    echo 
+    echo "$ROOT is not a Gitops Repository"
+    echo 
+    exit 0 
+fi  
+  
