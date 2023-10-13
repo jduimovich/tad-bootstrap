@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: c2
+  namespace: openshift-gitops 
+spec:
+  project: default
+  source:
+    path: components/c2/overlays/development
+    repoURL: https://github.com/jduimovich/tad-bootstrap.git
+    targetRevision: main
+  destination:
+    namespace: 
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated: 
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
