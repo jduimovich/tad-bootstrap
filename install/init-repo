@@ -21,6 +21,6 @@ else
     echo "REPO_NAME=$REPO_NAME" >>$PROPS
     echo "APP_NAME=$APP_NAME" >>$PROPS 
     echo "APP_NS=$APP_NS" >>$PROPS 
-    echo "APP_ROOT=/components" >>$PROPS 
+    echo "APP_ROOT=components" >>$PROPS 
     echo "Initialed Gitops Repo: $REPO_NAME"
 fi  
