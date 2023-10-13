@@ -1,5 +1,0 @@
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-ROOT=$(realpath $SCRIPTDIR/..) 
- 
-bash $ROOT/install/http test-http my-namespace quay.io/jduimovich0/bootstrap
-tree components 
