@@ -1,8 +1,5 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 ROOT=$(realpath $SCRIPTDIR/..) 
-
-REPONAME=$(git config --get remote.origin.url) 
-APPNAME=$(basename $REPONAME .git) 
- 
-oc new-project $APPNAME-ns
-oc apply -f components  
+source $SCRIPTDIR/configure   
+oc new-project $APP_NS
+oc apply -f $APP_ROOT  
