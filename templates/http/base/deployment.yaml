@@ -42,4 +42,8 @@ spec:
             memory: 512Mi
           requests:
             cpu: 10m
-            memory: 50Mi 
+            memory: 50Mi    
+        env:
+        - name: GITOPS_REPO
+          value: {this-repo}
+

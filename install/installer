@@ -22,6 +22,7 @@ sed -i s/{component-name}/$CNAME/g $BASE
 sed -i s/{component-namespace}/$NS/g  $BASE
 sed -i s!{image-name}!$IMAGE!g  $BASE
 sed -i s/{application-name}/$APPNAME/g  $BASE
+sed -i s!{this-repo}!$ARGOREPONAME!g  $BASE
  
 CPATH=components/$CNAME/overlays/development 
 DEV=$CPATH/*
