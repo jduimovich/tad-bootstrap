@@ -3,15 +3,14 @@ ROOT=$(realpath $SCRIPTDIR/..)
 source $SCRIPTDIR/configure  
  
 COMPONENT_NAME=$1
-COMPONENT_TYPE="${$2:-http}" 
-DEFAULT_CONTAINER="${$3:-quay.io/jduimovich0/bootstrap}" 
+COMPONENT_TYPE="${2:-http}" 
+DEFAULT_CONTAINER="${3:-quay.io/jduimovich0/bootstrap}" 
  
 echo "Adding a component $COMPONENT_NAME of type $COMPONENT_TYPE" 
  
 bash $SCRIPTDIR/template-copy-and-fixup \
     $COMPONENT_TYPE \
-    $COMPONENT_NAME \
-    $APP_NS \
+    $COMPONENT_NAME \ 
     $DEFAULT_CONTAINER
 
 git add .

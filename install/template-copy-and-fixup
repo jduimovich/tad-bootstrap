@@ -4,15 +4,12 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 ROOT=$(realpath $SCRIPTDIR/..) 
 
 source $SCRIPTDIR/configure  
-
-REPONAME=$(git config --get remote.origin.url)  
-ARGOREPONAME=$REPONAME.git
-APPNAME=$(basename $REPONAME .git) 
+ 
+ARGOREPONAME=$REPO_NAME.git  
 TYPE=$1
-CNAME=$2
-NS=$3
+CNAME=$2 
 IMAGE=$4 
-echo "Initializing $TYPE component $APPNAME:$CNAME in $NS from template"
+echo "Initializing $TYPE component $APP_NAME:$CNAME in $NS from template"
 echo "Setting deploy image to $IMAGE"
   
 echo "Copy Template for $TYPE from  $ROOT/templates/$TYPE into $ROOT/components/$TYPE/"
@@ -23,7 +20,7 @@ BASE=$ROOT/components/$CNAME/base/*
 sed -i s/{component-name}/$CNAME/g $BASE
 sed -i s/{component-namespace}/$NS/g  $BASE
 sed -i s!{image-name}!$IMAGE!g  $BASE
-sed -i s/{application-name}/$APPNAME/g  $BASE
+sed -i s/{application-name}/$APP_NAME/g  $BASE
 sed -i s!{this-repo}!$ARGOREPONAME!g  $BASE
  
 CPATH=components/$CNAME/overlays/development 
@@ -31,7 +28,7 @@ DEV=$CPATH/*
 sed -i s/{component-name}/$CNAME/g $DEV
 sed -i s/{component-namespace}/$NS/g $DEV
 sed -i s!{image-name}!$IMAGE!g  $DEV
-sed -i s/{application-name}/$APPNAME/g $DEV
+sed -i s/{application-name}/$APP_NAME/g $DEV
 
 ARGOAPP=$ROOT/components/$CNAME.yaml 
 cp  $ROOT/templates/application.yaml  $ARGOAPP

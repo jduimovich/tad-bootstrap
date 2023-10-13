@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: c1
+  namespace:  
+spec:
+  replicas: 1 
+  template: 
+    spec:
+      containers:
+      - image: 
+        name: container-image  
