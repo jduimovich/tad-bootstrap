@@ -44,6 +44,6 @@ spec:
             cpu: 10m
             memory: 50Mi    
         env:
-        - name: GITOPS_REPO
+        - name: GIT_REPO
           value: {this-repo}
 
