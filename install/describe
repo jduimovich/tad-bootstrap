@@ -1,10 +1,10 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-ROOT=$(realpath $SCRIPTDIR/..)  
+ROOT=$(pwd)
 source $SCRIPTDIR/configure  
  
 echo "Repository: $REPO_NAME"
 echo "Application Name is: $APP_NAME"
-echo "Application location is: $APP_ROOT"
+echo "Application location is: $APP_PATH"
 echo "Namespace: $APP_NS"
 COUNTER=0
 for dir in $ROOT/components/*

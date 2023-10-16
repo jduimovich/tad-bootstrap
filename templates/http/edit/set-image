@@ -1,0 +1,10 @@
+
+PATH=$1
+VALUE=$2
+FILE=$PATH/base/deployment.yaml
+yq e ".spec.spec.containers[0].image=\"${VALUE:error}\""  $FILE
+
+FILE=$PATH/overlays/development/deployment-patch.yaml
+yq e ".spec.spec.containers[0].image=\"${VALUE:error}\""  $FILE
+   
+   

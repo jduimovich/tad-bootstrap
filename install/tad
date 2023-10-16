@@ -1,0 +1,12 @@
+
+PHYSICAL_FILE=$(realpath $(readlink $0)) 
+SCRIPTDIR=$(dirname $PHYSICAL_FILE) 
+ROOT=$(realpath $SCRIPTDIR/..)  
+CMD=$1
+shift
+
+if test -f $SCRIPTDIR/$CMD; then 
+$SCRIPTDIR/$CMD $*
+else 
+    echo $CMD is an invalid command for $PHYSICAL_FILE
+fi 

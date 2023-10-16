@@ -1,6 +1,5 @@
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-ROOT=$(realpath $SCRIPTDIR/..)  
 REPONAME=$1
 if [ -z "$REPONAME" ]; then
      echo "Usage: bootstrap gitops-repo-name"

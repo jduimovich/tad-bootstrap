@@ -13,5 +13,19 @@ Default templates provided
 ##service 
     - contains a deployment, service listening on port 8080 
 
+# Install
+Install the `tad` command on your path, it is is found in the install directory.  You may also use it directly.
+
 # Example usage
+
+## Bootstrap a new gitops repo
+``` 
+tad bootstrap reponame
+cd reponame
+tad describe
+tad add-component c1
+tad describe
+tad install-apps
+```
+
 

@@ -1,0 +1,15 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+source $SCRIPTDIR/configure  
+
+CNAME=$1
+IMAGE=$2
+if [ -z "$CNAME" ]; then
+     echo "Missing Component Name"
+     exit 0
+fi
+if [ -z "$IMAGE" ]; then
+     echo "Missing Image "
+     exit 0
+fi
+
+bash $APP_PATH/edit/set-image $APP_PATH 
