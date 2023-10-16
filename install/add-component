@@ -1,17 +1,20 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 ROOT=$(realpath $SCRIPTDIR/..)  
 source $SCRIPTDIR/configure  
- 
+CMD=$(basename $0)
+
 COMPONENT_NAME=$1
+if [ -z "$COMPONENT_NAME" ]; then
+     echo "Usage: $CMD component-name <type> <default-image>"
+     exit 0
+fi
+
 COMPONENT_TYPE="${2:-http}" 
 DEFAULT_CONTAINER="${3:-quay.io/jduimovich0/bootstrap}" 
  
 echo "Adding a component $COMPONENT_NAME of type $COMPONENT_TYPE" 
  
-bash $SCRIPTDIR/template-copy-and-fixup \
-    $COMPONENT_TYPE \
-    $COMPONENT_NAME \ 
-    $DEFAULT_CONTAINER
+bash $SCRIPTDIR/template-copy-and-fixup $COMPONENT_TYPE $COMPONENT_NAME $DEFAULT_CONTAINER
 
 git add .
 git commit -m "Added $COMPONENT_NAME from $COMPONENT_TYPE template"
