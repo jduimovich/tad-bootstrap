@@ -20,6 +20,5 @@ sleep 2
 git clone  https://github.com/jduimovich/$REPONAME
 cd $REPONAME
 bash ./install/init-repo 
-bash ./install/describe
 
 
