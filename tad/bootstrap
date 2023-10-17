@@ -1,0 +1,24 @@
+
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+REPONAME=$1
+if [ -z "$REPONAME" ]; then
+     echo "Usage: bootstrap gitops-repo-name"
+     exit 0
+fi
+
+if test -d $REPONAME; then
+    echo 
+    echo "$REPONAME exists so you cannot bootstrap this repo here"
+    echo 
+    exit 0   
+else
+    echo "Bootstrapping a gitops repo $REPONAME"
+fi  
+
+gh repo create $REPONAME --public -p https://github.com/jduimovich/tad-bootstrap
+sleep 2
+git clone  https://github.com/jduimovich/$REPONAME
+cd $REPONAME
+bash ./install/init-repo 
+
+

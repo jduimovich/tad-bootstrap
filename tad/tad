@@ -5,6 +5,12 @@ ROOT=$(realpath $SCRIPTDIR/..)
 CMD=$1
 shift
 
+if [ -z "$CMD" ]; then
+     echo "Usage: tad cmd"
+     exit 0
+fi
+
+
 if test -f $SCRIPTDIR/$CMD; then 
 $SCRIPTDIR/$CMD $*
 else 
