@@ -7,6 +7,10 @@ metadata:
     app.kubernetes.io/managed-by: kustomize
     app.kubernetes.io/name:  {component-name}
     app.kubernetes.io/part-of: {application-name}
+    tad.gitops.set/memory: ".spec.template.spec.containers[0].image"
+    tad.gitops.get/memory: ".spec.template.spec.containers[0].image"
+    tad.gitops.set/replicas: ".spec.replicas"
+    tad.gitops.get/replicas: ".spec.replicas"  
   name: {component-name}
   namespace: {component-namespace}
 spec:

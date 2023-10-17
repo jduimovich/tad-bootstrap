@@ -1,0 +1,11 @@
+
+APP_ROOT=$1
+VALUE=$2
+ 
+FILE=$APP_ROOT/base/deployment.yaml 
+yq -i e ".spec.template.spec.containers[0].image=\"${VALUE:-error}\""  $FILE
+
+FILE=$APP_ROOT/overlays/development/deployment-patch.yaml
+yq -i e ".spec.template.spec.containers[0].image=\"${VALUE:-error}\""  $FILE
+   
+   

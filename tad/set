@@ -1,0 +1,32 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+source $SCRIPTDIR/configure  
+
+CNAME=$1
+RESOURCE=$2
+VALUE=$3
+
+if [ -z "$CNAME" ]; then
+     echo "Usage set resource value"
+     exit 0
+fi
+if [ -z "$RESOURCE" ]; then
+     echo "Usage set resource value"
+     exit 0
+fi
+if [ -z "$VALUE" ]; then
+     echo "Usage set resource value"
+     exit 0
+fi
+
+SETTER=$APP_PATH/$CNAME/edit/set/$RESOURCE
+
+if test -f $SETTER; then 
+     bash $SETTER "$APP_PATH/$CNAME" $VALUE
+     git add .
+     git commit -m "Set $RESOURCE for component to $VALUE"
+     git push  
+else 
+    echo $RESOURCE is an invalid type. No $SETTER
+    exit 0
+fi
+  

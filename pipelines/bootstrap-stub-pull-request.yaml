@@ -19,15 +19,15 @@ metadata:
 spec:
   params:
   - name: dockerfile
-    value: Dockerfile
+    value: {TAB_DOCKERFILE_LOCATION}
   - name: git-url
     value: '{{repo_url}}'
   - name: image-expires-after
     value: 5d
   - name: output-image
-    value: quay.io/redhat-user-workloads-stage/jduimovich-tenant/bootstrap-stub/bootstrap-stub:on-pr-{{revision}}
+    value: {TAB_IMAGE}:on-pr-{{revision}}
   - name: path-context
-    value: .
+    value: {TAB_BUILD_CONTEXT}
   - name: revision
     value: '{{revision}}'
   pipelineSpec:

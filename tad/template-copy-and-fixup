@@ -8,15 +8,15 @@ TYPE=$1
 CNAME=$2 
 IMAGE=$3 
 
-if test -f $TEMPLATE_DIR/$TYPE; then 
+if test -d $TEMPLATE_DIR/$TYPE; then 
     echo "Initializing $TYPE component $APP_NAME:$CNAME in $APP_NS from template"
     echo "Setting deploy image to $IMAGE" 
     echo "Templates from $TEMPLATE_DIR"
 else 
-    echo $CMD is an invalid template type in $TEMPLATE_DIR
+    echo $TYPE is an invalid template type in $TEMPLATE_DIR
+    exit 0
 fi 
 
-  
 echo "Copy Template for $TYPE from  $TEMPLATE_DIR/$TYPE into $APP_PATH"
 mkdir -p $APP_PATH
 cp -r $TEMPLATE_DIR/$TYPE $APP_PATH/$CNAME/   # cp from template to component name 
