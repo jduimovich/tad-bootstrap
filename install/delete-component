@@ -1,0 +1,23 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+source $SCRIPTDIR/configure  
+
+CNAME=$1 
+if [ -z "$CNAME" ]; then
+     echo "Usage set-image component imagename"
+     exit 0
+fi 
+
+if test -d $APP_PATH/$CNAME; then 
+     rm -rf $APP_PATH/$CNAME
+     rm -rf $APP_PATH/$CNAME.yaml 
+     oc delete -f $APP_PATH/$CNAME.yaml
+
+     git add .
+     git commit -m "Deleted $CNAME"
+     git push  
+     echo "Deleted $CNAME"
+else
+     echo "No Component Named $CNAME" 
+fi 
+
+ 

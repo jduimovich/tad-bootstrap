@@ -4,12 +4,16 @@ source $SCRIPTDIR/configure
 CNAME=$1
 IMAGE=$2
 if [ -z "$CNAME" ]; then
-     echo "Missing Component Name"
+     echo "Usage set-image component imagename"
      exit 0
 fi
 if [ -z "$IMAGE" ]; then
-     echo "Missing Image "
+     echo "Usage set-image component imagename"
      exit 0
 fi
+  
+bash $APP_PATH/$CNAME/edit/set-image "$APP_PATH/$CNAME" $IMAGE
 
-bash $APP_PATH/edit/set-image $APP_PATH 
+git add .
+git commit -m "Set image for component to $IMAGE"
+git push 

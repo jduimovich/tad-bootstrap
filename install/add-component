@@ -14,7 +14,7 @@ DEFAULT_CONTAINER="${3:-quay.io/jduimovich0/bootstrap}"
 echo "Adding a component $COMPONENT_NAME of type $COMPONENT_TYPE" 
  
 bash $SCRIPTDIR/template-copy-and-fixup $COMPONENT_TYPE $COMPONENT_NAME $DEFAULT_CONTAINER
-
+ 
 git add .
 git commit -m "Added $COMPONENT_NAME from $COMPONENT_TYPE template"
 git push 
