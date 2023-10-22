@@ -369,9 +369,7 @@ spec:
       optional: true
   workspaces:
   - name: workspace
-    volumeClaimTemplate:
-      metadata:
-        creationTimestamp: null
+    volumeClaimTemplate: 
       spec:
         accessModes:
         - ReadWriteOnce

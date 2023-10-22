@@ -1,7 +1,6 @@
 apiVersion: route.openshift.io/v1
 kind: Route
-metadata:
-  creationTimestamp: null
+metadata: 
   labels: 
     app.kubernetes.io/instance: {component-name}
     app.kubernetes.io/managed-by: kustomize
@@ -17,5 +16,4 @@ spec:
   to:
     kind: Service
     name: {component-name}
-    weight: 100
-status: {}
+    weight: 100 

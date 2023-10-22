@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  creationTimestamp: null
+metadata: 
   name: {component-name}
   namespace:  {component-namespace}
 spec:
