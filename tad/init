@@ -1,10 +1,28 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 ROOT=$(pwd)
 
-#contents will be in APP_ROOT
+#contents will be in APP_ROOT 
+REPO_NAME=$(git config --get remote.origin.url)   
+if [ "$REPO_NAME" == "" ]; then 
+    echo "This repo is has no remote."
+    echo "Create on github and connect remote here."
+    BASE_REPO=$(basename $ROOT)
+    
+    echo "Run this to create $BASE_REPO in github" 
+    echo 
+    echo "gh repo create $BASE_REPO --public" 
+    echo "Gitops Repo Bootstrapped" > README.md
+    echo "git add README.md"
+    echo "git commit -m \"Gitops Repo Bootstrapped\"" 
+    echo "git branch -M main"
+    echo "git remote add origin https://github.com/$MY_GITHUB_USER/$BASE_REPO"
+    echo "git push -u origin main"  
+    echo 
+    exit 0
+fi   
+
 APP_ROOT=components 
 PROPS=$ROOT/$APP_ROOT/tad.properties
-REPO_NAME=$(git config --get remote.origin.url)  
 APP_NAME=$(basename $REPO_NAME .git)  
 APP_NS=$APP_NAME-ns  
  

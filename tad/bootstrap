@@ -6,6 +6,8 @@ if [ -z "$REPONAME" ]; then
      exit 0
 fi
 
+BARE=$2
+
 if test -d $REPONAME; then
     echo 
     echo "$REPONAME exists so you cannot bootstrap this repo here"
@@ -15,9 +17,13 @@ else
     echo "Bootstrapping a gitops repo $REPONAME"
 fi  
 
-gh repo create $REPONAME --public -p https://github.com/jduimovich/tad-bootstrap
+if [ "$BARE" == "bare" ]; then 
+    gh repo create $REPONAME --public
+else
+    gh repo create $REPONAME --public -p https://github.com/jduimovich/tad-bootstrap
+fi  
 sleep 2
-git clone  https://github.com/jduimovich/$REPONAME
+git clone  https://github.com/$MY_GITHUB_USER/$REPONAME
 cd $REPONAME
 bash $SCRIPTDIR/init 
 
