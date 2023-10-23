@@ -20,4 +20,5 @@ git commit -m "Added $COMPONENT_NAME from $COMPONENT_TYPE template"
 git push 
 
 bash $SCRIPTDIR/auto-update 
+bash $SCRIPTDIR/sync
  

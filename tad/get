@@ -20,4 +20,5 @@ if test -f $GETTER; then
 else 
     echo "No $GETTER for $RESOURCE" 
 fi
+
   

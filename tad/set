@@ -21,10 +21,11 @@ SETTER=$APP_PATH/$CNAME/edit/set/$RESOURCE
 # if the template includes a setter then use it to set the values
 
 if test -f $SETTER; then 
-     bash $SETTER "$APP_PATH/$CNAME" $VALUE
+     bash $SETTER "$APP_PATH/$CNAME" "$VALUE"
      git add .
      git commit -m "Set $RESOURCE for component to $VALUE"
      git push  
+     bash $SCRIPTDIR/sync
 else 
     echo $RESOURCE is an invalid type. No $SETTER
     exit 0
