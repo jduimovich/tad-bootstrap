@@ -4,3 +4,5 @@ metadata:
   name: {TAB_COMPONENT}
 spec:
   url: {TAB_REPO}
+
+  
