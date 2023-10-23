@@ -1,11 +1,13 @@
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-REPONAME=$1
+REPONAME=$1  
 if [ -z "$REPONAME" ]; then
-     echo "Usage: bootstrap pipeline type"
+     echo "Usage: bootstrap demo-repo"
      exit 0
 fi
-
+gh repo create $REPONAME --public -p https://github.com/jduimovich/bootstrap-stub
+sleep 2
+git clone  https://github.com/jduimovich/$REPONAME
 
 
 

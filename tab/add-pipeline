@@ -1,0 +1,52 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+source $SCRIPTDIR/configure  
+CMD=$(basename $0)
+ 
+TAB_REPO=$(git config --get remote.origin.url)   
+TAB_COMPONENT=$(basename $TAB_REPO)
+
+PIPELINE_TYPE="${1:-docker}" 
+TAB_IMAGE="${2:-quay.io/jduimovich0/$TAB_COMPONENT}"
+TAB_APP="${3:-unknown-app}" 
+TAB_NS=$TAB_APP-ns
+
+if test -f Dockerfile; then 
+     TAB_DOCKERFILE_LOCATION=Dockerfile 
+else
+     if test -f docker/Dockerfile; then 
+          TAB_DOCKERFILE_LOCATION=docker/Dockerfile
+     else 
+          echo "No dockerfile"
+          exit 0
+     fi
+fi  
+TAB_BUILD_CONTEXT=.  
+
+cp -r $PIPELINES_DIR/$PIPELINE_TYPE $ROOT/.tekton/   
+cp -r $PIPELINES_DIR/repository.yaml $ROOT/.tekton/repository.yaml   
+
+echo " {TAB_IMAGE} = $TAB_IMAGE"
+echo " {TAB_REPO} = $TAB_REPO"
+echo " {TAB_DOCKERFILE_LOCATION} = $TAB_DOCKERFILE_LOCATION"
+echo " {TAB_BUILD_CONTEXT} = $TAB_BUILD_CONTEXT"
+echo " {TAB_APP} = $TAB_APP"
+echo " {TAB_COMPONENT} = $TAB_COMPONENT" 
+echo " {TAB_NS} = $TAB_NS" 
+
+for file in "$ROOT/.tekton/*"
+do  
+     sed -i s!{TAB_IMAGE}!$TAB_IMAGE!g $file  
+     sed -i s!{TAB_REPO}!$TAB_REPO!g $file  
+     sed -i s!{TAB_DOCKERFILE_LOCATION}!$TAB_DOCKERFILE_LOCATION!g $file  
+     sed -i s!{TAB_BUILD_CONTEXT}!$TAB_BUILD_CONTEXT!g $file  
+     sed -i s!{TAB_APP}!$TAB_APP!g $file  
+     sed -i s!{TAB_COMPONENT}!$TAB_COMPONENT!g $file  
+     sed -i s!{TAB_NS}!$TAB_NS!g $file  
+done
+
+echo "no commit"
+# git add .
+# git commit -m "Added Pipelines"
+# git push 
+ 
+ 

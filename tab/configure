@@ -1,0 +1,15 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+PIPELINES_DIR=$(realpath $SCRIPTDIR/../pipelines)  
+
+ROOT=$(pwd) 
+TEKTON=$ROOT/.tekton
+if test -d $APP_PATH; then 
+    echo "Setting Props"
+else
+    echo 
+    echo "$ROOT is not a .tekton enabled Gitops Repository"
+    echo 
+    exit 0 
+fi  
+ 
+  
