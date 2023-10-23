@@ -12,8 +12,18 @@ sed -i s!{{repo_url}}!$TAB_REPO!g run.yaml
 sed -i s!{{revision}}!$REVISION!g run.yaml 
 sed -i s!{{git_auth_secret}}!quay-secret!g run.yaml 
  
-# need to fill this in 
-oc new-project tad-demo-ns
-oc create secret generic quay-secret  
+# Namespace, aligned with the tad demo namespace, labelled for gitops
+APP_NS=tad-demo-ns
+kubectl get ns $APP_NS &> /dev/null
+ERR=$? 
+if [  "$ERR" != "0" ]
+then     
+    oc new-project $APP_NS
+    oc label namespace  $APP_NS argocd.argoproj.io/managed-by=openshift-gitops
+else  
+    echo "$APP_NS exists"
+fi
+oc project $APP_NS  
+oc create secret docker-registry quay-secret --from-file=.dockerconfigjson=$HOME/.docker/config.json"
 oc delete -f run.yaml 
 oc apply -f run.yaml 
