@@ -1,11 +1,17 @@
 
 APP_ROOT=$1
-VALUE=$2
- 
-FILE=$APP_ROOT/base/deployment.yaml 
-yq -i e ".spec.replicas=${VALUE:-error}"  $FILE
+VALUE=${2:-error}   
+SETTER='.metadata.annotations.["tad.gitops.set/replicas"]'
 
-FILE=$APP_ROOT/overlays/development/deployment-patch.yaml
-yq -i e ".spec.replicas=${VALUE:-error}"  $FILE
-   
-   
+FILES="$APP_ROOT/base/deployment.yaml  $APP_ROOT/overlays/development/deployment-patch.yaml"
+for file in $FILES 
+do
+    KEY=$(yq "$SETTER" $file)
+    if [  "$KEY" == "null" ]
+    then     
+        echo "$SETTER missing in $file"
+    else  
+        echo "Using $KEY to set replicas in $file"
+        yq -i e "$KEY=$VALUE"  $file
+    fi
+done

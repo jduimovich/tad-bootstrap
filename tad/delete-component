@@ -8,16 +8,15 @@ if [ -z "$CNAME" ]; then
 fi 
 
 if test -d $APP_PATH/$CNAME; then 
-     rm -rf $APP_PATH/$CNAME
-     rm -rf $APP_PATH/$CNAME.yaml 
      oc delete -f $APP_PATH/$CNAME.yaml
-
+     rm -rf $APP_PATH/$CNAME
+     rm -rf $APP_PATH/$CNAME.yaml  
      git add .
      git commit -m "Deleted $CNAME"
      git push  
      echo "Deleted $CNAME"
 else
-     echo "No Component Named $CNAME" 
+     echo "No Component named $CNAME" 
 fi 
 
  

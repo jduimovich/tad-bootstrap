@@ -1,0 +1,19 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+source $SCRIPTDIR/configure    
+
+DO_UPDATE="${AUTO_UPDATE_CLUSTER:-false}" 
+
+if [ "$DO_UPDATE" != "true" ]; then 
+    echo "Use tad push to manually update the cluster"
+    exit 0
+fi  
+kubectl get ns $APP_NS &> /dev/null
+ERR=$? 
+if [  "$ERR" != "0" ]
+then     
+    oc new-project $APP_NS
+    oc label namespace  $APP_NS argocd.argoproj.io/managed-by=openshift-gitops
+else  
+    echo "$APP_NS exists"
+fi
+oc apply -f $APP_ROOT  

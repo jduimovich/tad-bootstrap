@@ -18,3 +18,6 @@ bash $SCRIPTDIR/template-copy-and-fixup $COMPONENT_TYPE $COMPONENT_NAME $DEFAULT
 git add .
 git commit -m "Added $COMPONENT_NAME from $COMPONENT_TYPE template"
 git push 
+
+bash $SCRIPTDIR/auto-update 
+ 
