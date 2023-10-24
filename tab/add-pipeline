@@ -7,8 +7,9 @@ TAB_COMPONENT=$(basename $TAB_REPO)
 
 PIPELINE_TYPE="${1:-docker}" 
 TAB_IMAGE="${2:-quay.io/jduimovich0/$TAB_COMPONENT}"
-TAB_APP="${3:-unknown-app}" 
-TAB_NS=$TAB_APP-ns
+NS=$(oc project --short)
+TAB_NS="${3:-$NS}" 
+TAB_APP="${4:-unknown-app}"  
 
 if test -f Dockerfile; then 
      TAB_DOCKERFILE_LOCATION=Dockerfile 

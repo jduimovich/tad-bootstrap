@@ -2,6 +2,7 @@ apiVersion: "pipelinesascode.tekton.dev/v1alpha1"
 kind: Repository
 metadata:
   name: {{TAB_COMPONENT}}
+  namespace: {{TAB_NS}}
 spec:
   url: {{TAB_REPO}}
 

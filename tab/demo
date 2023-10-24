@@ -1,5 +1,11 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+source $SCRIPTDIR/configure  
 
 bash $SCRIPTDIR/reset
-bash $SCRIPTDIR/add-pipeline docker "quay.io/jduimovich0/pipe" tad-demo
+BASE=$(basename $ROOT)
+IMAGE="quay.io/$MY_QUAY_USER/$BASE"
+NS=$(oc project --short)
+bash $SCRIPTDIR/add-pipeline docker $IMAGE $NS
+
+echo "Pipeline installed for $BASE, $IMAGE in $NS"
  

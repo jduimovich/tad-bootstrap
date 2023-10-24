@@ -11,19 +11,18 @@ else
 fi  
  
 
-cp $ROOT/.tekton/bootstrap-stub-push.yaml run.yaml
+ RUNNER=temp-run.yaml
+
+cp $ROOT/.tekton/bootstrap-stub-push.yaml $RUNNER
 REVISION=$(git rev-parse HEAD) 
 TAB_REPO=$(git config --get remote.origin.url)  
-
-echo $REVISION
-echo $TAB_REPO
-
-sed -i s!{{repo_url}}!$TAB_REPO!g run.yaml 
-sed -i s!{{revision}}!$REVISION!g run.yaml 
-sed -i s!{{git_auth_secret}}!quay-secret!g run.yaml 
+  
+sed -i s!{{repo_url}}!$TAB_REPO!g $RUNNER 
+sed -i s!{{revision}}!$REVISION!g $RUNNER 
+sed -i s!{{git_auth_secret}}!quay-secret!g $RUNNER 
  
-# Namespace, aligned with the tad demo namespace, labelled for gitops
-APP_NS=tad-demo-ns
+# The NS is set when adding the pipeline, grab from there 
+APP_NS=$(yq .metadata.namespace $RUNNER)
 kubectl get ns $APP_NS &> /dev/null
 ERR=$? 
 if [  "$ERR" != "0" ]
@@ -33,8 +32,23 @@ then
 else  
     echo "$APP_NS exists"
 fi
-oc project $APP_NS  
-#oc create secret docker-registry quay-secret --from-file=.dockerconfigjson=$HOME/.docker/config.json"
-oc create secret generic quay-secret
-oc delete -f run.yaml 
-oc apply -f run.yaml 
+oc project $APP_NS   
+
+SECRET_NAME=redhat-appstudio-staginguser-pull-secret
+kubectl get secret $SECRET_NAME -n $APP_NS &> /dev/null
+ERR=$? 
+if [  "$ERR" == "0" ]
+then
+    echo "Secret docker-registry $SECRET_NAME already exists"
+else
+    echo "Install Secret for user $MY_QUAY_USER in Quay.io" 
+    echo $MY_QUAY_USER
+    echo $MY_QUAY_TOKEN
+    kubectl create secret -n $APP_NS docker-registry $SECRET_NAME \
+        --docker-server="https://quay.io" \
+        --docker-username=$MY_QUAY_USER \
+        --docker-password=$MY_QUAY_TOKEN  
+fi
+oc secrets link pipeline $SECRET_NAME  
+oc delete -f $RUNNER 
+oc apply -f $RUNNER 
