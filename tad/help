@@ -8,6 +8,7 @@ echo "Gitops Template Types available from $TEMPLATE_DIR"
 TYPES=$(ls -a -I . -I .. -I application.yaml $TEMPLATE_DIR)
 for type in $TYPES 
 do 
+    echo $type
     if test -f $TEMPLATE_DIR/$type/description; then  
         cat $TEMPLATE_DIR/$type/description
     fi  

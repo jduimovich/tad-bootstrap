@@ -1,5 +1,15 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-source $SCRIPTDIR/configure  
+source $SCRIPTDIR/configure 
+
+TEKTON=$ROOT/.tekton
+if test -d $TEKTON; then 
+    echo "Running Pipeline"
+else
+    echo 
+    echo "$ROOT is not a .tekton enabled Gitops Repository"
+    echo  
+fi  
+ 
 
 cp $ROOT/.tekton/bootstrap-stub-push.yaml run.yaml
 REVISION=$(git rev-parse HEAD) 
