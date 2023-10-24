@@ -8,7 +8,7 @@ spec:
   project: default
   source:
     path: {component-path}
-    repoURL: {this-repo}
+    repoURL: {component-repo}
     targetRevision: main
   destination:
     namespace: {component-namespace}

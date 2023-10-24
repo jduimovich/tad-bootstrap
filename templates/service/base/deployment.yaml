@@ -24,7 +24,7 @@ spec:
         app.kubernetes.io/instance:  {component-name}
     spec:
       containers:
-      - image: {image-name}
+      - image: {component-image}
         imagePullPolicy: Always
         livenessProbe:
           httpGet:

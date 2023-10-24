@@ -8,5 +8,5 @@ spec:
   template: 
     spec:
       containers:
-      - image: {image-name}
+      - image: {component-image}
         name: container-image  

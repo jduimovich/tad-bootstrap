@@ -24,7 +24,7 @@ spec:
         app.kubernetes.io/instance:  {component-name}
     spec:
       containers:
-      - image: {image-name}
+      - image: {component-image}
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -49,5 +49,5 @@ spec:
             memory: 50Mi    
         env:
         - name: GIT_REPO
-          value: {this-repo}
+          value: {component-repo}
 
