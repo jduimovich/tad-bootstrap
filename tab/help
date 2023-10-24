@@ -1,7 +1,7 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 PIPELINES_DIR=$(realpath $SCRIPTDIR/../pipelines)  
 
-echo "Commands available"
+echo "tab: commands available"
 ls -a -I . -I .. -I tab $SCRIPTDIR 
 echo
 echo "Secure Build Pipelines available from $PIPELINES_DIR"
