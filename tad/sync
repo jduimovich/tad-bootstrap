@@ -9,8 +9,7 @@ while true; do
     let LEN-- 
     ITEM=$(echo $APPS | jq -r ".items[$LEN]")   
     REPO=$(echo $ITEM | jq -r ".spec.source.repoURL")
-    NAME=$(echo $ITEM | jq -r ".metadata.name") 
-  
+    NAME=$(echo $ITEM | jq -r ".metadata.name")  
     REPO=${REPO%.git} 
     if [ "$REPO" == "$REMOTE" ] 
     then

@@ -1,6 +1,11 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
- 
+PIPELINES_DIR=$(realpath $SCRIPTDIR/../pipelines)  
+
 echo "Commands available"
-ls -a -I . -I .. $SCRIPTDIR 
+ls -a -I . -I .. -I tab $SCRIPTDIR 
+echo
+echo "Secure Build Pipelines available"
+ls -a -I . -I .. -I repository.yaml $PIPELINES_DIR  
+
 
 

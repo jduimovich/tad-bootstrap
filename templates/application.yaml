@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: {component-name}
+  name: {{component-name}}
   namespace: openshift-gitops 
   finalizers: ["resources-finalizer.argocd.argoproj.io"] 
 spec:
   project: default
   source:
     path: {component-path}
-    repoURL: {component-repo}
+    repoURL: {{component-repo}}
     targetRevision: main
   destination:
-    namespace: {component-namespace}
+    namespace: {{component-namespace}}
     server: https://kubernetes.default.svc
   syncPolicy:
     automated: 

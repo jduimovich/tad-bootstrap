@@ -25,23 +25,23 @@ TAB_BUILD_CONTEXT=.
 cp -r $PIPELINES_DIR/$PIPELINE_TYPE $ROOT/.tekton/   
 cp -r $PIPELINES_DIR/repository.yaml $ROOT/.tekton/repository.yaml   
 
-echo " {TAB_IMAGE} = $TAB_IMAGE"
-echo " {TAB_REPO} = $TAB_REPO"
-echo " {TAB_DOCKERFILE_LOCATION} = $TAB_DOCKERFILE_LOCATION"
-echo " {TAB_BUILD_CONTEXT} = $TAB_BUILD_CONTEXT"
-echo " {TAB_APP} = $TAB_APP"
-echo " {TAB_COMPONENT} = $TAB_COMPONENT" 
-echo " {TAB_NS} = $TAB_NS" 
+echo " {{TAB_IMAGE}} = $TAB_IMAGE"
+echo " {{TAB_REPO}} = $TAB_REPO"
+echo " {{TAB_DOCKERFILE_LOCATION}} = $TAB_DOCKERFILE_LOCATION"
+echo " {{TAB_BUILD_CONTEXT}} = $TAB_BUILD_CONTEXT"
+echo " {{TAB_APP}} = $TAB_APP"
+echo " {{TAB_COMPONENT}} = $TAB_COMPONENT" 
+echo " {{TAB_NS}} = $TAB_NS" 
 
 for file in "$ROOT/.tekton/*"
 do  
-     sed -i s!{TAB_IMAGE}!$TAB_IMAGE!g $file  
-     sed -i s!{TAB_REPO}!$TAB_REPO!g $file  
-     sed -i s!{TAB_DOCKERFILE_LOCATION}!$TAB_DOCKERFILE_LOCATION!g $file  
-     sed -i s!{TAB_BUILD_CONTEXT}!$TAB_BUILD_CONTEXT!g $file  
-     sed -i s!{TAB_APP}!$TAB_APP!g $file  
-     sed -i s!{TAB_COMPONENT}!$TAB_COMPONENT!g $file  
-     sed -i s!{TAB_NS}!$TAB_NS!g $file  
+     sed -i s!{{TAB_IMAGE}}!$TAB_IMAGE!g $file  
+     sed -i s!{{TAB_REPO}}!$TAB_REPO!g $file  
+     sed -i s!{{TAB_DOCKERFILE_LOCATION}}!$TAB_DOCKERFILE_LOCATION!g $file  
+     sed -i s!{{TAB_BUILD_CONTEXT}}!$TAB_BUILD_CONTEXT!g $file  
+     sed -i s!{{TAB_APP}}!$TAB_APP!g $file  
+     sed -i s!{{TAB_COMPONENT}}!$TAB_COMPONENT!g $file  
+     sed -i s!{{TAB_NS}}!$TAB_NS!g $file  
 done
 
 echo "no commit"

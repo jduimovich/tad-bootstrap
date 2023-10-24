@@ -6,23 +6,23 @@ metadata:
     pipelinesascode.tekton.dev/on-event: '[pull_request]'
     pipelinesascode.tekton.dev/on-target-branch: '[main]' 
   labels:
-    appstudio.openshift.io/application: {TAB_APP}
-    appstudio.openshift.io/component: {TAB_COMPONENT}
+    appstudio.openshift.io/application: {{TAB_APP}}
+    appstudio.openshift.io/component: {{TAB_COMPONENT}}
     pipelines.appstudio.openshift.io/type: build
-  name: {TAB_COMPONENT}-on-pull-request
-  namespace: {TAB_NS}
+  name: {{TAB_COMPONENT}}-on-pull-request
+  namespace: {{TAB_NS}}
 spec:
   params:
   - name: dockerfile
-    value: {TAB_DOCKERFILE_LOCATION}
+    value: {{TAB_DOCKERFILE_LOCATION}}
   - name: git-url
     value: '{{repo_url}}'
   - name: image-expires-after
     value: 5d
   - name: output-image
-    value: {TAB_IMAGE}:on-pr-{{revision}}
+    value: {{TAB_IMAGE}}:on-pr-{{revision}}
   - name: path-context
-    value: {TAB_BUILD_CONTEXT}
+    value: {{TAB_BUILD_CONTEXT}}
   - name: revision
     value: '{{revision}}'
   pipelineSpec:

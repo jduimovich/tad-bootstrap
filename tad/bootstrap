@@ -6,8 +6,6 @@ if [ -z "$REPONAME" ]; then
      exit 0
 fi
 
-BARE=$2
-
 if test -d $REPONAME; then
     echo 
     echo "$REPONAME exists so you cannot bootstrap this repo here"
@@ -17,6 +15,7 @@ else
     echo "Bootstrapping a gitops repo $REPONAME"
 fi  
 
+BARE="${2:-full}" 
 if [ "$BARE" == "bare" ]; then 
     gh repo create $REPONAME --public
 else

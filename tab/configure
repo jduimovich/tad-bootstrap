@@ -3,7 +3,7 @@ PIPELINES_DIR=$(realpath $SCRIPTDIR/../pipelines)
 
 ROOT=$(pwd) 
 TEKTON=$ROOT/.tekton
-if test -d $APP_PATH; then 
+if test -d $TEKTON; then 
     echo "Setting Props"
 else
     echo 

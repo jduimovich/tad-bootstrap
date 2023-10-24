@@ -6,11 +6,11 @@ metadata:
     pipelinesascode.tekton.dev/on-event: '[push]'
     pipelinesascode.tekton.dev/on-target-branch: '[main]'
   labels:
-    appstudio.openshift.io/application: {TAB_APP}
-    appstudio.openshift.io/component: {TAB_COMPONENT}
+    appstudio.openshift.io/application: {{TAB_APP}}
+    appstudio.openshift.io/component: {{TAB_COMPONENT}}
     pipelines.appstudio.openshift.io/type: build
-  name: {TAB_COMPONENT}-on-push
-  namespace: {TAB_NS}
+  name: {{TAB_COMPONENT}}-on-push
+  namespace: {{TAB_NS}}
 spec:
   params:
   - name: dockerfile
