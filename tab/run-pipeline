@@ -55,5 +55,5 @@ else
         --docker-password=$MY_QUAY_TOKEN  
 fi
 oc secrets link pipeline $SECRET_NAME  
-oc delete -f $RUNNER 
+oc delete -f $RUNNER &> /dev/null
 oc apply -f $RUNNER 
