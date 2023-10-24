@@ -43,10 +43,10 @@ do
      sed -i s!{{TAB_COMPONENT}}!$TAB_COMPONENT!g $file  
      sed -i s!{{TAB_NS}}!$TAB_NS!g $file  
 done
-
-echo "no commit"
-# git add .
-# git commit -m "Added Pipelines"
-# git push 
+ 
+git add .
+git commit -m "Added Pipelines"
+git push 
+oc apply -f $TEKTON/repository.yaml
  
  

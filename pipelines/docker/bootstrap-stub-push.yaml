@@ -376,4 +376,4 @@ spec:
       status: {}
   - name: git-auth
     secret:
-      secretName: '{{ git_auth_secret }}' 
+      secretName: '{{git_auth_secret}}' 

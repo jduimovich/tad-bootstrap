@@ -34,6 +34,7 @@ else
     echo "$APP_NS exists"
 fi
 oc project $APP_NS  
-oc create secret docker-registry quay-secret --from-file=.dockerconfigjson=$HOME/.docker/config.json"
+#oc create secret docker-registry quay-secret --from-file=.dockerconfigjson=$HOME/.docker/config.json"
+oc create secret generic quay-secret
 oc delete -f run.yaml 
 oc apply -f run.yaml 

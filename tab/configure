@@ -2,5 +2,7 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 PIPELINES_DIR=$(realpath $SCRIPTDIR/../pipelines)  
 
 ROOT=$(pwd) 
-
+TEKTON=$ROOT/.tekton
+  
+ 
   
