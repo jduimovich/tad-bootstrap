@@ -4,7 +4,7 @@ TEMPLATE_DIR=$(realpath $SCRIPTDIR/../templates)
 echo "Commands available"
 ls -a -I . -I .. -I tad $SCRIPTDIR 
 echo
-echo "Gitops Template Types available"
+echo "Gitops Template Types available from $TEMPLATE_DIR" 
 TYPES=$(ls -a -I . -I .. -I application.yaml $TEMPLATE_DIR)
 for type in $TYPES 
 do 
