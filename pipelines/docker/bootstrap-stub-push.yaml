@@ -18,7 +18,7 @@ spec:
   - name: git-url
     value: '{{repo_url}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads-stage/jduimovich-tenant/bootstrap-stub/bootstrap-stub:{{revision}}
+    value: {{TAB_IMAGE}}:{{revision}}
   - name: path-context
     value: .
   - name: revision
