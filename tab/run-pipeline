@@ -8,19 +8,24 @@ else
     echo 
     echo "$ROOT is not a .tekton enabled Gitops Repository"
     echo  
+    exit 0
 fi  
  
 
- RUNNER=temp-run.yaml
+RUNNER=temp-run.yaml
 
 cp $ROOT/.tekton/bootstrap-stub-push.yaml $RUNNER
 REVISION=$(git rev-parse HEAD) 
 TAB_REPO=$(git config --get remote.origin.url)  
   
 sed -i s!{{repo_url}}!$TAB_REPO!g $RUNNER 
-sed -i s!{{revision}}!$REVISION!g $RUNNER 
+sed -i s!{{revision}}!$REVISION!g $RUNNER
 sed -i s!{{git_auth_secret}}!quay-secret!g $RUNNER 
- 
+
+echo "Deleting the git auth passed by PaC"
+
+yq -i 'del(.spec.workspaces[] | select(.name == "git-auth"))' $RUNNER 
+
 # The NS is set when adding the pipeline, grab from there 
 APP_NS=$(yq .metadata.namespace $RUNNER)
 kubectl get ns $APP_NS &> /dev/null

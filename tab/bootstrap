@@ -8,7 +8,7 @@ fi
 gh repo create $REPONAME --public -p https://github.com/jduimovich/bootstrap-stub
 sleep 2
 git clone  https://github.com/jduimovich/$REPONAME
-
+bash $SCRIPTDIR/init  
 
 
 
