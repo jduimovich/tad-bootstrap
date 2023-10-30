@@ -5,11 +5,11 @@ metadata:
     app.kubernetes.io/instance: {{component-name}}
     app.kubernetes.io/managed-by: kustomize
     app.kubernetes.io/name: {{component-name}} 
-  name: {{component-name}}
+  name: {{component-name}}-a
   namespace: {{component-namespace}}
 spec:
   ports:
   - port: 8080
     targetPort: 8080
   selector:
-    app.kubernetes.io/instance: {{component-name}} 
+    app.kubernetes.io/instance: {{component-name}}-a 

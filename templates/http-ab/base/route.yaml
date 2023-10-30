@@ -1,11 +1,11 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:   
-  annotations:  
-    tad.gitops.set/service-a: ".spec.to.name"
+  annotations:   
     tad.gitops.set/weight-a: ".spec.to.weight"
-    tad.gitops.set/service-b: ".spec.to.alternateBackends[0].name"
-    tad.gitops.set/weight-b: ".spec.to.alternateBackends[0].weight"
+    tad.gitops.get/weight-a: ".spec.to.weight"
+    tad.gitops.set/weight-b: ".spec.alternateBackends[0].weight"
+    tad.gitops.get/weight-b: ".spec.alternateBackends[0].weight"
   labels: 
     app.kubernetes.io/instance: {{component-name}}
     app.kubernetes.io/managed-by: kustomize
@@ -20,9 +20,9 @@ spec:
     termination: edge
   to:
     kind: Service
-    name: {{component-name}}
+    name: {{component-name}}-a
     weight: 99 
   alternateBackends:
   - kind: Service
-    name: {{component-name}}
+    name: {{component-name}}-b
     weight: 1          
