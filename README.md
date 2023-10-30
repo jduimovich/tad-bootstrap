@@ -12,6 +12,8 @@ An RHTAP application is represented by the repository and set up as multiple Arg
 
 Gitops default templates can be found in `./templates` and can be extended by adding new types of components.
 
+To create a gitops repo, in any .git repo run `tad init`
+
 The list of current default templates are 
 
 ## http 
@@ -42,7 +44,6 @@ The list of current default templates are
         tad set c3 service-a  80
         tad set c3 service-b  20
     ```
-
 
 # Install
 Install the `tad` command on your path, it is is found in the install directory.  You may also use it directly.
