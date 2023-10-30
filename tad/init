@@ -1,6 +1,6 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-ROOT=$(pwd)
-
+ROOT=$(pwd) 
+FORMAT="${1:-multiple}"
 #contents will be in APP_ROOT 
 REPO_NAME=$(git config --get remote.origin.url)   
 if [ "$REPO_NAME" == "" ]; then 
@@ -41,5 +41,6 @@ else
     echo "APP_NS=$APP_NS" >>$PROPS 
     echo "APP_ROOT=components" >>$PROPS 
     echo "AUTO_UPDATE_CLUSTER=true" >>$PROPS 
+    echo "REPO_FORMAT=$FORMAT" >>$PROPS 
     echo "Initialized Gitops Repo: $REPO_NAME"
 fi  
