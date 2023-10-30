@@ -10,5 +10,5 @@ then
     echo "$SETTER missing in $file"
 else  
     echo "Using $KEY to set image in $file" 
-    yq -i e "$KEY=\"$VALUE\""  $file
+    yq -i e "$KEY=$VALUE"  $file
 fi 
