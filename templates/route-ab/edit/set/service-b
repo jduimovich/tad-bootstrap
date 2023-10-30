@@ -1,7 +1,7 @@
 
 APP_ROOT=$1
 VALUE=${2:-100}    
-SETTER='.metadata.annotations.["tad.gitops.set/weight-a"]'
+SETTER='.metadata.annotations.["tad.gitops.set/service-b"]'
 
 file="$APP_ROOT/base/route.yaml" 
 KEY=$(yq "$SETTER" $file)
