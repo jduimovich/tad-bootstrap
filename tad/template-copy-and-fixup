@@ -17,11 +17,11 @@ else
     exit 0
 fi 
 
-echo "Copy Template for $TYPE from  $TEMPLATE_DIR/$TYPE into $APP_PATH"
-mkdir -p $APP_PATH
-cp -r $TEMPLATE_DIR/$TYPE $APP_PATH/$CNAME/   # cp from template to component name 
+echo "Copy Template for $TYPE from  $TEMPLATE_DIR/$TYPE into $COMPONENTS_PATH"
+mkdir -p $COMPONENTS_PATH
+cp -r $TEMPLATE_DIR/$TYPE $COMPONENTS_PATH/$CNAME/   # cp from template to component name 
 
-BASE=$APP_PATH/$CNAME/base/* 
+BASE=$COMPONENTS_PATH/$CNAME/base/* 
 sed -i s/{{component-name}}/$CNAME/g $BASE
 sed -i s/{{component-namespace}}/$APP_NS/g  $BASE
 sed -i s!{{component-image}}!$IMAGE!g  $BASE
@@ -35,7 +35,7 @@ sed -i s/{{component-namespace}}/$APP_NS/g $DEV
 sed -i s!{{component-image}}!$IMAGE!g  $DEV
 sed -i s/{{application-name}}/$APP_NAME/g $DEV
 
-ARGOAPP=$APP_PATH/$CNAME.yaml 
+ARGOAPP=$COMPONENTS_PATH/$CNAME.yaml 
 cp  $TEMPLATE_DIR/application.yaml  $ARGOAPP
 sed -i s/{{component-name}}/$APP_NAME-$CNAME/g $ARGOAPP
 sed -i s/{{component-namespace}}/$APP_NS/g $ARGOAPP

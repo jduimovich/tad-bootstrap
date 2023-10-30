@@ -7,10 +7,10 @@ if [ -z "$CNAME" ]; then
      exit 0
 fi 
 
-if test -d $APP_PATH/$CNAME; then 
-     oc delete -f $APP_PATH/$CNAME.yaml
-     rm -rf $APP_PATH/$CNAME
-     rm -rf $APP_PATH/$CNAME.yaml  
+if test -d $COMPONENTS_PATH/$CNAME; then 
+     oc delete -f $COMPONENTS_PATH/$CNAME.yaml
+     rm -rf $COMPONENTS_PATH/$CNAME
+     rm -rf $COMPONENTS_PATH/$CNAME.yaml  
      git add .
      git commit -m "Deleted $CNAME"
      git push  

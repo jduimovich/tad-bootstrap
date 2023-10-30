@@ -39,6 +39,7 @@ else
     echo "REPO_NAME=$REPO_NAME" >>$PROPS
     echo "APP_NAME=$APP_NAME" >>$PROPS 
     echo "APP_NS=$APP_NS" >>$PROPS 
+    echo "APPS_ROOT=apps" >>$PROPS 
     echo "COMPONENTS_ROOT=components" >>$PROPS 
     echo "AUTO_UPDATE_CLUSTER=true" >>$PROPS 
     echo "REPO_FORMAT=$FORMAT" >>$PROPS 

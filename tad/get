@@ -12,11 +12,11 @@ if [ -z "$RESOURCE" ]; then
      echo "Usage set resource value"
      exit 0
 fi 
-GETTER=$APP_PATH/$CNAME/edit/get/$RESOURCE 
+GETTER=$COMPONENTS_PATH/$CNAME/edit/get/$RESOURCE 
 # if the template includes a GETTER then use it to set the values
 
 if test -f $GETTER; then 
-     bash $GETTER "$APP_PATH/$CNAME"  
+     bash $GETTER "$COMPONENTS_PATH/$CNAME"  
 else 
     echo "No $GETTER for $RESOURCE" 
 fi

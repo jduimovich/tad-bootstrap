@@ -3,9 +3,9 @@ TEMPLATE_DIR=$(realpath $SCRIPTDIR/../templates)
 
 ROOT=$(pwd)
 COMPONENTS_ROOT=components 
-APP_PATH=$ROOT/$COMPONENTS_ROOT 
-PROPS=$APP_PATH/tad.properties 
-if test -d $APP_PATH; then 
+COMPONENTS_PATH=$ROOT/$COMPONENTS_ROOT 
+PROPS=$COMPONENTS_PATH/tad.properties 
+if test -d $COMPONENTS_PATH; then 
     if [ "$(ls -A $PROPS)" ]; then 
         source $PROPS 
     fi
