@@ -1,0 +1,28 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:   
+  annotations:  
+    tad.gitops.set/service-a: ".spec.to.name"
+    tad.gitops.set/weight-a: ".spec.to.weight"
+    tad.gitops.set/service-b: ".spec.to.alternateBackends[0].name"
+    tad.gitops.set/weight-b: ".spec.to.alternateBackends[0].weight"
+  labels: 
+    app.kubernetes.io/instance: {{component-name}}
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: {{component-name}} 
+  name: {{component-name}}
+  namespace: {{component-namespace}}
+spec:
+  port:
+    targetPort: 8080
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: {{component-name}}
+    weight: 99 
+  alternateBackends:
+  - kind: Service
+    name: {{component-name}}
+    weight: 1          
