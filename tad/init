@@ -1,7 +1,7 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 ROOT=$(pwd) 
 FORMAT="${1:-multiple}"
-#contents will be in APP_ROOT 
+#contents will be in COMPONENTS_ROOT 
 REPO_NAME=$(git config --get remote.origin.url)   
 if [ "$REPO_NAME" == "" ]; then 
     echo "This repo is has no remote."
@@ -21,12 +21,12 @@ if [ "$REPO_NAME" == "" ]; then
     exit 0
 fi   
 
-APP_ROOT=components 
-PROPS=$ROOT/$APP_ROOT/tad.properties
+COMPONENTS_ROOT=components 
+PROPS=$ROOT/$COMPONENTS_ROOT/tad.properties
 APP_NAME=$(basename $REPO_NAME .git)  
 APP_NS=$APP_NAME-ns  
  
-if test -d $ROOT/$APP_ROOT; then 
+if test -d $ROOT/$COMPONENTS_ROOT; then 
     if [ "$(ls -A $PROPS)" ]; then
         echo  
         echo "$ROOT is already a Gitops Repository"
@@ -34,12 +34,12 @@ if test -d $ROOT/$APP_ROOT; then
         exit 0 
     fi 
 else
-    mkdir $APP_ROOT
+    mkdir $COMPONENTS_ROOT
     touch $PROPS
     echo "REPO_NAME=$REPO_NAME" >>$PROPS
     echo "APP_NAME=$APP_NAME" >>$PROPS 
     echo "APP_NS=$APP_NS" >>$PROPS 
-    echo "APP_ROOT=components" >>$PROPS 
+    echo "COMPONENTS_ROOT=components" >>$PROPS 
     echo "AUTO_UPDATE_CLUSTER=true" >>$PROPS 
     echo "REPO_FORMAT=$FORMAT" >>$PROPS 
     echo "Initialized Gitops Repo: $REPO_NAME"

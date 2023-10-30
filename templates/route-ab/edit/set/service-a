@@ -1,9 +1,9 @@
 
-APP_ROOT=$1
+COMPONENTS_ROOT=$1
 VALUE=${2:-100}    
 SETTER='.metadata.annotations.["tad.gitops.set/service-a"]'
 
-file="$APP_ROOT/base/route.yaml" 
+file="$COMPONENTS_ROOT/base/route.yaml" 
 KEY=$(yq "$SETTER" $file)
 if [  "$KEY" == "null" ]
 then     

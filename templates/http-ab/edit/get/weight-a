@@ -1,8 +1,8 @@
 
-APP_ROOT=$1  
+COMPONENTS_ROOT=$1  
 GETTER='.metadata.annotations.["tad.gitops.set/weight-a"]'
 
-FILES="$APP_ROOT/base/route.yaml   
+FILES="$COMPONENTS_ROOT/base/route.yaml   
 for file in $FILES 
 do
     KEY=$(yq "$GETTER" $file)

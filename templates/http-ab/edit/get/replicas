@@ -1,8 +1,8 @@
 
-APP_ROOT=$1  
+COMPONENTS_ROOT=$1  
 GETTER='.metadata.annotations.["tad.gitops.get/replicas"]'
 
-FILES="$APP_ROOT/base/deployment.yaml  $APP_ROOT/overlays/development/deployment-patch.yaml"
+FILES="$COMPONENTS_ROOT/base/deployment.yaml  $COMPONENTS_ROOT/overlays/development/deployment-patch.yaml"
 for file in $FILES 
 do
     KEY=$(yq "$GETTER" $file)
