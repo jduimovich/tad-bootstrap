@@ -9,9 +9,7 @@ shift
 if [ -z "$CMD" ]; then
      echo "Usage: $CLI cmd"
      exit 0
-fi
-
-
+fi 
 if test -f $SCRIPTDIR/$CMD; then 
 $SCRIPTDIR/$CMD $*
 else 

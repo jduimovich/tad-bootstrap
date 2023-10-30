@@ -35,7 +35,7 @@ sed -i s/{{component-namespace}}/$APP_NS/g $DEV
 sed -i s!{{component-image}}!$IMAGE!g  $DEV
 sed -i s/{{application-name}}/$APP_NAME/g $DEV
 
-ARGOAPP=$COMPONENTS_PATH/$CNAME.yaml 
+ARGOAPP=$APPS_ROOT/$CNAME.yaml 
 cp  $TEMPLATE_DIR/application.yaml  $ARGOAPP
 sed -i s/{{component-name}}/$APP_NAME-$CNAME/g $ARGOAPP
 sed -i s/{{component-namespace}}/$APP_NS/g $ARGOAPP

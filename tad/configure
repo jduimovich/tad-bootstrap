@@ -1,11 +1,10 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 TEMPLATE_DIR=$(realpath $SCRIPTDIR/../templates)  
 
-ROOT=$(pwd)
-COMPONENTS_ROOT=components 
-COMPONENTS_PATH=$ROOT/$COMPONENTS_ROOT 
-PROPS=$COMPONENTS_PATH/tad.properties 
-if test -d $COMPONENTS_PATH; then 
+export ROOT=$(pwd)
+APPS_ROOT=apps  
+PROPS=$ROOT/$APPS_ROOT/tad.properties
+if test -d $ROOT/$APPS_ROOT; then 
     if [ "$(ls -A $PROPS)" ]; then 
         source $PROPS 
     fi

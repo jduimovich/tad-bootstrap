@@ -16,4 +16,4 @@ then
 else  
     echo "$APP_NS exists"
 fi
-oc apply -f $COMPONENTS_ROOT
+oc apply -f $APPS_ROOT

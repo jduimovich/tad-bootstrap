@@ -21,12 +21,14 @@ if [ "$REPO_NAME" == "" ]; then
     exit 0
 fi   
 
+# local patsh from root 
+APPS_ROOT=apps 
 COMPONENTS_ROOT=components 
-PROPS=$ROOT/$COMPONENTS_ROOT/tad.properties
+PROPS=$ROOT/$APPS_ROOT/tad.properties
 APP_NAME=$(basename $REPO_NAME .git)  
 APP_NS=$APP_NAME-ns  
  
-if test -d $ROOT/$COMPONENTS_ROOT; then 
+if test -d $ROOT/$APPS_ROOT; then 
     if [ "$(ls -A $PROPS)" ]; then
         echo  
         echo "$ROOT is already a Gitops Repository"
@@ -34,14 +36,20 @@ if test -d $ROOT/$COMPONENTS_ROOT; then
         exit 0 
     fi 
 else
-    mkdir $COMPONENTS_ROOT
+    mkdir -p $APPS_ROOT
     touch $PROPS
-    echo "REPO_NAME=$REPO_NAME" >>$PROPS
-    echo "APP_NAME=$APP_NAME" >>$PROPS 
-    echo "APP_NS=$APP_NS" >>$PROPS 
-    echo "APPS_ROOT=apps" >>$PROPS 
-    echo "COMPONENTS_ROOT=components" >>$PROPS 
-    echo "AUTO_UPDATE_CLUSTER=true" >>$PROPS 
-    echo "REPO_FORMAT=$FORMAT" >>$PROPS 
+    echo "export REPO_NAME=$REPO_NAME" >>$PROPS
+    echo "export APP_NAME=$APP_NAME" >>$PROPS 
+    echo "export APP_NS=$APP_NS" >>$PROPS 
+
+    #local path names 
+    echo "export APPS_ROOT=$APPS_ROOT" >>$PROPS 
+    echo "export COMPONENTS_ROOT=$COMPONENTS_ROOT" >>$PROPS 
+    echo "export AUTO_UPDATE_CLUSTER=true" >>$PROPS 
+    echo "export REPO_FORMAT=$FORMAT" >>$PROPS 
+
+    # fully qualified names 
+    echo "export APPS_PATH=$ROOT/$APPS_ROOT" >>$PROPS 
+    echo "export COMPONENTS_PATH=$ROOT/$COMPONENTS_ROOT" >>$PROPS 
     echo "Initialized Gitops Repo: $REPO_NAME"
 fi  
