@@ -1,0 +1,16 @@
+# installer type component namespace image
+
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+source $SCRIPTDIR/configure  
+rm -rf $SINGLE_APP_KUSTOMIZE_ROOT 
+mkdir -p $SINGLE_APP_KUSTOMIZE_ROOT
+KUST=$SINGLE_APP_KUSTOMIZE_ROOT/kustomization.yaml
+echo "apiVersion: kustomize.config.k8s.io/v1beta1" >$KUST
+echo "kind: Kustomization" >>$KUST
+echo "resources:" >>$KUST  
+for i in $COMPONENTS_ROOT/* 
+do
+    CNAME=$(basename $i) 
+    CPATH="- ../../$COMPONENTS_ROOT/$CNAME/overlays/development" 
+    echo "$CPATH" >>$KUST 
+done 

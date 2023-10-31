@@ -2,10 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:  
-    tad.gitops.set/memory: ".spec.template.spec.containers[0].image"
-    tad.gitops.get/memory: ".spec.template.spec.containers[0].image"
+    tad.gitops.set/image: ".spec.template.spec.containers[0].image"
+    tad.gitops.get/image: ".spec.template.spec.containers[0].image"
     tad.gitops.set/replicas: ".spec.replicas"
-    tad.gitops.get/replicas: ".spec.replicas"  
+    tad.gitops.get/replicas: ".spec.replicas" 
   labels: 
     app.kubernetes.io/instance: {{component-name}}
     app.kubernetes.io/managed-by: kustomize

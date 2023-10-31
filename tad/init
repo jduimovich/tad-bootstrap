@@ -51,6 +51,8 @@ else
 
     # fully qualified names 
     echo "export APPS_PATH=$ROOT/$APPS_ROOT" >>$PROPS 
-    echo "export COMPONENTS_PATH=$ROOT/$COMPONENTS_ROOT" >>$PROPS 
+    echo "export COMPONENTS_PATH=$ROOT/$COMPONENTS_ROOT" >>$PROPS  
+    echo "export SINGLE_APP_KUSTOMIZE_ROOT=$APPS_ROOT/components-root" >>$PROPS  
+    
     echo "Initialized Gitops Repo: $REPO_NAME"
 fi  

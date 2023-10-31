@@ -5,18 +5,49 @@ CNAME=$1
 if [ -z "$CNAME" ]; then
      echo "Usage set-image component imagename"
      exit 0
+fi
+
+echo "Delecting Component $CNAME from Application"
+if [ "$REPO_FORMAT" == "single" ]; then  
+     rm -rf $COMPONENTS_ROOT/$CNAME
+     COUNTER=0
+     for dir in $COMPONENTS_PATH/*
+     do
+          if [ -d $dir ]; then
+               let COUNTER++  
+          fi
+     done
+     echo "$COUNTER components found" 
+     if [  "$COUNTER" == "0" ]
+     then   
+          rm -rf $SINGLE_APP_KUSTOMIZE_ROOT  
+          ARGOAPP=$APPS_ROOT/$APP_NAME.yaml 
+          oc delete -f $ARGOAPP
+          rm -rf $ARGOAPP
+     else
+          bash $SCRIPTDIR/util-regenerate-kustomize
+          git add .
+          git commit -m "Deleted $CNAME"
+          git push 
+          bash $SCRIPTDIR/sync
+     fi 
+
+
+else 
+     if test -d $COMPONENTS_PATH/$CNAME; then 
+          oc delete -f $APPS_PATH/$CNAME.yaml
+          rm -rf $COMPONENTS_PATH/$CNAME
+          rm -rf $COMPONENTS_PATH/$CNAME.yaml  
+          git add .
+          git commit -m "Deleted $CNAME"
+          git push  
+          echo "Deleted $CNAME"
+     else
+          echo "No Component named $CNAME" 
+     fi 
 fi 
 
-if test -d $COMPONENTS_PATH/$CNAME; then 
-     oc delete -f $APPS_PATH/$CNAME.yaml
-     rm -rf $COMPONENTS_PATH/$CNAME
-     rm -rf $COMPONENTS_PATH/$CNAME.yaml  
-     git add .
-     git commit -m "Deleted $CNAME"
-     git push  
-     echo "Deleted $CNAME"
-else
-     echo "No Component named $CNAME" 
-fi 
+
+
 
  
