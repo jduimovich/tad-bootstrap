@@ -37,6 +37,7 @@ if test -d $ROOT/$APPS_ROOT; then
     fi 
 else
     mkdir -p $APPS_ROOT
+    mkdir -p $COMPONENTS_ROOT
     touch $PROPS
     echo "export REPO_NAME=$REPO_NAME" >>$PROPS
     echo "export APP_NAME=$APP_NAME" >>$PROPS 
