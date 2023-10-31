@@ -1,6 +1,6 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 ROOT=$(pwd) 
-FORMAT="${1:-multiple}"
+FORMAT="${1:-single}"
 #contents will be in COMPONENTS_ROOT 
 REPO_NAME=$(git config --get remote.origin.url)   
 if [ "$REPO_NAME" == "" ]; then 

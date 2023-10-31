@@ -8,7 +8,10 @@ Pipelines and Repositories are layed out in RHTAP formats.
 Gitops
 
 The Resource layout is in kustomize format.
-An RHTAP application is represented by the repository and set up as multiple ArgoCD apps.
+An RHTAP application is represented by this repository 
+There are two options for layout
+`single`  - A single ArgoCD app is created and components in directories
+`multiple` - Each Component is added via its own ArgoCD app.
 
 Gitops default templates can be found in `./templates` and can be extended by adding new types of components.
 
