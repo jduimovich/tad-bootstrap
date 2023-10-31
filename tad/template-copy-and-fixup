@@ -35,10 +35,39 @@ sed -i s/{{component-namespace}}/$APP_NS/g $DEV
 sed -i s!{{component-image}}!$IMAGE!g  $DEV
 sed -i s/{{application-name}}/$APP_NAME/g $DEV
 
-ARGOAPP=$APPS_ROOT/$CNAME.yaml 
-cp  $TEMPLATE_DIR/application.yaml  $ARGOAPP
-sed -i s/{{component-name}}/$APP_NAME-$CNAME/g $ARGOAPP
-sed -i s/{{component-namespace}}/$APP_NS/g $ARGOAPP
-sed -i s!{{component-repo}}!$ARGOREPONAME!g  $ARGOAPP 
-sed -i s!{component-path}!$CPATH!g  $ARGOAPP 
- 
+
+
+
+echo "Creating Application in <$REPO_FORMAT> ArgoCD App format"
+if [ "$REPO_FORMAT" == "single" ]; then  
+    ARGOAPP=$APPS_ROOT/$APP_NAME.yaml 
+    SINGLE_APP_KUSTOMIZE_ROOT=$APPS_ROOT/components-root
+    if test -f $ARGOAPP; then
+        echo "ArgoCD Root Exists"  
+    else 
+        cp  $TEMPLATE_DIR/application.yaml  $ARGOAPP
+        sed -i s/{{component-name}}/$APP_NAME/g $ARGOAPP
+        sed -i s/{{component-namespace}}/$APP_NS/g $ARGOAPP
+        sed -i s!{{component-repo}}!$ARGOREPONAME!g  $ARGOAPP  
+        sed -i s!{component-path}!$SINGLE_APP_KUSTOMIZE_ROOT!g  $ARGOAPP 
+    fi
+    rm -rf $SINGLE_APP_KUSTOMIZE_ROOT 
+    mkdir -p $SINGLE_APP_KUSTOMIZE_ROOT
+    KUST=$SINGLE_APP_KUSTOMIZE_ROOT/kustomization.yaml
+    echo "apiVersion: kustomize.config.k8s.io/v1beta1" >$KUST
+    echo "kind: Kustomization" >>$KUST
+    echo "resources:" >>$KUST  
+    for i in $COMPONENTS_ROOT/* 
+    do
+        CNAME=$(basename $i) 
+        CPATH="- ../../$COMPONENTS_ROOT/$CNAME/overlays/development" 
+        echo "$CPATH" >>$KUST 
+    done 
+else 
+    ARGOAPP=$APPS_ROOT/$CNAME.yaml 
+    cp  $TEMPLATE_DIR/application.yaml  $ARGOAPP
+    sed -i s/{{component-name}}/$APP_NAME-$CNAME/g $ARGOAPP
+    sed -i s/{{component-namespace}}/$APP_NS/g $ARGOAPP
+    sed -i s!{{component-repo}}!$ARGOREPONAME!g  $ARGOAPP 
+    sed -i s!{component-path}!$CPATH!g  $ARGOAPP 
+fi 

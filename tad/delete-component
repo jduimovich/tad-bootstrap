@@ -8,7 +8,7 @@ if [ -z "$CNAME" ]; then
 fi 
 
 if test -d $COMPONENTS_PATH/$CNAME; then 
-     oc delete -f $COMPONENTS_PATH/$CNAME.yaml
+     oc delete -f $APPS_PATH/$CNAME.yaml
      rm -rf $COMPONENTS_PATH/$CNAME
      rm -rf $COMPONENTS_PATH/$CNAME.yaml  
      git add .
