@@ -30,13 +30,17 @@ var pac_protected_vars = [
 	"target_namespace"
 ]
 
-var tad_vars = { 
-
+var tad_vars = {  
 }
+
 var tab_vars = { 
 	"parameters": { 
 		"appname": "${{ parameters.appname }}"
 	} ,
+	"TAB_APP": "${{ parameters.appname }}",
+	"TAB_COMPONENT": "YAY-component-replacement"
+	"TAB_APP": "${{ parameters.appname }}",
+	"TAB_COMPONENT": "YAY-component-replacement"
 	"TAB_APP": "${{ parameters.appname }}",
 	"TAB_COMPONENT": "YAY-component-replacement"
 }

@@ -7,11 +7,11 @@ metadata:
     tad.gitops.set/weight-b: ".spec.alternateBackends[0].weight"
     tad.gitops.get/weight-b: ".spec.alternateBackends[0].weight"
   labels: 
-    app.kubernetes.io/instance: {{component-name}}
+    app.kubernetes.io/instance: {{values.name}}
     app.kubernetes.io/managed-by: kustomize
-    app.kubernetes.io/name: {{component-name}} 
-  name: {{component-name}}
-  namespace: {{component-namespace}}
+    app.kubernetes.io/name: {{values.name}} 
+  name: {{values.name}}
+  namespace: {{values.namespace}}
 spec:
   port:
     targetPort: 8080
@@ -20,9 +20,9 @@ spec:
     termination: edge
   to:
     kind: Service
-    name: {{component-name}}-a
+    name: {{values.name}}-a
     weight: 99 
   alternateBackends:
   - kind: Service
-    name: {{component-name}}-b
+    name: {{values.name}}-b
     weight: 1          

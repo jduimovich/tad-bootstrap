@@ -7,24 +7,24 @@ metadata:
     tad.gitops.set/replicas: ".spec.replicas"
     tad.gitops.get/replicas: ".spec.replicas" 
   labels: 
-    app.kubernetes.io/instance: {{component-name}}
+    app.kubernetes.io/instance: {{values.name}}
     app.kubernetes.io/managed-by: kustomize
-    app.kubernetes.io/name:  {{component-name}}
-    app.kubernetes.io/part-of: {{application-name}}    
-  name: {{component-name}}
-  namespace: {{component-namespace}}
+    app.kubernetes.io/name:  {{values.name}}
+    app.kubernetes.io/part-of: {{values.appName}}    
+  name: {{values.name}}
+  namespace: {{values.namespace}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/instance:  {{component-name}} 
+      app.kubernetes.io/instance:  {{values.name}} 
   template:
     metadata: 
       labels:
-        app.kubernetes.io/instance:  {{component-name}}
+        app.kubernetes.io/instance:  {{values.name}}
     spec:
       containers:
-      - image: {{component-image}}
+      - image: {{values.image}}
         imagePullPolicy: Always
         livenessProbe:
           httpGet:

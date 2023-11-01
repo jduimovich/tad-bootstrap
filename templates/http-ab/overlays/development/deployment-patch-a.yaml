@@ -6,12 +6,12 @@ metadata:
     tad.gitops.get/image: ".spec.template.spec.containers[0].image"
     tad.gitops.set/replicas: ".spec.replicas"
     tad.gitops.get/replicas: ".spec.replicas" 
-  name: {{component-name}}-a
-  namespace:  {{component-namespace}}
+  name: {{values.name}}-a
+  namespace:  {{values.namespace}}
 spec:
   replicas: 1 
   template: 
     spec:
       containers:
-      - image: {{component-image}}
+      - image: {{values.image}}
         name: container-image  
