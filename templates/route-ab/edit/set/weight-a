@@ -1,14 +1,13 @@
 
 COMPONENTS_ROOT=$1
-VALUE=${2:-100}    
-SETTER='.metadata.annotations.["tad.gitops.set/weight-a"]'
-
+VALUEA=${2:-100}    
+SETTERA='.metadata.annotations.["tad.gitops.set/weight-a"]'
+SETTERB='.metadata.annotations.["tad.gitops.set/weight-b"]'  
+VALUEB=$(echo "100 - $VALUEA" | bc)
 file="$COMPONENTS_ROOT/base/route.yaml" 
-KEY=$(yq "$SETTER" $file)
-if [  "$KEY" == "null" ]
-then     
-    echo "$SETTER missing in $file"
-else  
-    echo "Using $KEY to set image in $file" 
-    yq -i e "$KEY=$VALUE"  $file
-fi 
+KEYA=$(yq "$SETTERA" $file)
+KEYB=$(yq "$SETTERB" $file) 
+echo "Using $KEYA to set weight-a to $VALUEA in $file" 
+echo "Using $KEYB to set weight-a to $VALUEB in $file"  
+yq -i e "$KEYA=$VALUEA"  $file 
+yq -i e "$KEYB=$VALUEB"  $file 

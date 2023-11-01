@@ -17,9 +17,9 @@ if [ "$REPO_FORMAT" == "single" ]; then
                let COUNTER++  
           fi
      done
-     echo "$COUNTER components found" 
      if [  "$COUNTER" == "0" ]
      then   
+          echo "Delete ArgoCD Application" 
           rm -rf $SINGLE_APP_KUSTOMIZE_ROOT  
           ARGOAPP=$APPS_ROOT/$APP_NAME.yaml 
           oc delete -f $ARGOAPP
@@ -31,8 +31,6 @@ if [ "$REPO_FORMAT" == "single" ]; then
           git push 
           bash $SCRIPTDIR/sync
      fi 
-
-
 else 
      if test -d $COMPONENTS_PATH/$CNAME; then 
           oc delete -f $APPS_PATH/$CNAME.yaml
