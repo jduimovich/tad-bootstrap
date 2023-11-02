@@ -19,7 +19,7 @@ BARE="${2:-full}"
 
 # single argoapp, all components part of that app
 # multiple argoapps - each component in that app 
-FORMAT="${3:-multiple}"
+FORMAT="${3:-single}"
 if [ "$BARE" == "bare" ]; then 
     gh repo create $REPONAME --public  
 else

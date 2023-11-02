@@ -70,14 +70,13 @@ if (process.argv.length === 4){
 
 // run the expansion 
 var expansion = default_expansion
-if (format=="pac") {  
-	pac_protected_vars.forEach(element => {
-		expansion[element] = "{{" + element + "}}"
-	});
-} 
 if (format=="backstage") {  
 	expansion = backstage_expansion 
-} 
+}
+pac_protected_vars.forEach(element => {
+	expansion[element] = "{{" + element + "}}"
+});
+
 nunjucks.render(filename, expansion,
 	function (err, res) {
 		if (err) { 
