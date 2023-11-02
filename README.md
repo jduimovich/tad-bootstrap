@@ -1,13 +1,18 @@
-# tad-bootstrap
+# tad and tab CLI PoC 
 
 
-An example of templates model for pipelines and gitops bootstrapping
+A pair of CLIs which leverage a templates model similar to Backstage to enable authoring of pipelines and gitops bootstrapping.
+Content is edited in a format which allows a template process to configure and "fill in the blanks" when creating projects as well as updating author enabled configurations. 
+
+Pipelines are layed out in PaC as well as OpenShift-Pipelines template formats, and can be exported to Backstage format. 
+Gitops are layed out in kustomize/overlay format per environment and use ArgoCD Applications to deploy. 
 
 Pipelines and Repositories are layed out in RHTAP formats.
 
-Gitops
+## Gitops
 
 The Resource layout is in kustomize format.
+
 An RHTAP application is represented by this repository 
 There are two options for layout
 `single`  - A single ArgoCD app is created and components in directories
@@ -19,22 +24,20 @@ To create a gitops repo, in any .git repo run `tad init`
 
 The list of current default templates are 
 
-## http 
+### http 
     - contains a deployment, service and route for an image listening on port 8080
     - this matches the current RHTAP default deployment
     
-## service 
+### service 
     - contains a deployment, service listening on port 8080
     - this is a template which is similar to the http one, however does not expose a route, so an internal service only. 
 
-## http-ab 
+### http-ab 
     - contains a deployment, service and route listening on port 8080
     - the route  supports A/B load splitting between two components 
     ```  
         tad set c1 service-a  80
-        tad set c1 service-b  20
-    ```
-
+        tad set c1 service-b  20 
 
 ## route-ab 
     - contains a route  supports A/B load splitting between two components initialized
