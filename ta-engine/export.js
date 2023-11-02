@@ -50,6 +50,9 @@ var backstage_expansion = {
 		"namespace": "${{ values.namespace }}",
 		"name": "${{ values.name }}",
 		"repoURL": "${{ values.repoURL }}",
+		"dockerfileLocation": "Dockerfile",
+		"buildContext": ".",
+		
 	} 
 } 
   
