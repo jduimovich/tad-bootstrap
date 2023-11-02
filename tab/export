@@ -1,6 +1,6 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
  
-COMPONENT_TYPE="${1:-http}" 
+COMPONENT_TYPE="${1:-docker}" 
 EXPORT_DIR="${2:-export}" 
 FORMAT="${3:-backstage}"  
 
@@ -14,7 +14,17 @@ if test -d $EXPORT_DIR; then
     exit 0
 else 
     echo "Exporting to $ROOT/$EXPORT_DIR" 
-fi 
+fi
+source $SCRIPTDIR/configure
+if [  "$FORMAT" != "backstage" ]
+then 
+export REPOURL=$(git config --get remote.origin.url) 
+export NAME=$(basename $REPOURL)    
+export IMAGE="${2:-quay.io/jduimovich0/$NAME}"
+export NAMESPACE=$(oc project --short)  
+export APPNAME=$NAME 
+export ARGOCOMPONENT=components/$NAME/overlays/development  
+fi  
 
 if test -d $TEMPLATE_DIR/$COMPONENT_TYPE; then
     echo "Exporting template $COMPONENT_TYPE in $FORMAT format"
