@@ -1,7 +1,9 @@
 
 PHYSICAL_FILE=$(realpath $(readlink $0)) 
 SCRIPTDIR=$(dirname $PHYSICAL_FILE) 
-ROOT=$(realpath $SCRIPTDIR/..)
+export TEMPLATE_DIR=$(realpath $SCRIPTDIR/../pipelines) 
+export ROOT=$(pwd) 
+ 
 CLI=$(basename $0) 
 CMD=$1
 shift
@@ -10,7 +12,6 @@ if [ -z "$CMD" ]; then
      echo "Usage: $CLI cmd"
      exit 0
 fi
-
 
 if test -f $SCRIPTDIR/$CMD; then 
 $SCRIPTDIR/$CMD $*

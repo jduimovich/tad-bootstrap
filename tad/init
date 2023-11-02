@@ -21,7 +21,7 @@ if [ "$REPO_NAME" == "" ]; then
     exit 0
 fi   
 
-# local patsh from root 
+# local patch from root 
 APPS_ROOT=apps 
 COMPONENTS_ROOT=components 
 PROPS=$ROOT/$APPS_ROOT/tad.properties

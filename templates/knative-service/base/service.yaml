@@ -1,0 +1,15 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  annotations:  
+    tad.gitops.set/image: ".spec.template.spec.containers[0].image"
+  name: {{values.name}} 
+  namespace: {{values.namespace}} 
+spec:
+  template:
+    spec:
+      containers:
+      - image: {{values.image}} 
+        env: 
+        - name: GIT_REPO
+          value: {{values.repoURL}}

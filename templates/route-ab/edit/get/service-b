@@ -1,6 +1,6 @@
 
 COMPONENTS_ROOT=$1  
-GETTER='.metadata.annotations.["tad.gitops.set/weight-a"]'
+GETTER='.metadata.annotations.["tad.gitops.set/service-b"]'
 
 FILES="$COMPONENTS_ROOT/base/route.yaml"   
 for file in $FILES 

@@ -1,6 +1,5 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-TEMPLATE_DIR=$(realpath $SCRIPTDIR/../templates)  
- 
+
 TOPIC="${1:-all}" 
 echo "Commands available"
 ls -a -I . -I .. -I tad -I  util-regenerate-kustomize -I template-copy-and-fixup $SCRIPTDIR 

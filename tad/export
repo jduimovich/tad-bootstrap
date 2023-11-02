@@ -1,0 +1,39 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+ 
+COMPONENT_TYPE="${1:-http}" 
+EXPORT_DIR="${2:-export}" 
+FORMAT="${3:-backstage}"  
+
+if [ -z "$COMPONENT_TYPE" ]; then
+     echo "Usage: $CMD component-name dir <format:backstage,pac,default>"
+     exit 0
+fi
+
+if test -d $EXPORT_DIR; then  
+    echo "$EXPORT_DIR already exists "
+    exit 0
+else 
+    echo "Exporting to $ROOT/$EXPORT_DIR" 
+fi 
+
+if test -d $TEMPLATE_DIR/$COMPONENT_TYPE; then
+    echo "Exporting template $COMPONENT_TYPE in $FORMAT format"
+    echo "From: $TEMPLATE_DIR/$COMPONENT_TYPE to: $ROOT/$EXPORT_DIR "
+    mkdir -p $ROOT/$EXPORT_DIR
+    cp -r $TEMPLATE_DIR/$COMPONENT_TYPE $ROOT/$EXPORT_DIR/      
+    tree $ROOT/$EXPORT_DIR
+    for f in $(find $ROOT/$EXPORT_DIR -type f -print); do 
+        expanded=$(mktemp)
+        echo "START FIX $f"
+        node $SCRIPTDIR/../ta-engine/export.js $f $FORMAT >$expanded
+        echo "END FIX $f"
+        mv $f $f.bak
+        cp $expanded $f
+    done
+else 
+    echo $COMPONENT_TYPE is an invalid template type in $TEMPLATE_DIR
+fi  
+
+
+
+ 
