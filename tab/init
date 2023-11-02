@@ -4,7 +4,7 @@ source $SCRIPTDIR/configure
 BASE=$(basename $ROOT)
 IMAGE="quay.io/$MY_QUAY_USER/$BASE"
 NS=$(oc project --short)
-bash $SCRIPTDIR/add-pipeline docker $IMAGE $NS
+bash $SCRIPTDIR/add-pipeline docker $IMAGE $NS $BASE
 
 echo "Pipeline installed for $BASE, $IMAGE in $NS"
  

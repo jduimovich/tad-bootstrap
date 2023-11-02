@@ -44,7 +44,7 @@ var default_expansion = {
 // backstage expands the vars to templates in backstage format 
 var backstage_expansion = { 
 	"values": { 
-		"appName": "${{ values.appName }}",
+		"appName": "${{ values.name }}",
 		"argoComponent": "${{ values.argoComponent }}",
 		"image": "${{ values.image }}",
 		"namespace": "${{ values.namespace }}",
