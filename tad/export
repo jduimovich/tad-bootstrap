@@ -22,12 +22,17 @@ if test -d $TEMPLATE_DIR/$COMPONENT_TYPE; then
     mkdir -p $ROOT/$EXPORT_DIR
     cp -r $TEMPLATE_DIR/$COMPONENT_TYPE $ROOT/$EXPORT_DIR/      
     tree $ROOT/$EXPORT_DIR
-    for f in $(find $ROOT/$EXPORT_DIR -type f -print); do 
+    FILES=$(find $ROOT/$EXPORT_DIR -type f -print)
+    COUNT=0
+    for f in $FILES; do 
+        let COUNT++
+    done
+    INDEX=0
+    for f in $FILES; do
+        let INDEX++
         expanded=$(mktemp)
-        echo "START FIX $f"
+        echo "$INDEX/$COUNT $f"
         node $SCRIPTDIR/../ta-engine/export.js $f $FORMAT >$expanded
-        echo "END FIX $f"
-        mv $f $f.bak
         cp $expanded $f
     done
 else 
