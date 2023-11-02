@@ -2,8 +2,7 @@ nunjucks = require('nunjucks')
 nunjucks.configure('', { autoescape: true
 	// , throwOnUndefined: true 
 });
-
-
+ 
 // usage node.js export filename profile
 // profile configurations
 // templates are maintained in Backstage naming "values.valueName" 
@@ -33,12 +32,12 @@ var pac_protected_vars = [
 // default expands the vars to values 
 var default_expansion = {  
 	"values": { 
-		"appName": "XX-appName-XX",
-		"argoComponent": "XX-argoComponent-XX",
-		"image": "XX-image-XX",
-		"namespace": "XX-namespace-XX",
-		"name": "XX-name-XX",
-		"repoURL": "XX-repoURL-XX",
+		"appName": "process.env.APPNAME",
+		"argoComponent": "process.env.ARGOCOMPONENT",
+		"image": "process.env.ARGOCOMPONENT",
+		"namespace": "process.env.NAMESPACE",
+		"name": "process.env.NAMESPACE",
+		"repoURL": "process.env.REPOURL",
 	} 
 } 
 
@@ -79,8 +78,6 @@ if (format=="pac") {
 if (format=="backstage") {  
 	expansion = backstage_expansion 
 } 
-
-console.log (JSON.stringify(expansion, null, 4))
 nunjucks.render(filename, expansion,
 	function (err, res) {
 		if (err) { 
