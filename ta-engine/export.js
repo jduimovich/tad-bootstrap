@@ -34,9 +34,9 @@ var default_expansion = {
 	"values": { 
 		"appName": "process.env.APPNAME",
 		"argoComponent": "process.env.ARGOCOMPONENT",
-		"image": "process.env.ARGOCOMPONENT",
+		"image": "process.env.IMAGE",
 		"namespace": "process.env.NAMESPACE",
-		"name": "process.env.NAMESPACE",
+		"name": "process.env.NAME",
 		"repoURL": "process.env.REPOURL",
 	} 
 } 
