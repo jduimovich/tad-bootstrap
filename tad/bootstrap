@@ -15,7 +15,7 @@ else
     echo "Bootstrapping a gitops repo $REPONAME"
 fi  
 
-BARE="${2:-full}"
+BARE="${2:-bare}"
 
 # single argoapp, all components part of that app
 # multiple argoapps - each component in that app 
