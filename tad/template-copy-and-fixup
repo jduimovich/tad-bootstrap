@@ -21,9 +21,9 @@ echo "Copy Template for $TYPE from  $TEMPLATE_DIR/$TYPE into $COMPONENTS_PATH"
 mkdir -p $COMPONENTS_PATH
 cp -r $TEMPLATE_DIR/$TYPE $COMPONENTS_PATH/$CNAME/   # cp from template to component name 
 
-// image exported above
-// ta-engine takes params as env for now
-// move to replacement "json" file and pass as param. 
+# image exported above
+# ta-engine takes params as env for now
+# move to replacement "json" file and pass as param. 
 export REPOURL=$REPO_NAME
 export NAME=$CNAME   
 export NAMESPACE=$APP_NS

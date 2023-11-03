@@ -46,6 +46,8 @@ var default_expansion = {
 		"namespace": process.env.NAMESPACE,
 		"name": process.env.NAME,
 		"repoURL": process.env.REPOURL,
+		"dockerfileLocation": "Dockerfile",
+		"buildContext": ".",
 	} 
 } 
 
