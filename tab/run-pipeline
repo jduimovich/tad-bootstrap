@@ -14,7 +14,7 @@ fi
 
 RUNNER=temp-run.yaml
 
-cp $ROOT/.tekton/bootstrap-stub-push.yaml $RUNNER
+cp $ROOT/.tekton/docker-push.yaml $RUNNER
 REVISION=$(git rev-parse HEAD) 
 TAB_REPO=$(git config --get remote.origin.url)  
   
