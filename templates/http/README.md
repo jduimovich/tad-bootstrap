@@ -1,4 +1,4 @@
-http 
+# http 
     A standard HTTP application consisting of a deployment, service and route.
     Day 2 edit/update operations supported:
         set/get image

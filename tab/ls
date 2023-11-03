@@ -1,0 +1,17 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+source $SCRIPTDIR/configure   
+COUNTER=0
+if test -d $TEKTON; then 
+    if test -f $TEKTON/README.md; then  
+        desc="based on template: $(head -n 1 $TEKTON/README.md)"
+    fi 
+    FILES=$(ls -a -I . -I .. -I README.md $TEKTON)
+    for files in $FILES
+    do   
+        echo "$(basename $files) $desc" 
+    done
+else 
+    echo "$ROOT has no .tekton contents" 
+fi
+
+

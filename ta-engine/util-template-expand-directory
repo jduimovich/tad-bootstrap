@@ -1,0 +1,28 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+
+EXPORT_DIR=$1
+FORMAT=$2
+
+if [ -z "$EXPORT_DIR" ]; then
+     echo "Util must pass directory"
+     exit 0
+fi
+if [ -z "$FORMAT" ]; then
+     echo "Util must pass directory"
+     exit 0
+fi 
+ 
+FILES=$(find $EXPORT_DIR -type f -print)
+COUNT=0
+for f in $FILES; do 
+    let COUNT++
+done
+INDEX=0
+for f in $FILES; do
+    let INDEX++
+    echo "$INDEX/$COUNT $f"
+    bash $SCRIPTDIR/util-template-expand-file $f $FORMAT
+done 
+
+
+ 

@@ -25,26 +25,18 @@ TAB_BUILD_CONTEXT=.
 
 cp -r $PIPELINES_DIR/$PIPELINE_TYPE $ROOT/.tekton/   
 cp -r $PIPELINES_DIR/repository.yaml $ROOT/.tekton/repository.yaml   
-
-echo " {{values.image}} = $TAB_IMAGE"
-echo " {{values.repoURL}} = $TAB_REPO"
-echo " {{values.dockerfileLocation}} = $TAB_DOCKERFILE_LOCATION"
-echo " {{values.buildContext}} = $TAB_BUILD_CONTEXT"
-echo " {{values.appName}} = $TAB_APP"
-echo " {{values.name}} = $TAB_COMPONENT" 
-echo " {{values.namespace}} = $TAB_NS" 
-
-for file in "$ROOT/.tekton/*"
-do  
-     sed -i s!{{values.image}}!$TAB_IMAGE!g $file  
-     sed -i s!{{values.repoURL}}!$TAB_REPO!g $file  
-     sed -i s!{{values.dockerfileLocation}}!$TAB_DOCKERFILE_LOCATION!g $file  
-     sed -i s!{{values.buildContext}}!$TAB_BUILD_CONTEXT!g $file  
-     sed -i s!{{values.appName}}!$TAB_APP!g $file  
-     sed -i s!{{values.name}}!$TAB_COMPONENT!g $file  
-     sed -i s!{{values.namespace}}!$TAB_NS!g $file  
-done
  
+export REPOURL=$(git config --get remote.origin.url) 
+export NAME=$(basename $REPOURL)    
+export IMAGE="${2:-quay.io/jduimovich0/$NAME}"
+export NAMESPACE=$(oc project --short)  
+export APPNAME=$NAME 
+export NAME=$NAME
+export REPOURL=$REPOURL
+export ARGOCOMPONENT=components/$NAME/overlays/development  
+
+bash $SCRIPTDIR/../ta-engine/util-template-expand-directory $ROOT/.tekton default
+
 git add .
 git commit -m "Added Pipelines"
 git push 

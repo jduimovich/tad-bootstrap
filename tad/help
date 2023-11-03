@@ -1,20 +1,25 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 
-TOPIC="${1:-all}" 
+TOPIC="${1:-none}" 
 echo "Commands available"
 ls -a -I . -I .. -I tad -I  util-regenerate-kustomize -I template-copy-and-fixup $SCRIPTDIR 
 echo
-echo "Gitops Template Types available from $TEMPLATE_DIR"
+echo "Templates Available" 
+ls -a -I . -I .. -I application.yaml $TEMPLATE_DIR
+echo 
+if [ "$TOPIC" == "none" ]; then
+    exit 0
+fi
 if [ "$TOPIC" == "all" ]; then
     TYPES=$(ls -a -I . -I .. -I application.yaml $TEMPLATE_DIR)
 else
     TYPES=$TOPIC
-fi 
+fi  
 for type in $TYPES 
 do 
     echo $type
-    if test -f $TEMPLATE_DIR/$type/description; then  
-        cat $TEMPLATE_DIR/$type/description
+    if test -f $TEMPLATE_DIR/$type/README.md; then  
+        cat $TEMPLATE_DIR/$type/README.md
     fi  
 done 
 

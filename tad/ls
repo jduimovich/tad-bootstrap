@@ -1,0 +1,16 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+source $SCRIPTDIR/configure   
+COUNTER=0
+for dir in $COMPONENTS_PATH/*
+do
+    if [ -d $dir ]; then
+        let COUNTER++ 
+        if test -f $dir/README.md; then  
+            desc="based on template: $(head -n 1 $dir/README.md)"
+        fi   
+        echo "$(basename $dir) $desc"
+    fi
+done
+echo "$COUNTER components found"  
+
+

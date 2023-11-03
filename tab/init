@@ -1,10 +1,10 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 source $SCRIPTDIR/configure  
- 
+  
+PIPELINE_TYPE="${1:-docker}" 
 BASE=$(basename $ROOT)
 IMAGE="quay.io/$MY_QUAY_USER/$BASE"
 NS=$(oc project --short)
-bash $SCRIPTDIR/add-pipeline docker $IMAGE $NS $BASE
-
+bash $SCRIPTDIR/add-pipeline $PIPELINE_TYPE $IMAGE $NS $BASE
 echo "Pipeline installed for $BASE, $IMAGE in $NS"
  

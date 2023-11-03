@@ -29,15 +29,23 @@ var pac_protected_vars = [
 	"target_namespace"
 ]
 
+// console.error ("!!!!!!!!!!!!!! ")
+// console.error ("process.env.APPNAME", process.env.APPNAME)
+// console.error ("process.env.ARGOCOMPONENT",process.env.ARGOCOMPONENT)
+// console.error ("process.env.IMAGE",process.env.IMAGE)
+// console.error ("process.env.NAMESPACE",process.env.NAMESPACE)
+// console.error ("process.env.NAME",process.env.NAME)
+// console.error ("process.env.REPOURL",process.env.REPOURL)
+// console.error ("!!!!!!!!!!!!!! ")
 // default expands the vars to values 
 var default_expansion = {  
 	"values": { 
-		"appName": "process.env.APPNAME",
-		"argoComponent": "process.env.ARGOCOMPONENT",
-		"image": "process.env.IMAGE",
-		"namespace": "process.env.NAMESPACE",
-		"name": "process.env.NAME",
-		"repoURL": "process.env.REPOURL",
+		"appName": process.env.APPNAME,
+		"argoComponent": process.env.ARGOCOMPONENT,
+		"image": process.env.IMAGE,
+		"namespace": process.env.NAMESPACE,
+		"name": process.env.NAME,
+		"repoURL": process.env.REPOURL,
 	} 
 } 
 

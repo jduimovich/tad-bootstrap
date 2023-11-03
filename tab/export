@@ -23,6 +23,8 @@ export NAME=$(basename $REPOURL)
 export IMAGE="${2:-quay.io/jduimovich0/$NAME}"
 export NAMESPACE=$(oc project --short)  
 export APPNAME=$NAME 
+export NAME=$NAME
+export REPOURL=$REPOURL
 export ARGOCOMPONENT=components/$NAME/overlays/development  
 fi  
 

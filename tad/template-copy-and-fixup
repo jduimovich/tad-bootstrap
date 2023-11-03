@@ -6,7 +6,7 @@ source $SCRIPTDIR/configure
 ARGOREPONAME=$REPO_NAME.git  
 TYPE=$1
 CNAME=$2 
-IMAGE=$3 
+export IMAGE=$3 
 
 if test -d $TEMPLATE_DIR/$TYPE; then 
     echo "Initializing $TYPE component $APP_NAME:$CNAME in $APP_NS from template"
@@ -21,19 +21,22 @@ echo "Copy Template for $TYPE from  $TEMPLATE_DIR/$TYPE into $COMPONENTS_PATH"
 mkdir -p $COMPONENTS_PATH
 cp -r $TEMPLATE_DIR/$TYPE $COMPONENTS_PATH/$CNAME/   # cp from template to component name 
 
-BASE=$COMPONENTS_PATH/$CNAME/base/* 
-sed -i s/{{values.name}}/$CNAME/g $BASE
-sed -i s/{{values.namespace}}/$APP_NS/g  $BASE
-sed -i s!{{values.image}}!$IMAGE!g  $BASE
-sed -i s!{{values.repoURL}}!$ARGOREPONAME!g  $BASE
-sed -i s/{{values.appName}}/$APP_NAME/g  $BASE
- 
-CPATH=components/$CNAME/overlays/development 
-DEV=$CPATH/*
-sed -i s/{{values.name}}/$CNAME/g $DEV
-sed -i s/{{values.namespace}}/$APP_NS/g $DEV
-sed -i s!{{values.image}}!$IMAGE!g  $DEV
-sed -i s/{{values.appName}}/$APP_NAME/g $DEV
+// image exported above
+// ta-engine takes params as env for now
+// move to replacement "json" file and pass as param. 
+export REPOURL=$REPO_NAME
+export NAME=$CNAME   
+export NAMESPACE=$APP_NS
+export APPNAME=$APP_NAME  
+if [ "$REPO_FORMAT" == "single" ]; then 
+export ARGOCOMPONENT=$SINGLE_APP_KUSTOMIZE_ROOT 
+else
+export ARGOCOMPONENT=components/$NAME/overlays/development 
+fi  
+
+EXPAND_DIR=$SCRIPTDIR/../ta-engine/util-template-expand-directory
+EXPAND_FILE=$SCRIPTDIR/../ta-engine/util-template-expand-file
+bash $EXPAND_DIR $COMPONENTS_PATH/$CNAME default
 
 echo "Creating Application in <$REPO_FORMAT> ArgoCD App format"
 if [ "$REPO_FORMAT" == "single" ]; then  
@@ -42,17 +45,11 @@ if [ "$REPO_FORMAT" == "single" ]; then
         echo "ArgoCD Root Exists"  
     else 
         cp  $TEMPLATE_DIR/application.yaml  $ARGOAPP
-        sed -i s/{{values.name}}/$APP_NAME/g $ARGOAPP
-        sed -i s/{{values.namespace}}/$APP_NS/g $ARGOAPP
-        sed -i s!{{values.repoURL}}!$ARGOREPONAME!g  $ARGOAPP  
-        sed -i s!{{values.argoComponent}}!$SINGLE_APP_KUSTOMIZE_ROOT!g  $ARGOAPP 
+        bash $EXPAND_FILE $ARGOAPP default
     fi
     bash $SCRIPTDIR/util-regenerate-kustomize
 else 
     ARGOAPP=$APPS_ROOT/$CNAME.yaml 
     cp  $TEMPLATE_DIR/application.yaml  $ARGOAPP
-    sed -i s/{{values.name}}/$APP_NAME-$CNAME/g $ARGOAPP
-    sed -i s/{{values.namespace}}/$APP_NS/g $ARGOAPP
-    sed -i s!{{values.repoURL}}!$ARGOREPONAME!g  $ARGOAPP 
-    sed -i s!{{values.argoComponent}}!$CPATH!g  $ARGOAPP 
+    bash $EXPAND_FILE $ARGOAPP default
 fi 

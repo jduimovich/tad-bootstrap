@@ -4,9 +4,6 @@ COMPONENT_TYPE="${1:-http}"
 EXPORT_DIR="${2:-export}" 
 FORMAT="${3:-backstage}"  
 
-
-
-
 if [ -z "$COMPONENT_TYPE" ]; then
      echo "Usage: $CMD component-name dir <format:backstage,pac,default>"
      exit 0
@@ -16,7 +13,7 @@ if [  "$FORMAT" != "backstage" ]
 then  
 export APPNAME=$APP_NAME
 export NAMESPACE=$APP_NS
-#export IMAGE=$IMAGE
+export IMAGE=$IMAGE
 export NAME=$CNAME
 export ARGOCOMPONENT=components/$CNAME/overlays/development   
 export REPOURL=$ARGOREPONAME
@@ -35,19 +32,7 @@ if test -d $TEMPLATE_DIR/$COMPONENT_TYPE; then
     mkdir -p $ROOT/$EXPORT_DIR
     cp -r $TEMPLATE_DIR/$COMPONENT_TYPE $ROOT/$EXPORT_DIR/      
     tree $ROOT/$EXPORT_DIR
-    FILES=$(find $ROOT/$EXPORT_DIR -type f -print)
-    COUNT=0
-    for f in $FILES; do 
-        let COUNT++
-    done
-    INDEX=0
-    for f in $FILES; do
-        let INDEX++
-        expanded=$(mktemp)
-        echo "$INDEX/$COUNT $f"
-        node $SCRIPTDIR/../ta-engine/export.js $f $FORMAT >$expanded
-        cp $expanded $f
-    done
+    bash $SCRIPTDIR/../ta-engine/util-template-expand-directory $ROOT/$EXPORT_DIR $FORMAT
 else 
     echo $COMPONENT_TYPE is an invalid template type in $TEMPLATE_DIR
 fi  

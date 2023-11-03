@@ -4,7 +4,7 @@ PIPELINES_DIR=$(realpath $SCRIPTDIR/../pipelines)
 echo "tab: commands available"
 ls -a -I . -I .. -I tab $SCRIPTDIR 
 echo
-echo "Secure Build Pipelines available from $PIPELINES_DIR"
+echo "Build pipelines available"
 ls -a -I . -I .. -I repository.yaml $PIPELINES_DIR  
 
 

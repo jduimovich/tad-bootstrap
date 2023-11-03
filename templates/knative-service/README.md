@@ -1,5 +1,5 @@
-knative service
+# knative service
 
 A knativeservice consisting of a single service. 
-It will have an http endpoint
+ 
  
