@@ -1,6 +1,5 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 source $SCRIPTDIR/configure  
 echo "Pipelines installed into cluster"  
-oc apply -f $PIPELINES_DIR/openshift-templates
-
-oc apply -f $PIPELINES_DIR/tasks
+oc apply -f $PIPELINES_DIR/openshift-templates -n openshift  
+oc apply -f $PIPELINES_DIR/tasks -n openshift 
