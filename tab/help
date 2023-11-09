@@ -1,6 +1,8 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 source $SCRIPTDIR/configure 
 
+TOPIC="${1:-none}" 
+
 echo "tab: commands available"
 ls -a -I . -I .. -I tab $SCRIPTDIR 
 echo
@@ -9,6 +11,10 @@ EXCLUDE="-I . -I .. -I repository.yaml -I openshift-templates -I pipelines -I ta
 echo "Build types available"
 ls  -a $EXCLUDE $PIPELINES_DIR   
 echo 
+
+if [ "$TOPIC" == "none" ]; then
+    exit 0
+fi
 
 if test -d $PIPELINES_DIR/pipelines; then 
     echo "Pipelines available"
