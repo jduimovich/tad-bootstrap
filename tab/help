@@ -1,11 +1,27 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-PIPELINES_DIR=$(realpath $SCRIPTDIR/../pipelines)  
+source $SCRIPTDIR/configure 
 
 echo "tab: commands available"
 ls -a -I . -I .. -I tab $SCRIPTDIR 
 echo
-echo "Build pipelines available"
-ls -a -I . -I .. -I repository.yaml $PIPELINES_DIR  
+
+EXCLUDE="-I . -I .. -I repository.yaml -I openshift-templates -I pipelines -I tasks" 
+echo "Build types available"
+ls  -d $EXCLUDE $PIPELINES_DIR/*/  | xargs -n1 basename 
+echo 
+
+if test -f $PIPELINES_DIR/pipelines; then 
+    echo "Pipelines available"
+    ls  -d $EXCLUDE $PIPELINES_DIR/pipelines/*/  | xargs -n1 basename 
+    echo
+fi
+
+if test -f $PIPELINES_DIR/tasks; then 
+    echo "Tasks available"
+    ls  -d $EXCLUDE $PIPELINES_DIR/tasks/*/  | xargs -n1 basename 
+    echo 
+fi
+
 
 
 

@@ -1,0 +1,54 @@
+#!/bin/bash -e
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+source $SCRIPTDIR/configure 
+
+if [ -z "$BUILD_DEFINITIONS" ]; then 
+    BUILD_DEFINITIONS="${1:-$HOME/dev/build-definitions}" 
+fi
+
+echo "Import Pipelines From $BUILD_DEFINITIONS" 
+
+IMPORT_TASKS_DIR=${BUILD_DEFINITIONS}/task 
+IMPORT_PIPELINES_DIR=${BUILD_DEFINITIONS}/pipelines
+  
+echo "Destination $PIPELINES_DIR"   
+
+EXPORT_DIR="${2:-$PIPELINES_DIR}" 
+OUTPUT_TASKS=$EXPORT_DIR/tasks
+OUTPUT_PIPELINES=$EXPORT_DIR/pipelines
+
+rm -rf $OUTPUT_TASKS 
+mkdir -p $OUTPUT_TASKS
+rm -rf $OUTPUT_PIPELINES 
+mkdir -p $OUTPUT_PIPELINES
+
+for task in $(ls $IMPORT_TASKS_DIR); do
+  VERSIONDIR=$(ls -d $IMPORT_TASKS_DIR/$task/*/ | sort -t. -k 1,1n -k 2,2n -k 3,3n -k 4,4n | tail -n1)
+  echo $task.yaml
+  if [ -f $VERSIONDIR/$task.yaml ]; then
+    cp $VERSIONDIR/$task.yaml $OUTPUT_TASKS/$task.yaml
+  elif [ -f $VERSIONDIR/kustomization.yaml ]; then
+    kustomize build $VERSIONDIR > $OUTPUT_TASKS/$task.yaml 
+  else
+    echo Unable to apply task in $VERSIONDIR
+  fi
+done
+
+INDIVIDUAL_PIPELINES=$( yq .resources $IMPORT_PIPELINES_DIR/kustomization.yaml  | sed s/-// | xargs -n1 echo -n " ")
+
+for pipe in $INDIVIDUAL_PIPELINES 
+do
+echo $pipe
+PIPE_FILE_OR_DIR=$IMPORT_PIPELINES_DIR/$pipe
+if [ -f $PIPE_FILE_OR_DIR ]; then
+    cp $PIPE_FILE_OR_DIR $OUTPUT_PIPELINES/$pipe
+  elif [ -f $PIPE_FILE_OR_DIR/kustomization.yaml ]; then
+    kustomize build $PIPE_FILE_OR_DIR | \
+      yq e 'del(.items.[] | .spec.tasks.[] | .taskRef.version, .items.[] | .spec.finally.[] | .taskRef.version)' | \
+      cat  > $OUTPUT_PIPELINES/$pipe.yaml 
+  else
+    echo Unable to process pipeline in $IMPORT_PIPELINES_DIR/$pipe
+  fi
+
+done 
+

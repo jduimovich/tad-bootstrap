@@ -1,0 +1,13 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  labels:
+    app.kubernetes.io/instance: pipeline-service-in-cluster-local
+    operators.coreos.com/openshift-pipelines-operator-rh.openshift-operators: ""
+  name: openshift-pipelines-operator
+  namespace: openshift-operators
+spec:
+  channel: pipelines-1.12
+  name: openshift-pipelines-operator-rh
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
