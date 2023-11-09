@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: delete-me
+  name: demo-edit-me
   namespace: openshift
 spec:
   results:
