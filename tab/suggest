@@ -1,0 +1,14 @@
+ 
+if [ -f pom.xml ]; then
+    echo "java-builder"
+    exit 0
+fi
+if [ -f Dockerfile ]; then
+    echo "docker-build"
+    exit 0
+fi
+if [ -f package-lock.json ]; then
+    echo "nodejs-build"
+    exit 0
+fi
+echo "no builder found"

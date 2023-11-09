@@ -5,7 +5,7 @@ CMD=$(basename $0)
 TAB_REPO=$(git config --get remote.origin.url)   
 TAB_COMPONENT=$(basename $TAB_REPO)
 
-PIPELINE_TYPE="${1:-docker}" 
+PIPELINE_TYPE="${1:-docker-build}" 
 TAB_IMAGE="${2:-quay.io/jduimovich0/$TAB_COMPONENT}"
 NS=$(oc project --short)
 TAB_NS="${3:-$NS}" 

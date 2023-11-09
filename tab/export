@@ -1,6 +1,6 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
  
-COMPONENT_TYPE="${1:-docker}" 
+COMPONENT_TYPE="${1:-docker-build}" 
 EXPORT_DIR="${2:-export}" 
 FORMAT="${3:-backstage}"  
 
