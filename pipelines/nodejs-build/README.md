@@ -1,4 +1,3 @@
-docker 
+nodejs-build 
 
-Pipeline template for dockerfile builds base on tekton.
-SCC compliant
+Pipeline template for node.js. 

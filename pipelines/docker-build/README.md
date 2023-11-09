@@ -1,4 +1,3 @@
-docker 
+docker-build
 
-Pipeline template for dockerfile builds base on tekton.
-SCC compliant
+PaC template for dockerfile builds. 
