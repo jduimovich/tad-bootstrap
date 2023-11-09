@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: demo-edit-me
+  name: advanced-ssc-rhtab-docker-edit-me
   namespace: openshift
 spec:
   results:
