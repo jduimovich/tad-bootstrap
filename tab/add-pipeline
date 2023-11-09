@@ -23,7 +23,8 @@ else
 fi  
 TAB_BUILD_CONTEXT=.  
 
-cp -r $PIPELINES_DIR/$PIPELINE_TYPE $ROOT/.tekton/   
+mkdir -p $ROOT/.tekton/ 
+cp -r $PIPELINES_DIR/$PIPELINE_TYPE/* $ROOT/.tekton/   
 cp -r $PIPELINES_DIR/repository.yaml $ROOT/.tekton/repository.yaml   
  
 export REPOURL=$(git config --get remote.origin.url) 
