@@ -17,5 +17,5 @@ fi
 if test -f $SCRIPTDIR/$CMD; then 
     $SCRIPTDIR/$CMD $*
 else 
-    echo $CMD is an invalid command for $PHYSICAL_FILE
+    echo $CMD is an invalid command for $CLI
 fi 
