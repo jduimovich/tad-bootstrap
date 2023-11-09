@@ -15,6 +15,9 @@ fi
 RUNNER=temp-run.yaml
 
 cp $ROOT/.tekton/*-push.yaml $RUNNER
+
+ls -al $RUNNER 
+
 REVISION=$(git rev-parse HEAD) 
 TAB_REPO=$(git config --get remote.origin.url)  
   
