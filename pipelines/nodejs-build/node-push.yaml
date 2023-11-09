@@ -1,10 +1,10 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  name: {{values.name}}-on-pull-request
+  name: {{values.name}}-on-push
   namespace: {{values.namespace}}
   annotations:
-    pipelinesascode.tekton.dev/on-event: "[pull_request]"
+    pipelinesascode.tekton.dev/on-event: "[push]"
     pipelinesascode.tekton.dev/on-target-branch: "[main]"
     pipelinesascode.tekton.dev/max-keep-runs: "2"
     pipelinesascode.tekton.dev/pipeline: "https://github.com/jduimovich/tad-bootstrap/blob/main/pipelines/pipelines/nodejs-build.yaml"
