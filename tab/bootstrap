@@ -6,9 +6,10 @@ if [ -z "$REPONAME" ]; then
      exit 0
 fi
 gh repo create $REPONAME --public -p https://github.com/jduimovich/bootstrap-stub
-sleep 2
+sleep 4
 git clone  https://github.com/jduimovich/$REPONAME
 cd $REPONAME
+git pull 
 bash $SCRIPTDIR/init  
 
 
