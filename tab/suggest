@@ -4,7 +4,7 @@ if [ -f pom.xml ]; then
     exit 0
 fi
 if [ -f Dockerfile ]; then
-    echo "docker-build"
+    echo "docker-build-shared"
     exit 0
 fi
 if [ -f package-lock.json ]; then
