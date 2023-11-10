@@ -49,7 +49,10 @@ spec:
       script: |
         #!/bin/bash
         echo "Build Initialize: $IMAGE_URL"
-        echo 
+        echo
+
+        echo "RHTAP MADE AN UPDATE"
+        echo "and one more"
 
         echo "Determine if Image Already Exists"
         # Build the image when image does not exists or rebuild is set to true
