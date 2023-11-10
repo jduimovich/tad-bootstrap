@@ -51,6 +51,10 @@ spec:
         echo "Build Initialize: $IMAGE_URL"
         echo
 
+
+        echo "RHTAP MADE A CHANGE"
+
+        echo "and so did the local PE"
         echo "Determine if Image Already Exists"
         # Build the image when image does not exists or rebuild is set to true
         if ! oc image info $IMAGE_URL &>/dev/null || [ "$REBUILD" == "true" ] || [ "$SKIP_CHECKS" == "false" ]; then
