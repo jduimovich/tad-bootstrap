@@ -3,8 +3,10 @@ source $SCRIPTDIR/configure
   
 PIPELINE_TYPE="${1:-docker-build-shared}" 
 BASE=$(basename $ROOT)
-IMAGE="quay.io/$MY_QUAY_USER/$BASE"
 NS=$(oc project --short)
+IMAGE="quay.io/$MY_QUAY_USER/$BASE" 
+IMAGE=image-registry.openshift-image-registry.svc:5000/$NS/$BASE
+
 bash $SCRIPTDIR/add-pipeline $PIPELINE_TYPE $IMAGE $NS $BASE
 echo "Pipeline installed for $BASE, $IMAGE in $NS"
  

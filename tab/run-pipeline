@@ -6,42 +6,13 @@ if test -d $TEKTON; then
     echo "Running Pipeline"
 else
     echo 
-    echo "$ROOT is not a .tekton enabled Gitops Repository"
+    echo "$ROOT is not a .tekton enabled repository"
     echo  
     exit 0
 fi  
- 
 
-RUNNER=temp-run.yaml
-
-cp $ROOT/.tekton/*-push.yaml $RUNNER
-
-ls -al $RUNNER 
-
-REVISION=$(git rev-parse HEAD) 
-TAB_REPO=$(git config --get remote.origin.url)  
-  
-sed -i s!{{repo_url}}!$TAB_REPO!g $RUNNER 
-sed -i s!{{revision}}!$REVISION!g $RUNNER
-sed -i s!{{git_auth_secret}}!quay-secret!g $RUNNER 
-
-echo "Deleting the git auth passed by PaC"
-
-yq -i 'del(.spec.workspaces[] | select(.name == "git-auth"))' $RUNNER 
-
-# The NS is set when adding the pipeline, grab from there 
-APP_NS=$(yq .metadata.namespace $RUNNER)
-kubectl get ns $APP_NS &> /dev/null
-ERR=$? 
-if [  "$ERR" != "0" ]
-then     
-    oc new-project $APP_NS
-    oc label namespace  $APP_NS argocd.argoproj.io/managed-by=openshift-gitops
-else  
-    echo "$APP_NS exists"
-fi
-oc project $APP_NS   
-
+# todo - fix secrets
+APP_NS=$(oc project --short)  
 SECRET_NAME=redhat-appstudio-staginguser-pull-secret
 kubectl get secret $SECRET_NAME -n $APP_NS &> /dev/null
 ERR=$? 
@@ -58,5 +29,6 @@ else
         --docker-password=$MY_QUAY_TOKEN  
 fi
 oc secrets link pipeline $SECRET_NAME  
-oc delete -f $RUNNER &> /dev/null
-oc apply -f $RUNNER 
+
+PUSH_HANDLER=$(ls $ROOT/.tekton/*-push.yaml) 
+tkn-pac  resolve -f $PUSH_HANDLER | oc create -f -
