@@ -1,20 +1,59 @@
 
 PHYSICAL_FILE=$(realpath $(readlink $0)) 
 SCRIPTDIR=$(dirname $PHYSICAL_FILE) 
-export TEMPLATE_DIR=$(realpath $SCRIPTDIR/../pipelines) 
-export ROOT=$(pwd) 
- 
+export ROOT=$(pwd)  
 CLI=$(basename $0) 
 CMD=$1
 shift
+
+LOCAL_CONFIG=$HOME/.$CLI 
+echo "Local Config $LOCAL_CONFIG"
+echo "CLI $CLI"
+echo "CMD $CMD" 
+
+if test -d $LOCAL_CONFIG; then 
+    source $LOCAL_CONFIG/config
+else 
+    if [ "$CMD" == "set-repo" ]; then   
+        REPO=$1 
+        if [ -z "$REPO" ]; then
+            echo "Missing Repository"
+            exit 0
+        fi   
+        mkdir -p $LOCAL_CONFIG
+        cd $LOCAL_CONFIG
+        git clone $REPO templates
+        echo "export TEMPLATE_REPO=$REPO" > $LOCAL_CONFIG/config
+        if [ "$CLI" == "tab" ]; then
+            TDIR=pipelines
+            echo "export PIPELINES_DIR=$(realpath $LOCAL_CONFIG/templates/$TDIR)" >> $LOCAL_CONFIG/config 
+            echo "export TEMPLATE_DIR=$(realpath $LOCAL_CONFIG/templates/$TDIR)" >> $LOCAL_CONFIG/config      
+        fi
+        if [ "$CLI" == "tad" ]; then
+            TDIR=templates 
+            echo "TDIR $TDIR"
+            echo "export TEMPLATE_DIR=$(realpath $LOCAL_CONFIG/templates/$TDIR)" >> $LOCAL_CONFIG/config 
+        fi      
+        cat $LOCAL_CONFIG/config    
+    else 
+        echo "Need to configure the $CLI contents repository"
+        echo "Use $CLI set-repo url "
+    fi 
+    exit
+fi   
 
 if [ -z "$CMD" ]; then
      echo "Usage: $CLI cmd"
      exit 0
 fi
 
-if test -f $SCRIPTDIR/$CMD; then 
-$SCRIPTDIR/$CMD $*
+if test -f $SCRIPTDIR/../common/$CMD; then 
+    $SCRIPTDIR/../common/$CMD $*
 else 
-    echo $CMD is an invalid command for $CLI
+    if test -f $SCRIPTDIR/$CMD; then 
+    $SCRIPTDIR/$CMD $*
+    else 
+        echo $CMD is an invalid command for $CLI
+    fi 
 fi 
+
