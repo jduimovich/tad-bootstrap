@@ -8,7 +8,7 @@ ls -a -I . -I .. -I tab $SCRIPTDIR
 echo
 
 EXCLUDE="-I . -I .. -I repository.yaml -I openshift-templates -I pipelines -I tasks" 
-echo "Build types available"
+echo "PaC Handlers available"
 ls  -a $EXCLUDE $PIPELINES_DIR   
 echo 
 
