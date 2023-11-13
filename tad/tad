@@ -4,15 +4,12 @@ SCRIPTDIR=$(dirname $PHYSICAL_FILE)
 export ROOT=$(pwd)  
 CLI=$(basename $0) 
 CMD=$1
-shift
-
+shift 
 LOCAL_CONFIG=$HOME/.$CLI 
-echo "Local Config $LOCAL_CONFIG"
-echo "CLI $CLI"
-echo "CMD $CMD" 
-
+echo "Config Directory $LOCAL_CONFIG"    
 if test -d $LOCAL_CONFIG; then 
     source $LOCAL_CONFIG/config
+    (cd $TEMPLATE_DIR; git pull)
 else 
     if [ "$CMD" == "set-repo" ]; then   
         REPO=$1 

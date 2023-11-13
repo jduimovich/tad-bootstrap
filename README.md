@@ -11,18 +11,24 @@ Pipelines and Repositories are layed out in RHTAP formats.
 
 ## Gitops
 
-The Resource layout is in kustomize format.
+Gitops default templates can be found in `https://github.com/jduimovich/dance-standard-gitops.git` and the CLI needs to be initialized  to point to the these templates in git before using the CLI.
+
+`tad set-repo https://github.com/jduimovich/dance-standard-gitops.git`
+
+
+Gitops resources are layed out in kustomize format.
 
 An RHTAP application is represented by this repository 
 There are two options for layout
 `single`  - A single ArgoCD app is created and components in directories
 `multiple` - Each Component is added via its own ArgoCD app.
 
-Gitops default templates can be found in `./templates` and can be extended by adding new types of components.
 
-To create a gitops repo, in any .git repo run `tad init`
+## Command Line Reference 
 
-The list of current default templates are 
+To create a gitops repo, in any .git repo run `tad init`. This will 
+
+The list of current default templates found in the example repositories.  
 
 ### http 
     - contains a deployment, service and route for an image listening on port 8080
@@ -65,5 +71,9 @@ tad add-component c1
 tad describe
 tad install-apps
 ```
+
+# Pipelines
+
+
 
 
