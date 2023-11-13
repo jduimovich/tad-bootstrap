@@ -9,22 +9,22 @@ echo
 
 EXCLUDE="-I . -I .. -I repository.yaml -I openshift-templates -I pipelines -I tasks" 
 echo "PaC Handlers available"
-ls  -a $EXCLUDE $PIPELINES_DIR   
+ls  -a $EXCLUDE $TEMPLATE_DIR   
 echo 
 
 if [ "$TOPIC" == "none" ]; then
     exit 0
 fi
 
-if test -d $PIPELINES_DIR/pipelines; then 
+if test -d $TEMPLATE_DIR/pipelines; then 
     echo "Pipelines available"
-    ls  -d $EXCLUDE $PIPELINES_DIR/pipelines/*  | xargs -n1 basename | pr -2 -t2 -s
+    ls  -d $EXCLUDE $TEMPLATE_DIR/pipelines/*  | xargs -n1 basename | pr -2 -t2 -s
     echo
 fi
 
-if test -d $PIPELINES_DIR/tasks; then 
+if test -d $TEMPLATE_DIR/tasks; then 
     echo "Tasks available"
-    ls  -d $EXCLUDE $PIPELINES_DIR/tasks/*  | xargs -n1 basename | pr -2 -t2 -s
+    ls  -d $EXCLUDE $TEMPLATE_DIR/tasks/*  | xargs -n1 basename | pr -2 -t2 -s
     echo 
 fi
 
