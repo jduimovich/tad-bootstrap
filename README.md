@@ -1,13 +1,28 @@
 # tad and tab CLI PoC 
 
 
-A pair of CLIs which leverage a templates model similar to Backstage to enable authoring of pipelines and gitops bootstrapping.
-Content is edited in a format which allows a template process to configure and "fill in the blanks" when creating projects as well as updating author enabled configurations. 
+Tab and Tad are CLIs which leverage a templates model similar to Backstage to enable authoring of pipelines and gitops bootstrapping.
 
-Pipelines are layed out in PaC as well as OpenShift-Pipelines template formats, and can be exported to Backstage format. 
-Gitops are layed out in kustomize/overlay format per environment and use ArgoCD Applications to deploy. 
+Content is edited in a template format which allows a template (nunjunks)) to configure and "fill in the blanks" when creating projects. The templates and variables can be defined by customization and allows authors to configure new variables in their configurations. 
 
-Pipelines and Repositories are layed out in RHTAP formats.
+Pipelines are layed out in PaC format (PipelineRunners in .tekton directories). 
+The tab template expansion can be exported to Backstage format. 
+Openshift templates are also demonstrated but are not templated. 
+
+Gitops repositories are layed out in kustomize/overlay format per environment and use ArgoCD Applications to deploy. 
+
+Pipelines and Repositories have been copied from RHTAP.
+
+
+# Pipelines
+Default pipeline examples can be found in `https://github.com/jduimovich/dance-standard-gitopipelines.git`
+
+`tab set-repo https://github.com/jduimovich/dance-standard-gitopipelines.git`
+
+This will configure the users pipelines to come from a specific git repository. 
+See `https://github.com/jduimovich/dance-standard-gitopipelines.git` for more information about these pipelines.
+
+The default pipelines can be updated from RHTAP BuildDefinition repository via `tab import-build-definitions`
 
 ## Gitops
 
@@ -72,7 +87,6 @@ tad describe
 tad install-apps
 ```
 
-# Pipelines
 
 
 
