@@ -9,7 +9,14 @@ LOCAL_CONFIG=$HOME/.$CLI
 echo "Config Directory $LOCAL_CONFIG"    
 if test -d $LOCAL_CONFIG; then 
     source $LOCAL_CONFIG/config
-    (cd $TEMPLATE_DIR; git pull)
+    LOCAL_TAG=$(cat $LOCAL_CONFIG/local-tag)
+    CURRENT_TAG=$(git ls-remote  $TEMPLATE_REPO HEAD |  cut -f 1)  
+    # echo "CURRENT $CURRENT_TAG"
+    # echo "LOCAL_TAG $LOCAL_TAG"
+    if [ "$CURRENT_TAG" != "$LOCAL_TAG" ]; then 
+        (cd $TEMPLATE_DIR; git pull)
+        echo $CURRENT_TAG > $LOCAL_CONFIG/local-tag
+    fi
 else 
     if [ "$CMD" == "set-repo" ]; then   
         REPO=$1 
@@ -30,7 +37,8 @@ else
             TDIR=templates 
             echo "TDIR $TDIR"
             echo "export TEMPLATE_DIR=$(realpath $LOCAL_CONFIG/templates/$TDIR)" >> $LOCAL_CONFIG/config 
-        fi      
+        fi
+        echo "0000000" > $LOCAL_CONFIG/local-tag
         cat $LOCAL_CONFIG/config    
     else 
         echo "Need to configure the $CLI contents repository"
