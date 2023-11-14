@@ -38,6 +38,14 @@ var pac_protected_vars = [
 // console.error ("process.env.REPOURL",process.env.REPOURL)
 // console.error ("!!!!!!!!!!!!!! ")
 // default expands the vars to values 
+
+var TEMPLATE_REPO=process.env.TEMPLATE_REPO
+if (TEMPLATE_REPO.endsWith(".git")) { 
+	TEMPLATE_REPO = TEMPLATE_REPO.substring(0, TEMPLATE_REPO.length-4) 
+}
+TEMPLATE_REPO=TEMPLATE_REPO+"/main" 
+var raw=TEMPLATE_REPO.replace("github.com", "raw.githubusercontent.com")
+
 var default_expansion = {  
 	"values": { 
 		"appName": process.env.APPNAME,
@@ -48,6 +56,7 @@ var default_expansion = {
 		"repoURL": process.env.REPOURL,
 		"dockerfileLocation": "Dockerfile",
 		"buildContext": ".",
+		"rawUrl": raw,
 	} 
 } 
 
