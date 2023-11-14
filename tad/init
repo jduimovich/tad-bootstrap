@@ -26,7 +26,7 @@ APPS_ROOT=apps
 COMPONENTS_ROOT=components 
 PROPS=$ROOT/$APPS_ROOT/tad.properties
 APP_NAME=$(basename $REPO_NAME .git)  
-APP_NS=$APP_NAME-ns  
+APP_NS=$APP_NAME
  
 if test -d $ROOT/$APPS_ROOT; then 
     if [ "$(ls -A $PROPS)" ]; then
