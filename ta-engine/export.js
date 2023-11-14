@@ -71,6 +71,7 @@ var backstage_expansion = {
 		"repoURL": "${{ values.repoURL }}",
 		"dockerfileLocation": "Dockerfile",
 		"buildContext": ".",
+		"rawUrl": raw,
 		
 	} 
 } 
