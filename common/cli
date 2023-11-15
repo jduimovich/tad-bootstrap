@@ -1,12 +1,13 @@
 
 PHYSICAL_FILE=$(realpath $(readlink $0)) 
-SCRIPTDIR=$(dirname $PHYSICAL_FILE) 
+SCRIPTDIR=$(dirname $PHYSICAL_FILE)  
+
 export ROOT=$(pwd)  
-CLI=$(basename $0) 
+export CLI=$(basename $0) 
+export IMPL_CLI=$(basename $PHYSICAL_FILE) 
 CMD=$1
 shift 
-LOCAL_CONFIG=$HOME/.$CLI 
-echo "Config Directory $LOCAL_CONFIG"    
+LOCAL_CONFIG=$HOME/.$IMPL_CLI 
 if test -d $LOCAL_CONFIG; then 
     source $LOCAL_CONFIG/config
     LOCAL_TAG=$(cat $LOCAL_CONFIG/local-tag)
@@ -28,12 +29,12 @@ else
         cd $LOCAL_CONFIG
         git clone $REPO templates
         echo "export TEMPLATE_REPO=$REPO" > $LOCAL_CONFIG/config
-        if [ "$CLI" == "tab" ]; then
+        if [ "$IMPL_CLI" == "tab" ]; then
             TDIR=pac
             echo "export PIPELINES_DIR=$(realpath $LOCAL_CONFIG/templates/$TDIR)" >> $LOCAL_CONFIG/config 
             echo "export TEMPLATE_DIR=$(realpath $LOCAL_CONFIG/templates/$TDIR)" >> $LOCAL_CONFIG/config      
         fi
-        if [ "$CLI" == "tad" ]; then
+        if [ "$IMPL_CLI" == "tad" ]; then
             TDIR=templates 
             echo "TDIR $TDIR"
             echo "export TEMPLATE_DIR=$(realpath $LOCAL_CONFIG/templates/$TDIR)" >> $LOCAL_CONFIG/config 

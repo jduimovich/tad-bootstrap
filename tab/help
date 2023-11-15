@@ -3,7 +3,7 @@ source $SCRIPTDIR/configure
 
 TOPIC="${1:-none}" 
 
-echo "tab: commands available"
+echo "Commands available"
 ls -a -I . -I .. -I tab $SCRIPTDIR 
 echo
 
