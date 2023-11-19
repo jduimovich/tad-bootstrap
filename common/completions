@@ -1,15 +1,5 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-
-IMPL_DIR="$SCRIPTDIR/../$IMPL_CLI" 
-
-CFILE=$(mktemp)
-
-(cd $SCRIPTDIR/../$IMPL_CLI; ls -a -I . -I .. -I tab -I tad  > $CFILE) 
-(cd $SCRIPTDIR; ls -a -I . -I .. -I cli ) >> $CFILE
- 
-COMPLETIONS=$(sort $CFILE | xargs -n1  printf "%s ")
-
-
+COMPLETIONS=$($SCRIPTDIR/show-cli-commands | xargs -n1  printf "%s ")
 echo "complete -W \"$COMPLETIONS\" $CLI"
  
   

@@ -1,7 +1,7 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 source $SCRIPTDIR/configure  
-echo "WARNING RESET empties .tekton"
-rm -rf $TEKTON
+echo "WARNING RESET empties $COMPONENTS_PATH"
+rm -rf $COMPONENTS_PATH
 git add .
 git commit -m "Reset Tekton"
 git push 

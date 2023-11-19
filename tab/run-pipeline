@@ -1,12 +1,11 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 source $SCRIPTDIR/configure 
 
-TEKTON=$ROOT/.tekton
-if test -d $TEKTON; then 
+if test -d $COMPONENTS_PATH; then 
     echo "Running Pipeline"
 else
     echo 
-    echo "$ROOT is not a .tekton enabled repository"
+    echo "$ROOT is not a Tekton repository"
     echo  
     exit 0
 fi  
@@ -30,7 +29,7 @@ else
 fi
 oc secrets link pipeline $SECRET_NAME  
 
-PUSH_HANDLER=$(ls $ROOT/.tekton/*-push.yaml) 
+PUSH_HANDLER=$(ls $COMPONENTS_PATH/*-push.yaml) 
 PRUN=$(mktemp)
 tkn-pac  resolve -f $PUSH_HANDLER | tee $PRUN | oc create -f -
 echo "Image Location: " $(yq '.spec.params[] | select(.name == "output-image").value'  $PRUN) 

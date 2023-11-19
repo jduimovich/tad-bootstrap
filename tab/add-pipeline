@@ -23,9 +23,9 @@ else
 fi  
 TAB_BUILD_CONTEXT=.  
 
-mkdir -p $ROOT/.tekton/ 
-cp -r $TEMPLATE_DIR/$PIPELINE_TYPE/* $ROOT/.tekton/   
-cp -r $TEMPLATE_DIR/repository.yaml $ROOT/.tekton/repository.yaml   
+mkdir -p $COMPONENTS_PATH
+cp -r $TEMPLATE_DIR/$PIPELINE_TYPE/* $COMPONENTS_PATH/   
+cp -r $TEMPLATE_DIR/repository.yaml $COMPONENTS_PATH/repository.yaml   
  
 export REPOURL=$(git config --get remote.origin.url) 
 export NAME=$(basename $REPOURL)    
@@ -36,11 +36,11 @@ export NAME=$NAME
 export REPOURL=$REPOURL
 export ARGOCOMPONENT=components/$NAME/overlays/development  
 
-bash $SCRIPTDIR/../ta-engine/util-template-expand-directory $ROOT/.tekton default
+bash $SCRIPTDIR/../ta-engine/util-template-expand-directory $COMPONENTS_PATH/ n default
 
 git add .
 git commit -m "Added Pipelines"
 git push 
-oc apply -f $TEKTON/repository.yaml
+oc apply -f $COMPONENTS_PATH/repository.yaml
  
  

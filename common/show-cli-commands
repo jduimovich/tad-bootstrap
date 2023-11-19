@@ -1,0 +1,19 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+
+IMPL_DIR="$SCRIPTDIR/../$IMPL_CLI" 
+
+CFILE=$(mktemp)
+(cd $SCRIPTDIR/../$IMPL_CLI; ls -A  > $CFILE) 
+(cd $SCRIPTDIR; ls -A ) >> $CFILE
+sed -i "s/$IMPL_CLI//g" $CFILE
+sed -i "s/cli//g" $CFILE
+sed -i '/^$/d' $CFILE 
+sed -i '/\./d' $CFILE 
+sed -i '/\.\./d' $CFILE 
+sort $CFILE 
+
+  
+
+
+
+
