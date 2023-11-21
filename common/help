@@ -1,31 +1,32 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 
 TOPIC="${1:-none}"  
-echo "Commands available"
-$SCRIPTDIR/../common/show-cli-commands  | pr -4 -t4 -s
-echo 
-echo "Templates Available" 
-ls -a $TEMPLATE_DIR| \
-        xargs -n1 basename | \
-        sed   '/\./d'  | \
-        sed   '/\.\./d' | \
-        pr -4 -t4 -s  
-echo 
+
 if [ "$TOPIC" == "none" ]; then
+    echo "Commands available"
+    $SCRIPTDIR/../common/show-cli-commands  | pr -4 -t4 -s 
+    echo "Templates Available" 
+    ls -a $TEMPLATE_DIR| \
+            xargs -n1 basename | \
+            sed   '/\./d'  | \
+            sed   '/\.\./d' | \
+            pr -4 -t4 -s  
+    echo 
     exit 0
 fi
 if [ "$TOPIC" == "all" ]; then
-    TYPES=$(ls -a  $TEMPLATE_DIR | sed  '/\./d'  |  sed   '/\.\./d' )
-    echo
+    TYPES=$(ls -a  $TEMPLATE_DIR | sed  '/\./d'  |  sed   '/\.\./d' ) 
 else
     TYPES=$TOPIC
 fi  
 for type in $TYPES 
 do 
-    echo $type
+    echo "---"    
+    echo "# Template: $type"
     if test -f $TEMPLATE_DIR/$type/README.md; then  
         cat $TEMPLATE_DIR/$type/README.md
     fi  
+    echo 
 done 
 
 
