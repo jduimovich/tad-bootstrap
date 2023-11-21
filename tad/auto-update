@@ -1,5 +1,5 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-source $SCRIPTDIR/configure    
+[ -x $SCRIPTDIR/configure ] && source $SCRIPTDIR/configure    
 
 DO_UPDATE="${AUTO_UPDATE_CLUSTER:-false}" 
 

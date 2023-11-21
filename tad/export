@@ -8,7 +8,7 @@ if [ -z "$COMPONENT_TYPE" ]; then
      echo "Usage: $CMD component-name dir <format:backstage,pac,default>"
      exit 0
 fi
-source $SCRIPTDIR/configure
+[ -x $SCRIPTDIR/configure ] && [ -x $SCRIPTDIR/configure ] && [ -x $SCRIPTDIR/configure ] && source $SCRIPTDIR/configure
 if [  "$FORMAT" != "backstage" ]
 then  
 export APPNAME=$APP_NAME

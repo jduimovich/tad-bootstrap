@@ -1,7 +1,7 @@
 # installer type component namespace image
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-source $SCRIPTDIR/configure  
+[ -x $SCRIPTDIR/configure ] && source $SCRIPTDIR/configure  
  
 ARGOREPONAME=$REPO_NAME.git  
 TYPE=$1

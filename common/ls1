@@ -1,5 +1,7 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-source $SCRIPTDIR/configure   
+[ -x $SCRIPTDIR/configure ] && source $SCRIPTDIR/configure   
+
+echo $COMPONENTS_PATH
 COUNTER=0
 for dir in $COMPONENTS_PATH/*
 do

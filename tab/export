@@ -15,7 +15,7 @@ if test -d $EXPORT_DIR; then
 else 
     echo "Exporting to $ROOT/$EXPORT_DIR" 
 fi
-source $SCRIPTDIR/configure
+[ -x $SCRIPTDIR/configure ] && source $SCRIPTDIR/configure
 if [  "$FORMAT" != "backstage" ]
 then 
 export REPOURL=$(git config --get remote.origin.url) 

@@ -7,17 +7,23 @@ export CLI=$(basename $0)
 export IMPL_CLI=$(basename $PHYSICAL_FILE) 
 CMD=$1
 shift 
+
+# Local config file contains the reference to one or more git repos
+# TEMPLATE_REPO = git repo
+# TEMPLATE_DIR  - local directory with git repo clone 
+# DEST_REPO_ROOT - default destination into users repo for templates from the TEMPLATE_REPO
+
 LOCAL_CONFIG=$HOME/.$IMPL_CLI 
 if test -d $LOCAL_CONFIG; then 
     source $LOCAL_CONFIG/config
     LOCAL_TAG=$(cat $LOCAL_CONFIG/local-tag)
-    CURRENT_TAG=$(git ls-remote  $TEMPLATE_REPO HEAD |  cut -f 1)  
-    # echo "CURRENT $CURRENT_TAG"
-    # echo "LOCAL_TAG $LOCAL_TAG"
+    CURRENT_TAG=$(git ls-remote  $TEMPLATE_REPO HEAD |  cut -f 1)   
     if [ "$CURRENT_TAG" != "$LOCAL_TAG" ]; then 
         (cd $TEMPLATE_DIR; git pull)
         echo $CURRENT_TAG > $LOCAL_CONFIG/local-tag    
     fi
+    # default destination, can be overridden per template dir
+    export COMPONENTS_PATH=$ROOT/$DEST_REPO_ROOT 
 else 
     if [ "$CMD" == "set-repo" ]; then   
         REPO=$1 
