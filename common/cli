@@ -28,11 +28,10 @@ else
         mkdir -p $LOCAL_CONFIG
         cd $LOCAL_CONFIG
         git clone $REPO templates 
-        source $LOCAL_CONFIG/templates/.config
-        echo "TEMPLATE_ROOT=$TEMPLATE_ROOT"
+        source $LOCAL_CONFIG/templates/.config 
         echo "export TEMPLATE_REPO=$REPO" > $LOCAL_CONFIG/config
         echo "export TEMPLATE_DIR=$(realpath $LOCAL_CONFIG/templates/$TEMPLATE_ROOT)" >> $LOCAL_CONFIG/config
-        echo "export COMPONENTS_PATH=$(realpath $ROOT/$DEST_REPO_ROOT )" >> $LOCAL_CONFIG/config
+        echo "export DEST_REPO_ROOT=$DEST_REPO_ROOT" >> $LOCAL_CONFIG/config
         echo "0000000" > $LOCAL_CONFIG/local-tag
         cat $LOCAL_CONFIG/config    
     else 

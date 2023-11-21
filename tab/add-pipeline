@@ -36,7 +36,10 @@ export NAME=$NAME
 export REPOURL=$REPOURL
 export ARGOCOMPONENT=components/$NAME/overlays/development  
 
-bash $SCRIPTDIR/../ta-engine/util-template-expand-directory $COMPONENTS_PATH/ n default
+EXPAND_DIR=$SCRIPTDIR/../ta-engine/util-template-expand-directory
+EXPAND_FILE=$SCRIPTDIR/../ta-engine/util-template-expand-file
+
+bash $EXPAND_DIR $COMPONENTS_PATH/ default
 
 git add .
 git commit -m "Added Pipelines"
