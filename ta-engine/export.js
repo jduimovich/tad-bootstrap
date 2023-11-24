@@ -2,103 +2,52 @@ nunjucks = require('nunjucks')
 nunjucks.configure('', { autoescape: true
 	// , throwOnUndefined: true 
 });
- 
+const fs = require('fs');
+const path = require("path"); 
+const script_dir = path.dirname(process.argv[1])
+
 // usage node.js export filename profile
-// profile configurations
+// profile can be backstage or a filename with the mappings
 // templates are maintained in Backstage naming "values.valueName" 
-// naming format, but without the $ in front 
+// naming format, but without the $ prefix 
 
-// expanded templates profiles.
-// default does a full expansion using default_expansion replacements which are passed in
-// pac does a default_expansion  but leaves the pac vars alone
-// backstage converts into backstage format to include copy/pasted into 
-
-// PaC templates use these so they get protected in any expansion
-var pac_protected_vars = [
-	"event_type",
-	"git_auth_secret",
-	"pull_request_number",
-	"repo_name",
-	"repo_owner",
-	"repo_url",
-	"revision",
-	"sender",
-	"source_branch",
-	"source_url",
-	"target_branch",
-	"target_namespace"
-]
-
-// console.error ("!!!!!!!!!!!!!! ")
-// console.error ("process.env.APPNAME", process.env.APPNAME)
-// console.error ("process.env.ARGOCOMPONENT",process.env.ARGOCOMPONENT)
-// console.error ("process.env.IMAGE",process.env.IMAGE)
-// console.error ("process.env.NAMESPACE",process.env.NAMESPACE)
-// console.error ("process.env.NAME",process.env.NAME)
-// console.error ("process.env.REPOURL",process.env.REPOURL)
-// console.error ("!!!!!!!!!!!!!! ")
-// default expands the vars to values 
-
-var TEMPLATE_REPO=process.env.TEMPLATE_REPO
-if (TEMPLATE_REPO.endsWith(".git")) { 
-	TEMPLATE_REPO = TEMPLATE_REPO.substring(0, TEMPLATE_REPO.length-4) 
-}
-TEMPLATE_REPO=TEMPLATE_REPO+"/main" 
-var raw=TEMPLATE_REPO.replace("github.com", "raw.githubusercontent.com")
-
-var default_expansion = {  
-	"values": { 
-		"appName": process.env.APPNAME,
-		"argoComponent": process.env.ARGOCOMPONENT,
-		"image": process.env.IMAGE,
-		"namespace": process.env.NAMESPACE,
-		"name": process.env.NAME,
-		"repoURL": process.env.REPOURL,
-		"dockerfileLocation": "Dockerfile",
-		"buildContext": ".",
-		"rawUrl": raw,
-	} 
-} 
-
-// backstage expands the vars to templates in backstage format 
-var backstage_expansion = { 
-	"values": { 
-		"appName": "${{ values.name }}",
-		"argoComponent": "${{ values.argoComponent }}",
-		"image": "${{ values.image }}",
-		"namespace": "${{ values.namespace }}",
-		"name": "${{ values.name }}",
-		"repoURL": "${{ values.repoURL }}",
-		"dockerfileLocation": "Dockerfile",
-		"buildContext": ".",
-		"rawUrl": raw,
-		
-	} 
-} 
-  
-if (process.argv.length === 2) {
-	console.log('Usage expand filename <tad,tab,backstage>');
-	console.log('tad - expand all vars, default');
-	console.log('tab - expand all vars, exclude PaC variables');
-	console.log('backstage - expand all vars into backstage format');
+if (process.argv.length != 4) {
+	console.log('Usage expand filename <backstage or filename>');  
 	process.exit(1);
 }
-if (process.argv.length >= 3){
-	filename = process.argv[2] 
+function readObject(filename) { 
+	const data = fs.readFileSync(filename, { encoding: 'utf8', flag: 'r' });
+	console.error (data)
+	return JSON.parse(data)
 }
-var format="tad"
-if (process.argv.length === 4){
-	format = process.argv[3] 
-} 
-
-// run the expansion 
-var expansion = default_expansion
+var pac_protected_vars = readObject(script_dir+"/expansions/pac.js") 
+ 
+var filename = process.argv[2] 
+var format = process.argv[3]   
+var expansion=null;
 if (format=="backstage") {  
-	expansion = backstage_expansion 
+	expansion = readObject(script_dir+"/expansions/backstage.js") 
+} else {
+	console.error ("Reading from ", format)
+	expansion  = readObject(format)
+}  
+
+if (!expansion.values.rawUrl) {
+	var TEMPLATE_REPO=process.env.TEMPLATE_REPO
+	if (TEMPLATE_REPO.endsWith(".git")) { 
+		TEMPLATE_REPO = TEMPLATE_REPO.substring(0, TEMPLATE_REPO.length-4) 
+	}
+	TEMPLATE_REPO=TEMPLATE_REPO+"/main" 
+	expansion.values.rawUrl=TEMPLATE_REPO.replace("github.com", "raw.githubusercontent.com")
 }
+
 pac_protected_vars.forEach(element => {
 	expansion[element] = "{{" + element + "}}"
 });
+
+console.error ("----------EXPANSION ---------------") 
+console.error (JSON.stringify(expansion, null, 4)) 
+console.error ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
 
 nunjucks.render(filename, expansion,
 	function (err, res) {

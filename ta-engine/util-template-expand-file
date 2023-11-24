@@ -1,6 +1,11 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 filename=$1
 FORMAT=$2 
+
+echo "XXXXX" 
+cat $FORMAT 
+echo "YYYYYy" 
+
 expanded=$(mktemp) 
 node $SCRIPTDIR/../ta-engine/export.js $filename $FORMAT >$expanded
 cp $expanded $filename

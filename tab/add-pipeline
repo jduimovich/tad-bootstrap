@@ -4,44 +4,50 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
    
 CMD=$(basename $0)
  
-TAB_REPO=$(git config --get remote.origin.url)   
-TAB_COMPONENT=$(basename $TAB_REPO)
+REPOURL=$(git config --get remote.origin.url)   
+NAME=$(basename $REPOURL)
 
 PIPELINE_TYPE="${1:-docker-build-shared}" 
-TAB_IMAGE="${2:-quay.io/jduimovich0/$TAB_COMPONENT}"
-NS=$(oc project --short)
-TAB_NS="${3:-$NS}" 
-TAB_APP="${4:-unknown-app}"  
+IMAGE="${2:-quay.io/jduimovich0/$NAME}" 
+NAMESPACE="${3:-$(oc project --short)}" 
+APPNAME="${4:$NAME}"  
 
 if test -f Dockerfile; then 
-     TAB_DOCKERFILE_LOCATION=Dockerfile 
+     DOCKERFILE_LOCATION=Dockerfile 
 else
      if test -f docker/Dockerfile; then 
-          TAB_DOCKERFILE_LOCATION=docker/Dockerfile
+          DOCKERFILE_LOCATION=docker/Dockerfile
      else 
           echo "No dockerfile"
           exit 0
      fi
 fi  
-TAB_BUILD_CONTEXT=.  
+BUILD_CONTEXT=.  
 
 mkdir -p $COMPONENTS_PATH
 cp -r $TEMPLATE_DIR/$PIPELINE_TYPE/* $COMPONENTS_PATH/   
 cp -r $TEMPLATE_DIR/repository.yaml $COMPONENTS_PATH/repository.yaml   
- 
-export REPOURL=$(git config --get remote.origin.url) 
-export NAME=$(basename $REPOURL)    
-export IMAGE="${2:-quay.io/jduimovich0/$NAME}"
-export NAMESPACE=$(oc project --short)  
-export APPNAME=$NAME 
-export NAME=$NAME
-export REPOURL=$REPOURL
-export ARGOCOMPONENT=components/$NAME/overlays/development  
+
+EXPAND=$(mktemp) 
+cat $SCRIPTDIR/../ta-engine/expansions/default.js |
+sed  s/sed.edit.APPNAME/\"$APPNAME\"/g | 
+sed  s/sed.edit.NAMESPACE/\"$NAMESPACE\"/g |
+sed  s/sed.edit.NAME/\"$NAME\"/g |
+sed  s!sed.edit.DOCKERFILE!\"$DOCKERFILE_LOCATION\"!g |
+sed  s!sed.edit.BUILDCONTEXT!\"$BUILD_CONTEXT\"!g |
+sed  s!sed.edit.REPOURL!\"$REPOURL\"!g | 
+sed  s!sed.edit.IMAGE!\"$IMAGE\"!g |
+grep -v "sed" > $EXPAND
+
+
+echo "-------------------"
+cat $EXPAND
+echo "^^^^^^^^^^^" 
 
 EXPAND_DIR=$SCRIPTDIR/../ta-engine/util-template-expand-directory
 EXPAND_FILE=$SCRIPTDIR/../ta-engine/util-template-expand-file
 
-bash $EXPAND_DIR $COMPONENTS_PATH/ default
+bash $EXPAND_DIR $COMPONENTS_PATH/ $EXPAND
 
 git add .
 git commit -m "Added Pipelines"

@@ -19,13 +19,18 @@ fi
 if [  "$FORMAT" != "backstage" ]
 then 
 export REPOURL=$(git config --get remote.origin.url) 
-export NAME=$(basename $REPOURL)    
-export IMAGE="${2:-quay.io/jduimovich0/$NAME}"
-export NAMESPACE=$(oc project --short)  
-export APPNAME=$NAME 
-export NAME=$NAME
-export REPOURL=$REPOURL
-export ARGOCOMPONENT=components/$NAME/overlays/development  
+export NAME=$(basename $REPOURL)      
+EXPAND=$(mktemp)  
+cat $SCRIPTDIR/../ta-engine/util-template-expand-directory > $EXPAND
+sed -i s/sed.edit.APPNAME/$NAME/g $EXPAND
+sed -i s/sed.edit.NAMESPACE/$(oc project --short)/g $EXPAND
+sed -i s/sed.edit.NAME/$NAME/g $EXPAND
+sed -i s/sed.edit.REPOURL/$REPOURL/g $EXPAND
+sed -i s/sed.edit.DOCKERFILE/$TAB_DOCKERFILE_LOCATION/g $EXPAND
+sed -i s/sed.edit.BUILDCONTEXT/$TAB_BUILD_CONTEXT/g $EXPAND   
+# may have / chars 
+sed -i s!sed.edit.IMAGE!${2:-quay.io/jduimovich0/$NAME}!g $EXPAND
+sed -i s!sed.edit.ARGOCOMPONENT!components/$NAME/overlays/development!g $EXPAND 
 fi  
 
 if test -d $TEMPLATE_DIR/$COMPONENT_TYPE; then
