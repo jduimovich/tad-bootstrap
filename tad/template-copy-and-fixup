@@ -26,6 +26,12 @@ else
 export ARGOCOMPONENT=components/$CNAME/overlays/development 
 fi    
 
+if [[ "$REPO_NAME == *.git" ]]; then
+    ARGO_PATH=$REPO_NAME
+else 
+    ARGO_PATH=$REPO_NAME.git
+fi
+
 EXPAND=$(mktemp)  
 cat $SCRIPTDIR/../ta-engine/expansions/default.js |
 sed s!sed.edit.APPNAME!\"$APP_NAME\"!g |
@@ -33,7 +39,7 @@ sed s!sed.edit.ARGOCOMPONENT!\"$ARGOCOMPONENT\"!g |
 sed s!sed.edit.IMAGE!\"$IMAGE\"!g |
 sed s!sed.edit.NAMESPACE!\"$APP_NS\"!g |
 sed s!sed.edit.NAME!\"$CNAME\"!g |
-sed s!sed.edit.REPOURL!\"$REPO_NAME.git\"!g |
+sed s!sed.edit.REPOURL!\"$ARGO_PATH\"!g |
 sed s!sed.edit.DOCKERFILE!\"UNUSED_DOCKEERFILE\"!g  |
 sed s!sed.edit.BUILDCONTEXT!\"UNUSED_BUILDCONTEXT\"!g |
 grep -v "sed" > $EXPAND 
