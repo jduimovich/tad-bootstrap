@@ -17,7 +17,6 @@ if (process.argv.length != 4) {
 }
 function readObject(filename) { 
 	const data = fs.readFileSync(filename, { encoding: 'utf8', flag: 'r' });
-	console.error (data)
 	return JSON.parse(data)
 }
 var pac_protected_vars = readObject(script_dir+"/expansions/pac.js") 
@@ -27,8 +26,7 @@ var format = process.argv[3]
 var expansion=null;
 if (format=="backstage") {  
 	expansion = readObject(script_dir+"/expansions/backstage.js") 
-} else {
-	console.error ("Reading from ", format)
+} else { 
 	expansion  = readObject(format)
 }  
 
@@ -45,9 +43,9 @@ pac_protected_vars.forEach(element => {
 	expansion[element] = "{{" + element + "}}"
 });
 
-console.error ("----------EXPANSION ---------------") 
-console.error (JSON.stringify(expansion, null, 4)) 
-console.error ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+// console.error ("----------EXPANSION ---------------") 
+// console.error (JSON.stringify(expansion, null, 4)) 
+// console.error ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
 
 nunjucks.render(filename, expansion,
 	function (err, res) {
