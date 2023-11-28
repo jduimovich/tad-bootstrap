@@ -39,11 +39,6 @@ sed  s!sed.edit.REPOURL!\"$REPOURL\"!g |
 sed  s!sed.edit.IMAGE!\"$IMAGE\"!g |
 grep -v "sed" > $EXPAND
 
-
-echo "-------------------"
-cat $EXPAND
-echo "^^^^^^^^^^^" 
-
 EXPAND_DIR=$SCRIPTDIR/../ta-engine/util-template-expand-directory
 EXPAND_FILE=$SCRIPTDIR/../ta-engine/util-template-expand-file
 
