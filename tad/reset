@@ -1,5 +1,8 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 [ -x $SCRIPTDIR/configure ] && source $SCRIPTDIR/configure  
- 
-rm -rf $ROOT/$APPS_ROOT
-rm -rf $ROOT/$COMPONENTS_ROOT
+
+if [ -z $ARGOCD_ROOT ]; then
+    echo "ARGOCD_ROOT not set, cannot delete current dir."
+    exit 0
+fi
+rm -rf $ROOT/$ARGOCD_ROOT 

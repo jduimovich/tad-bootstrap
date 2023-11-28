@@ -1,18 +1,29 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-[ -x $SCRIPTDIR/configure ] && source $SCRIPTDIR/configure   
-COUNTER=0 
-if test -d $COMPONENTS_PATH; then 
-    if test -f $COMPONENTS_PATH/README.md; then   
-        desc=$(head -n 1 $COMPONENTS_PATH/README.md)
+IMPL_DIR="$SCRIPTDIR/../$IMPL_CLI"  
+[ -x $IMPL_DIR/configure ] && source $IMPL_DIR/configure  
+ 
+COUNTER=0
+# Components can be in directories
+# or flat files in current COMPONENTS_FILES
+# in directories, show the directory name and readme in that directory
+# for files, show the readme in that COMPONENTS_PATH
+for dir in $COMPONENTS_PATH/*
+do
+    if [ -d $dir ]; then
+        let COUNTER++ 
+        if test -f $dir/README.md; then  
+            desc="based on template: $(head -n 1 $dir/README.md)"
+        fi   
+        echo "$(basename $dir) $desc"
     fi
-    echo "$(basename $COMPONENTS_PATH) based on template: $desc"
-    for i in $COMPONENTS_PATH/*
-    do
-        printf "\t%s\n"  $(basename $i)   
-    done 
-    
-else 
-    echo "$COMPONENTS_PATH missing" 
-fi
+    if [ -f $dir ]; then
+        if test -f $COMPONENTS_PATH/README.md; then   
+            desc=$(head -n 1 $COMPONENTS_PATH/README.md)
+        fi
+        echo "$(basename $COMPONENTS_PATH) based on template: $desc"
+        printf "\t%s\n"  $(basename $dir)    
+    fi 
+done
+echo "$COUNTER components found"  
 
 

@@ -17,4 +17,4 @@ else
     echo "$APP_NS exists"
     oc label namespace  $APP_NS argocd.argoproj.io/managed-by=openshift-gitops
 fi
-oc apply -f $APPS_ROOT
+oc apply -f $ARGOCD_ROOT

@@ -34,9 +34,7 @@ Gitops default templates can be found in `https://github.com/jduimovich/dance-st
 Gitops resources are layed out in kustomize format.
 
 An RHTAP application is represented by this repository 
-There are two options for layout
-`single`  - A single ArgoCD app is created and components in directories
-`multiple` - Each Component is added via its own ArgoCD app.
+in a single ArgoCD application directory.
 
 
 ## Command Line Reference 

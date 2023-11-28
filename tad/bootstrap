@@ -15,11 +15,7 @@ else
     echo "Bootstrapping a gitops repo $REPONAME"
 fi  
 
-BARE="${2:-bare}"
-
-# single argoapp, all components part of that app
-# multiple argoapps - each component in that app 
-FORMAT="${3:-single}"
+BARE="${2:-bare}" 
 if [ "$BARE" == "bare" ]; then 
     gh repo create $REPONAME --public  
 else
@@ -28,6 +24,6 @@ fi
 sleep 2
 git clone  https://github.com/$MY_GITHUB_USER/$REPONAME
 cd $REPONAME
-bash $SCRIPTDIR/init $FORMAT
+bash $SCRIPTDIR/init 
  
 

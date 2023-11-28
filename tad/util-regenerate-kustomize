@@ -2,15 +2,22 @@
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 [ -x $SCRIPTDIR/configure ] && source $SCRIPTDIR/configure  
-rm -rf $SINGLE_APP_KUSTOMIZE_ROOT 
-mkdir -p $SINGLE_APP_KUSTOMIZE_ROOT
-KUST=$SINGLE_APP_KUSTOMIZE_ROOT/kustomization.yaml
+rm -rf $APPLICATION_ROOT 
+mkdir -p $APPLICATION_ROOT
+KUST=$APPLICATION_ROOT/kustomization.yaml
 echo "apiVersion: kustomize.config.k8s.io/v1beta1" >$KUST
 echo "kind: Kustomization" >>$KUST
 echo "resources:" >>$KUST  
 for i in $COMPONENTS_ROOT/* 
 do
     CNAME=$(basename $i) 
-    CPATH="- ../../$COMPONENTS_ROOT/$CNAME/overlays/development" 
-    echo "$CPATH" >>$KUST 
+    FULL_APP_PATH=$(realpath $APPLICATION_ROOT)  
+    FULL_OVERLAY_PATH=$(realpath "$COMPONENTS_ROOT/$CNAME/overlays/development")
+    echo "FULL_APP_PATH $FULL_APP_PATH" 
+    echo "FULL_OVERLAY_PATH $FULL_OVERLAY_PATH" 
+
+    RELPATH=$(realpath --relative-to="$FULL_APP_PATH" "$FULL_OVERLAY_PATH")
+    echo "- $RELPATH" >>$KUST 
+    
+    echo "RELPATH $RELPATH" 
 done 

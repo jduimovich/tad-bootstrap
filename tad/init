@@ -1,7 +1,6 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-ROOT=$(pwd) 
-FORMAT="${1:-single}"
-#contents will be in COMPONENTS_ROOT 
+
+# If repo is not connected to git, then need to setup a remote
 REPO_NAME=$(git config --get remote.origin.url)   
 if [ "$REPO_NAME" == "" ]; then 
     echo "This repo is has no remote."
@@ -21,14 +20,24 @@ if [ "$REPO_NAME" == "" ]; then
     exit 0
 fi   
 
-# local patch from root 
-APPS_ROOT=apps 
-COMPONENTS_ROOT=components 
-PROPS=$ROOT/$APPS_ROOT/tad.properties
+# Application Layout comes from $DEST_REPO_ROOT (default argocd)
+# /argocd   - root for application, kustomize and components 
+# /argocd/tad.properties   - configuration for this argocd application 
+# /argocd/components - individual components content
+# /argocd/application - argocd base kustomize definition  
+# /argocd/application.yaml - argocd app definition  
+
+# local relative to root directory
+ARGOCD_ROOT=$DEST_REPO_ROOT 
+COMPONENTS_ROOT=$ARGOCD_ROOT/components 
+APPLICATION_ROOT=$ARGOCD_ROOT/application 
+
 APP_NAME=$(basename $REPO_NAME .git)  
 APP_NS=$APP_NAME
  
-if test -d $ROOT/$APPS_ROOT; then 
+PROPS_PATH=$ROOT/$ARGOCD_ROOT 
+PROPS=$PROPS_PATH/tad.properties
+if test -d $ROOT/$ARGOCD_ROOT; then 
     if [ "$(ls -A $PROPS)" ]; then
         echo  
         echo "$ROOT is already a Gitops Repository"
@@ -36,7 +45,7 @@ if test -d $ROOT/$APPS_ROOT; then
         exit 0 
     fi 
 else
-    mkdir -p $APPS_ROOT
+    mkdir -p $ARGOCD_ROOT
     mkdir -p $COMPONENTS_ROOT
     touch $PROPS
     echo "export REPO_NAME=$REPO_NAME" >>$PROPS
@@ -44,15 +53,13 @@ else
     echo "export APP_NS=$APP_NS" >>$PROPS 
 
     #local path names 
-    echo "export APPS_ROOT=$APPS_ROOT" >>$PROPS 
+    echo "export ARGOCD_ROOT=$ARGOCD_ROOT" >>$PROPS 
     echo "export COMPONENTS_ROOT=$COMPONENTS_ROOT" >>$PROPS 
-    echo "export AUTO_UPDATE_CLUSTER=true" >>$PROPS 
-    echo "export REPO_FORMAT=$FORMAT" >>$PROPS 
+    echo "export APPLICATION_ROOT=$APPLICATION_ROOT" >>$PROPS 
+    echo "export AUTO_UPDATE_CLUSTER=true" >>$PROPS  
 
-    # fully qualified names 
-    echo "export APPS_PATH=$ROOT/$APPS_ROOT" >>$PROPS 
-    echo "export COMPONENTS_PATH=$ROOT/$COMPONENTS_ROOT" >>$PROPS  
-    echo "export SINGLE_APP_KUSTOMIZE_ROOT=$APPS_ROOT/components-root" >>$PROPS  
+    # fully qualified names   
+    echo "export COMPONENTS_PATH=$ROOT/$COMPONENTS_ROOT" >>$PROPS   
     
     echo "Initialized Gitops Repo: $REPO_NAME"
 fi  

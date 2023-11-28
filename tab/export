@@ -30,7 +30,7 @@ sed -i s/sed.edit.DOCKERFILE/$TAB_DOCKERFILE_LOCATION/g $EXPAND
 sed -i s/sed.edit.BUILDCONTEXT/$TAB_BUILD_CONTEXT/g $EXPAND   
 # may have / chars 
 sed -i s!sed.edit.IMAGE!${2:-quay.io/jduimovich0/$NAME}!g $EXPAND
-sed -i s!sed.edit.ARGOCOMPONENT!components/$NAME/overlays/development!g $EXPAND 
+sed -i s!sed.edit.ARGOCOMPONENT!$COMPONENTS_ROOT/$NAME/overlays/development!g $EXPAND 
 fi  
 
 if test -d $TEMPLATE_DIR/$COMPONENT_TYPE; then

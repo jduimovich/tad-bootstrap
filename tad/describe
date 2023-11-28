@@ -6,7 +6,7 @@ echo "Template Directory: $TEMPLATE_DIR"
 [ -x $SCRIPTDIR/configure ] && source $SCRIPTDIR/configure  
 echo "Repository: $REPO_NAME"
 echo "Application Name is: $APP_NAME"
-echo "Argo Manifests in: $APPS_PATH"
+echo "Argo Manifests in: $ROOT/$ARGOCD_ROOT"
 echo "Application location is: $COMPONENTS_PATH"
 echo "Namespace: $APP_NS"
 COUNTER=0

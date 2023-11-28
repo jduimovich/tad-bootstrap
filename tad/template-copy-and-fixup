@@ -19,12 +19,6 @@ fi
 echo "Copy Template for $TYPE from  $TEMPLATE_DIR/$TYPE into $COMPONENTS_PATH"
 mkdir -p $COMPONENTS_PATH
 cp -r $TEMPLATE_DIR/$TYPE $COMPONENTS_PATH/$CNAME/   # cp from template to component name 
-   
-if [ "$REPO_FORMAT" == "single" ]; then 
-export ARGOCOMPONENT=$SINGLE_APP_KUSTOMIZE_ROOT 
-else
-export ARGOCOMPONENT=components/$CNAME/overlays/development 
-fi    
 
 if [[ "$REPO_NAME == *.git" ]]; then
     ARGO_PATH=$REPO_NAME
@@ -35,7 +29,7 @@ fi
 EXPAND=$(mktemp)  
 cat $SCRIPTDIR/../ta-engine/expansions/default.js |
 sed s!sed.edit.APPNAME!\"$APP_NAME\"!g |
-sed s!sed.edit.ARGOCOMPONENT!\"$ARGOCOMPONENT\"!g |
+sed s!sed.edit.ARGOCOMPONENT!\"$APPLICATION_ROOT\"!g |
 sed s!sed.edit.IMAGE!\"$IMAGE\"!g |
 sed s!sed.edit.NAMESPACE!\"$APP_NS\"!g |
 sed s!sed.edit.NAME!\"$CNAME\"!g |
@@ -48,18 +42,12 @@ EXPAND_DIR=$SCRIPTDIR/../ta-engine/util-template-expand-directory
 EXPAND_FILE=$SCRIPTDIR/../ta-engine/util-template-expand-file
 bash $EXPAND_DIR $COMPONENTS_PATH/$CNAME $EXPAND
 
-echo "Creating Application in <$REPO_FORMAT> ArgoCD App format"
-if [ "$REPO_FORMAT" == "single" ]; then  
-    ARGOAPP=$APPS_ROOT/$APP_NAME.yaml 
-    if test -f $ARGOAPP; then
-        echo "ArgoCD Root Exists"  
-    else 
-        cp  $TEMPLATE_DIR/application.yaml  $ARGOAPP
-        bash $EXPAND_FILE $ARGOAPP $EXPAND
-    fi
-    bash $SCRIPTDIR/util-regenerate-kustomize
+echo "Creating Application in ArgoCD App format"
+ARGOAPP=$ARGOCD_ROOT/$APP_NAME.yaml 
+if test -f $ARGOAPP; then
+    echo "ArgoCD Root Exists"  
 else 
-    ARGOAPP=$APPS_ROOT/$CNAME.yaml 
     cp  $TEMPLATE_DIR/application.yaml  $ARGOAPP
     bash $EXPAND_FILE $ARGOAPP $EXPAND
-fi 
+fi
+bash $SCRIPTDIR/util-regenerate-kustomize
