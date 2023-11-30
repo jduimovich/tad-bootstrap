@@ -24,6 +24,6 @@ fi
 sleep 2
 git clone  https://github.com/$MY_GITHUB_USER/$REPONAME
 cd $REPONAME
-bash $SCRIPTDIR/init 
+tad init 
  
 
