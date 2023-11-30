@@ -10,7 +10,7 @@ sleep 4
 git clone  https://github.com/jduimovich/$REPONAME
 cd $REPONAME
 git pull 
-bash $SCRIPTDIR/init  
+tab init  
 
 
 
