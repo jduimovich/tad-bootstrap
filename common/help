@@ -1,7 +1,10 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 
 TOPIC="${1:-none}"  
-
+HIGHLIGHT=$(which glow)
+if [ "$TOPIC" == "none" ]; then
+    HIGHLIGHT=cat
+fi  
 if [ "$TOPIC" == "none" ]; then
     echo "Commands available"
     $SCRIPTDIR/../common/show-cli-commands  | pr -4 -t4 -s 
@@ -24,7 +27,7 @@ do
     echo "---"    
     echo "# Template: $type"
     if test -f $TEMPLATE_DIR/$type/README.md; then  
-        cat $TEMPLATE_DIR/$type/README.md
+        cat $TEMPLATE_DIR/$type/README.md | $HIGHLIGHT
     fi  
     echo 
 done 

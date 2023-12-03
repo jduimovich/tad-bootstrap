@@ -35,6 +35,11 @@ for task in $(ls $IMPORT_TASKS_DIR); do
   fi
 done
 
+if [ -d $IMPORT_PIPELINES_DIR/dance ]; then
+  echo "Using Dance from Build definitions"
+  IMPORT_PIPELINES_DIR="$IMPORT_PIPELINES_DIR/dance" 
+fi 
+
 INDIVIDUAL_PIPELINES=$( yq .resources $IMPORT_PIPELINES_DIR/kustomization.yaml  | sed s/-// | xargs -n1 echo -n " ")
 
 for pipe in $INDIVIDUAL_PIPELINES 
