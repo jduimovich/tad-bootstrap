@@ -49,9 +49,10 @@ PIPE_FILE_OR_DIR=$IMPORT_PIPELINES_DIR/$pipe
 if [ -f $PIPE_FILE_OR_DIR ]; then
     cp $PIPE_FILE_OR_DIR $OUTPUT_PIPELINES_DIR/$pipe
   elif [ -f $PIPE_FILE_OR_DIR/kustomization.yaml ]; then
+    OUT_FILE=$(basename $pipe)
     kustomize build $PIPE_FILE_OR_DIR | \
       yq e 'del(.items.[] | .spec.tasks.[] | .taskRef.version, .items.[] | .spec.finally.[] | .taskRef.version)' | \
-      cat  > $OUTPUT_PIPELINES_DIR/$pipe.yaml 
+      cat  > $OUTPUT_PIPELINES_DIR/$OUT_FILE.yaml 
   else
     echo Unable to process pipeline in $IMPORT_PIPELINES_DIR/$pipe
   fi
