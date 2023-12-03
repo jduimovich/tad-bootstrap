@@ -52,6 +52,8 @@ if [ -f $PIPE_FILE_OR_DIR ]; then
     OUT_FILE=$(basename $pipe)
     kustomize build $PIPE_FILE_OR_DIR | \
       yq e 'del(.items.[] | .spec.tasks.[] | .taskRef.version, .items.[] | .spec.finally.[] | .taskRef.version)' | \
+      yq e 'del(.spec.tasks.[].taskRef.version)' | \
+      yq e 'del(.spec.finally.[].taskRef.version)' | \
       cat  > $OUTPUT_PIPELINES_DIR/$OUT_FILE.yaml 
   else
     echo Unable to process pipeline in $IMPORT_PIPELINES_DIR/$pipe
