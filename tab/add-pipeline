@@ -5,7 +5,7 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CMD=$(basename $0)
  
 REPOURL=$(git config --get remote.origin.url)   
-NAME=$(basename $REPOURL)
+NAME=$(basename $REPOURL  .git) 
 
 PIPELINE_TYPE="${1:-docker-build-shared}" 
 IMAGE="${2:-quay.io/jduimovich0/$NAME}" 
