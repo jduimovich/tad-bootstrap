@@ -29,29 +29,13 @@ else
 fi
 oc secrets link pipeline $SECRET_NAME  
 
+
+
 PUSH_HANDLER=$(ls $COMPONENTS_PATH/*-push.yaml) 
 PRUN=$(mktemp)
 tkn-pac  resolve -f $PUSH_HANDLER | tee $PRUN | oc create -f -
 echo "Image Location: " $(yq '.spec.params[] | select(.name == "output-image").value'  $PRUN) 
 
-# hack workaround for ACS until wired up 
+  
 
-echo "Warning: PIPELINE RUN DOES NOT HAVE ROXCTL SECRETS OR API TOKENS "
-function create-empty-secret ()  { 
-    kubectl get secret $1 -n $APP_NS &> /dev/null
-    ERR=$? 
-    if [  "$ERR" == "0" ]
-    then
-        echo "Secret docker-registry $1 already exists"
-    else 
-        kubectl delete secret $1 -n $APP_NS
-        kubectl create secret generic $1 -n $APP_NS \
-            --from-literal=username=admin \
-            --from-literal=password='password' \
-            --from-literal=rox_api_token='rox_api_token'
-            
-    fi
-} 
-create-empty-secret common-password-secret-not-configured
-create-empty-secret stackrox-secret-not-configured
- 
+# hack workaround for ACS until wired up 
