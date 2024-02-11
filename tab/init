@@ -1,7 +1,7 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 [ -x $SCRIPTDIR/configure ] && source $SCRIPTDIR/configure
   
-PIPELINE_TYPE="${1:-docker-build-shared}" 
+PIPELINE_TYPE="${1:-docker-build-rhtap}" 
 BASE=$(basename $ROOT)
 NS=$(oc project --short)
 IMAGE="quay.io/$MY_QUAY_USER/$BASE" 
