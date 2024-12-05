@@ -18,48 +18,64 @@ if [ "$REPO_NAME" == "" ]; then
     echo "git push -u origin main"  
     echo 
     exit 0
-fi   
+fi  
 
-# Application Layout comes from $DEST_REPO_ROOT (default argocd)
-# /argocd   - root for application, kustomize and components 
-# /argocd/tad.properties   - configuration for this argocd application 
-# /argocd/components - individual components content
-# /argocd/application - argocd base kustomize definition  
-# /argocd/application.yaml - argocd app definition  
+GITOPS_MARKER_FILE=$ROOT/$DEST_REPO_ROOT/application.yaml
+if test -f $GITOPS_MARKER_FILE; then 
+    echo  
+    echo "Gitops marker is $GITOPS_MARKER_FILE"
+    echo "$ROOT is already a Gitops Repository"
+    echo  
+    exit 0 
+fi 
+
+
+# Application Layout comes from $DEST_REPO_ROOT (default ./)
+# It can be any root
+# / root for application, kustomize and components 
+# /app-of-apps - argocd apps per env kustomize definition  
+# /components - individual components content
+
+# markers ... 
+# /application.yaml - argocd app definition  
+# /.tad   - configuration for this argocd application 
 
 # local relative to root directory
 ARGOCD_ROOT=$DEST_REPO_ROOT 
 COMPONENTS_ROOT=$ARGOCD_ROOT/components 
-APPLICATION_ROOT=$ARGOCD_ROOT/application 
+APPLICATION_ROOT=$ARGOCD_ROOT/app-of-apps  
 
 APP_NAME=$(basename $REPO_NAME .git)  
 APP_NS=$APP_NAME
  
 PROPS_PATH=$ROOT/$ARGOCD_ROOT 
-PROPS=$PROPS_PATH/tad.properties
-if test -d $ROOT/$ARGOCD_ROOT; then 
-    if [ "$(ls -A $PROPS)" ]; then
-        echo  
-        echo "$ROOT is already a Gitops Repository"
-        echo  
-        exit 0 
-    fi 
+GITOPS_MARKER_FILE=$(realpath $GITOPS_MARKER_FILE_PATH/.tad)
+
+echo $ROOT/$ARGOCD_ROOT
+echo $GITOPS_MARKER_FILE
+
+if test -f $GITOPS_MARKER_FILE; then  
+    echo  
+    echo "Gitops marker is $GITOPS_MARKER_FILE"
+    echo "$ROOT is already a Gitops Repository"
+    echo  
+    exit 0  
 else
     mkdir -p $ARGOCD_ROOT
     mkdir -p $COMPONENTS_ROOT
-    touch $PROPS
-    echo "export REPO_NAME=$REPO_NAME" >>$PROPS
-    echo "export APP_NAME=$APP_NAME" >>$PROPS 
-    echo "export APP_NS=$APP_NS" >>$PROPS 
+    touch $GITOPS_MARKER_FILE
+    echo "export REPO_NAME=$REPO_NAME" >>$GITOPS_MARKER_FILE
+    echo "export APP_NAME=$APP_NAME" >>$GITOPS_MARKER_FILE 
+    echo "export APP_NS=$APP_NS" >>$GITOPS_MARKER_FILE 
 
     #local path names 
-    echo "export ARGOCD_ROOT=$ARGOCD_ROOT" >>$PROPS 
-    echo "export COMPONENTS_ROOT=$COMPONENTS_ROOT" >>$PROPS 
-    echo "export APPLICATION_ROOT=$APPLICATION_ROOT" >>$PROPS 
-    echo "export AUTO_UPDATE_CLUSTER=true" >>$PROPS  
+    echo "export ARGOCD_ROOT=$ARGOCD_ROOT" >>$GITOPS_MARKER_FILE 
+    echo "export COMPONENTS_ROOT=$COMPONENTS_ROOT" >>$GITOPS_MARKER_FILE 
+    echo "export APPLICATION_ROOT=$APPLICATION_ROOT" >>$GITOPS_MARKER_FILE 
+    echo "export AUTO_UPDATE_CLUSTER=true" >>$GITOPS_MARKER_FILE  
 
     # fully qualified names   
-    echo "export COMPONENTS_PATH=$ROOT/$COMPONENTS_ROOT" >>$PROPS   
+    echo "export COMPONENTS_PATH=$ROOT/$COMPONENTS_ROOT" >>$GITOPS_MARKER_FILE   
     
     echo "Initialized Gitops Repo: $REPO_NAME"
 fi  

@@ -2,7 +2,7 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 TOPIC="${1:-none}"  
 HIGHLIGHT=$(which glow)
-if [ "$TOPIC" == "none" ]; then
+if [ "$HIGHLIGHT" == "" ]; then
     HIGHLIGHT=cat
 fi  
 if [ "$TOPIC" == "none" ]; then

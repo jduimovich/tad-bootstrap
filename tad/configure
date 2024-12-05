@@ -1,14 +1,40 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 
-PROPS=$ROOT/$DEST_REPO_ROOT/tad.properties
-if test -d $ROOT/$DEST_REPO_ROOT; then 
-    if [ "$(ls -A $PROPS)" ]; then 
-        source $PROPS 
-    fi
-else
+function notgitops() {
     echo 
     echo "$ROOT is not a Gitops Repository"
     echo 
     exit 0 
-fi  
+}
+
+GITOPS_MARKER_FILE=$(realpath $ROOT/$DEST_REPO_ROOT/application.yaml)
+if test -f $GITOPS_MARKER_FILE; then 
+    echo "Gitops marker is $GITOPS_MARKER_FILE" 
+
+    export REPO_NAME=$(yq .spec.source.repoURL  $GITOPS_MARKER_FILE)
+    export APP_NAME=$(yq .metadata.name  $GITOPS_MARKER_FILE)
+    export APP_NS=$(yq .metadata.namespace  $GITOPS_MARKER_FILE) 
+
+    #local path names 
+    export ARGOCD_ROOT=$DEST_REPO_ROOT 
+    export COMPONENTS_ROOT=$ARGOCD_ROOT/components 
+    export APPLICATION_ROOT=$ARGOCD_ROOT/app-of-apps  
+ 
+    export AUTO_UPDATE_CLUSTER=true
+
+    # fully qualified names   
+    export COMPONENTS_PATH=$ROOT/$COMPONENTS_ROOT
+
+else 
+GITOPS_MARKER_FILE=$(realpath $ROOT/$DEST_REPO_ROOT/.tad) 
+if test -f $GITOPS_MARKER_FILE; then 
+    if [ "$(ls -A $GITOPS_MARKER_FILE)" ]; then 
+        source $GITOPS_MARKER_FILE 
+    fi
+else 
+    notgitops
+fi 
+fi 
+
+
   
