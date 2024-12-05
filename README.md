@@ -71,7 +71,11 @@ The list of current default templates found in the example repositories.
     ```
 
 # Install
-Install the `tad` command on your path, it is is found in the install directory.  You may also use it directly.
+ 
+` ln -s PATH-TO-/tad-bootstrap/common/cli  path-to-your-bin/tab `
+` ln -s PATH-TO-/tad-bootstrap/common/cli  path-to-your-bin/tad `
+
+This will a run a common cli ./common/cli and customize per tool name based on the link
 
 # Example usage
 

@@ -5,9 +5,10 @@ if [ -z "$REPONAME" ]; then
      echo "Usage: bootstrap demo-repo"
      exit 0
 fi
+# Create a repository in your account from the templates in bootstrap-stub
 gh repo create $REPONAME --public -p https://github.com/jduimovich/bootstrap-stub
 sleep 4
-git clone  https://github.com/jduimovich/$REPONAME
+git clone  https://github.com/$MY_GITHUB_USER/$REPONAME
 cd $REPONAME
 git pull 
 tab init  

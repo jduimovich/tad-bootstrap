@@ -1,10 +1,22 @@
 
-PHYSICAL_FILE=$(realpath $(readlink $0)) 
-SCRIPTDIR=$(dirname $PHYSICAL_FILE)  
+# use aliased links as the way to install and differ behavior
+# ln -s PATH-TO-/tad-bootstrap/common/cli  path-to-your-bin/tab 
+# ln -s PATH-TO-/tad-bootstrap/common/cli  path-to-your-bin/tad 
+# this will run common command from ./common/cli and per-tool in the name of the link
+
+echo "Command run as $0"
+# This will be the common cli 
+PHYSICAL_FILE=$(realpath $(readlink $0))
+echo "PHYSICAL_FILE run as $PHYSICAL_FILE"
+# common across all tools  
+export COMMON_SCRIPTS=$(dirname $PHYSICAL_FILE)  
+echo "COMMON_SCRIPTS run as $COMMON_SCRIPTS"
 
 export ROOT=$(pwd)  
 export CLI=$(basename $0) 
-export IMPL_CLI=$(basename $PHYSICAL_FILE) 
+# tool specific in tad, tab or any other linked files 
+export TOOL_SCRIPTS=$(realpath $COMMON_SCRIPTS/../$CLI)  
+echo "TOOL_SCRIPTS run as $TOOL_SCRIPTS" 
 CMD=$1
 shift 
 
@@ -15,7 +27,10 @@ shift
 
 SKIP_REFRESH=false
 
-LOCAL_CONFIG=$HOME/.$IMPL_CLI 
+LOCAL_CONFIG=$HOME/.$CLI 
+
+echo "LOCAL_CONFIG is $LOCAL_CONFIG" 
+
 if test -d $LOCAL_CONFIG; then 
     source $LOCAL_CONFIG/config
     if [ $SKIP_REFRESH == false ]; then
@@ -56,11 +71,11 @@ if [ -z "$CMD" ]; then
      exit 0
 fi
 
-if test -f $SCRIPTDIR/../common/$CMD; then 
-    $SCRIPTDIR/../common/$CMD $*
+if test -f $COMMON_SCRIPTS/$CMD; then 
+    $COMMON_SCRIPTS/$CMD $*
 else 
-    if test -f $SCRIPTDIR/$CMD; then 
-    $SCRIPTDIR/$CMD $*
+    if test -f $TOOL_SCRIPTS/$CMD; then 
+    $TOOL_SCRIPTS/$CMD $*
     else 
         echo $CMD is an invalid command for $CLI
     fi 

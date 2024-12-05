@@ -1,0 +1,9 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+# show the common config
+echo "Template Repository: $TEMPLATE_REPO"
+echo "Template Directory: $TEMPLATE_DIR" 
+echo "Destination for Templates: $COMPONENTS_PATH" 
+ 
+# if the tool augments, run that too 
+[ -x $TOOL_SCRIPTS/describe ] && source $TOOL_SCRIPTS/describe
+

@@ -1,6 +1,0 @@
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
-[ -x $SCRIPTDIR/configure ] && source $SCRIPTDIR/configure
-
-echo "Template Repository: $TEMPLATE_REPO"
-echo "Template Directory: $TEMPLATE_DIR" 
-echo "Destination for Templates: $COMPONENTS_PATH" 

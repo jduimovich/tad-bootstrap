@@ -7,7 +7,7 @@ CMD=$(basename $0)
 REPOURL=$(git config --get remote.origin.url)   
 NAME=$(basename $REPOURL  .git) 
 
-PIPELINE_TYPE="${1:-docker-build-rhtap}" 
+PIPELINE_TYPE="${1:-source-repo}" 
 IMAGE="${2:-quay.io/jduimovich0/$NAME}" 
 NAMESPACE="${3:-$(oc project --short)}" 
 APPNAME="${4:$NAME}"  

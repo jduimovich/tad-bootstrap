@@ -25,15 +25,8 @@ if test -f $GITOPS_MARKER_FILE; then
     # fully qualified names   
     export COMPONENTS_PATH=$ROOT/$COMPONENTS_ROOT
 
-else 
-GITOPS_MARKER_FILE=$(realpath $ROOT/$DEST_REPO_ROOT/.tad) 
-if test -f $GITOPS_MARKER_FILE; then 
-    if [ "$(ls -A $GITOPS_MARKER_FILE)" ]; then 
-        source $GITOPS_MARKER_FILE 
-    fi
-else 
-    notgitops
-fi 
+else  
+    notgitops 
 fi 
 
 

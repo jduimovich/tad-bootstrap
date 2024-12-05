@@ -1,5 +1,0 @@
-
-PHYSICAL_FILE=$(realpath $(readlink $0)) 
-SCRIPTDIR=$(dirname $PHYSICAL_FILE) 
-source $SCRIPTDIR/../common/cli 
-  
