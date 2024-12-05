@@ -11,18 +11,18 @@ Openshift templates are also demonstrated but are not templated.
 
 Gitops repositories are layed out in kustomize/overlay format per environment and use ArgoCD Applications to deploy. 
 
-Pipelines and Repositories have been copied from RHTAP.
+Pipelines and Repositories have been reused directly from RHTAP [tssc-sample-pipelines.](https://github.com/redhat-appstudio/tssc-sample-pipelines)
 
 
 # Pipelines
-Default pipeline examples can be found in `https://github.com/jduimovich/dance-standard-gitopipelines.git`
+Default pipeline examples can be found in `https://github.com/redhat-appstudio/tssc-sample-pipelines`
 
-`tab set-repo https://github.com/jduimovich/dance-standard-gitopipelines.git`
+`tab set-repo https://github.com/redhat-appstudio/tssc-sample-pipelines`
 
 This will configure the users pipelines to come from a specific git repository. 
-See `https://github.com/jduimovich/dance-standard-gitopipelines.git` for more information about these pipelines.
+See `https://github.com/redhat-appstudio/tssc-sample-pipelines` for more information about these pipelines.
 
-The default pipelines can be updated from RHTAP BuildDefinition repository via `tab import-build-definitions`
+The default pipelines can also be updated from RHTAP Build Definition repository via `tab import-build-definitions` (obsolete, this is done in tssc-sample-pipelines automatically)
 
 ## Gitops
 
