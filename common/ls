@@ -19,6 +19,9 @@ if [ -d app-of-apps ]; then
         fi
     done 
 fi 
+if [ -d .tekton ]; then
+    echo "Build format Tekton" 
+fi 
 
 ENVC=0
 for dir in $COMPONENTS_PATH/*

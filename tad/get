@@ -16,23 +16,29 @@ fi
 
 function getComponentValue () { 
      COMPONENTS_ROOT=$COMPONENTS_PATH/$1 
-     FIELD="${2,,}"
+     FIELD="${2,,}" 
+
      # if the template includes a setter then use it to set the values
      GETTER='.metadata.annotations.["tad.gitops.get/'$FIELD'"]' 
      echo "Looking for $GETTER"
-     FILES="$COMPONENTS_ROOT/base/deployment.yaml  $COMPONENTS_ROOT/overlays/development/deployment-patch.yaml"
-     for file in $FILES 
-     do
-          KEY=$(yq "$GETTER" $file)
-          if [  "$KEY" == "null" ]
-          then     
-               echo "$GETTER missing in $file"
-          else   
-               VALUE=$(yq e "$KEY" $file) 
-               echo "$VALUE image in $file"
-          fi
+     
+     for env in $COMPONENTS_ROOT/overlays/* 
+     do   
+          FILES="$env/deployment-patch.yaml"
+          for file in $FILES 
+          do
+               KEY=$(yq "$GETTER" $file)
+               if [  "$KEY" == "null" ]
+               then     
+                    echo "$GETTER missing in $file"
+               else   
+                    VALUE=$(yq e "$KEY" $file) 
+                    echo "$(basename $env): $VALUE"
+               fi
+          done
      done
 }  
-getComponentValue  "$CNAME"  "$RESOURCE"
+     
+getComponentValue  "$CNAME"  "$RESOURCE"  
  
   

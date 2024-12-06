@@ -69,11 +69,11 @@ if [ -z "$CMD" ]; then
      exit 0
 fi
 
-if test -f $COMMON_SCRIPTS/$CMD; then 
-    $COMMON_SCRIPTS/$CMD $*
-else 
-    if test -f $TOOL_SCRIPTS/$CMD; then 
+if test -f $TOOL_SCRIPTS/$CMD; then 
     $TOOL_SCRIPTS/$CMD $*
+else 
+    if test -f $COMMON_SCRIPTS/$CMD; then 
+    $COMMON_SCRIPTS/$CMD $*
     else 
         echo $CMD is an invalid command for $CLI
     fi 

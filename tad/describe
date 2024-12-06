@@ -3,7 +3,11 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # echo "Template Repository: $TEMPLATE_REPO"
 # echo "Template Directory: $TEMPLATE_DIR" 
 
-[ -x $SCRIPTDIR/configure ] && source $SCRIPTDIR/configure  
+[ -x $SCRIPTDIR/configure ] && source $SCRIPTDIR/configure 
+# if the tool augments, run that too 
+[ -x $COMMON_SCRIPTS/describe ] && source $COMMON_SCRIPTS/describe
+
+
 echo "Repository: $REPO_NAME"
 echo "Application Name is: $APP_NAME"
 echo "Argo Manifests in: $ROOT/$ARGOCD_ROOT"
