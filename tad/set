@@ -17,17 +17,32 @@ if [ -z "$VALUE" ]; then
      echo "Usage set resource value"
      exit 0
 fi 
-SETTER=$COMPONENTS_PATH/$CNAME/edit/set/$RESOURCE 
-# if the template includes a setter then use it to set the values
 
-if test -f $SETTER; then 
-     bash $SETTER "$COMPONENTS_PATH/$CNAME" "$VALUE"
-     git add .
-     git commit -m "Set $RESOURCE for component to $VALUE"
-     git push  
-     bash $SCRIPTDIR/sync
-else 
-    echo $RESOURCE is an invalid type. No $SETTER
-    exit 0
-fi
-  
+FIELD="${RESOURCE,,}"
+# if the template includes a setter then use it to set the values
+SETTER='.metadata.annotations.["tad.gitops.set/'$FIELD'"]' 
+          echo "Looking for $SETTER"
+
+function setComponentValue () { 
+     COMPONENTS_ROOT=$COMPONENTS_PATH/$1
+     VALUE=${2:-error}    
+     FILES="$COMPONENTS_ROOT/base/deployment.yaml $COMPONENTS_ROOT/overlays/development/deployment-patch.yaml"
+     for file in $FILES 
+     do
+          echo "Looking for $SETTER"
+          KEY=$(yq "$SETTER" $file)
+          if [  "$KEY" == "null" ]
+          then     
+               echo "No Setter for $SETTER missing in $file"
+          else  
+               echo "Using $KEY to set image in $file" 
+               yq -i e "$KEY=\"$VALUE\""  $file
+          fi
+     done 
+}  
+setComponentValue  "$CNAME" "$VALUE"
+git add .
+git commit -m "Set $RESOURCE for component to $VALUE"
+git push  
+bash $SCRIPTDIR/sync
+

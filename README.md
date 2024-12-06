@@ -26,9 +26,9 @@ The default pipelines can also be updated from RHTAP Build Definition repository
 
 ## Gitops
 
-Gitops default templates can be found in `https://github.com/jduimovich/dance-standard-gitops.git` and the CLI needs to be initialized  to point to the these templates in git before using the CLI.
+Gitops default templates can be found in `https://github.com/redhat-appstudio/tssc-sample-gitops` and the CLI needs to be initialized  to point to the these templates in git before using the CLI.
 
-`tad set-repo https://github.com/jduimovich/dance-standard-gitops.git`
+`tad set-repo https://github.com/redhat-appstudio/tssc-sample-gitops`
 
 
 Gitops resources are layed out in kustomize format.
@@ -85,8 +85,7 @@ tad bootstrap reponame
 cd reponame
 tad describe
 tad add-component c1
-tad describe
-tad install-apps
+tad describe 
 ```
 
 

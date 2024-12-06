@@ -47,6 +47,16 @@ bash $EXPAND_DIR $COMPONENTS_PATH/ $EXPAND
 git add .
 git commit -m "Added Pipelines"
 git push 
-oc apply -f $COMPONENTS_PATH/repository.yaml
+
+oc apply -f $COMPONENTS_PATH/repository.yaml >/dev/null 2>&1
+ERR=$?
+if [[ $ERR == 0 ]]; then
+    echo "Repository CR installed "
+else
+    echo "No connection to cluster Repository CR not installed "
+fi
+
+
+
  
  

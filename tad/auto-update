@@ -1,6 +1,13 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 [ -x $SCRIPTDIR/configure ] && source $SCRIPTDIR/configure    
 
+oc get ns >/dev/null 2>&1
+ERR=$?
+if [[ $ERR != 0 ]]; then
+    echo "AutoUpdate: No connection to cluster "
+    AUTO_UPDATE_CLUSTER=false
+fi
+
 DO_UPDATE="${AUTO_UPDATE_CLUSTER:-false}" 
 
 if [ "$DO_UPDATE" != "true" ]; then 
